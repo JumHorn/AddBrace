@@ -40,20 +40,20 @@ void check::changeifStyle()
 	list<char>::iterator iter0;
 	list<char>::iterator iter1;
 	list<char>::iterator temp;
-	temp = find(filelist.begin(), filelist.end(),'i');
+	temp = find(filelist.begin(), filelist.end(), 'i');
 	while (temp != filelist.end())
 	{
 		iter1 = iter0 = temp;
 		int i;
-		for(i=1;i<sizeof(check_if)/sizeof(check_if[0]);i++)
+		for (i = 1; i < sizeof(check_if) / sizeof(check_if[0]); i++)
 		{
 			iter1++;
-			if(*iter1 != check_if[i])
+			if (*iter1 != check_if[i])
 			{
 				break;
 			}
 		}
-		if(i!=sizeof(check_if)/sizeof(check_if[0]))
+		if (i != sizeof(check_if) / sizeof(check_if[0]))
 		{
 			temp++;
 			temp = find(temp, filelist.end(), 'i');
@@ -68,25 +68,25 @@ void check::changeifStyle()
 		{
 			int parenthesis = 0;
 			int semicolon = 0;
-			for(;iter1!=filelist.end();iter1++)
+			for (; iter1 != filelist.end(); iter1++)
 			{
-				if(*iter1 == '(')
+				if (*iter1 == '(')
 				{
 					parenthesis++;
 					break;
 				}
 			}
 			iter1++;
-			for(;iter1!=filelist.end();iter1++)
+			for (; iter1 != filelist.end(); iter1++)
 			{
-				if(*iter1 == '(')
+				if (*iter1 == '(')
 				{
 					parenthesis++;
 				}
-				else if(*iter1 == ')')
+				else if (*iter1 == ')')
 				{
 					parenthesis--;
-					if(parenthesis == 0)
+					if (parenthesis == 0)
 					{
 						break;
 					}
@@ -96,48 +96,48 @@ void check::changeifStyle()
 			//此时处理到if结束的)括号处
 			iter1++;
 			iter0 = iter1;
-			for(;iter1!=filelist.end();iter1++)
+			for (; iter1 != filelist.end(); iter1++)
 			{
-				if(*iter1=='(')
+				if (*iter1 == '(')
 				{
 					parenthesis++;
 				}
-				else if(*iter1 == ')')
+				else if (*iter1 == ')')
 				{
 					parenthesis--;
 				}
 
-				if(*iter1 == '{')
+				if (*iter1 == '{')
 				{
 					break;
 				}
-				else if(*iter1 == ';')
+				else if (*iter1 == ';')
 				{
 					iter1++;
-					filelist.insert(iter1,'}');
-					filelist.insert(iter0,'{');
+					filelist.insert(iter1, '}');
+					filelist.insert(iter0, '{');
 					break;
 				}
-				else if(!beforCheck(&*iter1))
+				else if (!beforCheck(&*iter1))
 				{
-					filelist.insert(iter1,'{');
-					for(iter0=iter1;iter0!=filelist.end();iter0++)
+					filelist.insert(iter1, '{');
+					for (iter0 = iter1; iter0 != filelist.end(); iter0++)
 					{
-						if(*iter0=='(')
+						if (*iter0 == '(')
 						{
 							parenthesis++;
 						}
-						else if(*iter0 == ')')
+						else if (*iter0 == ')')
 						{
 							parenthesis--;
 						}
 
-						if(parenthesis==0)
+						if (parenthesis == 0)
 						{
-							if(*iter0==';')
+							if (*iter0 == ';')
 							{
 								iter0++;
-								filelist.insert(iter0,'}');
+								filelist.insert(iter0, '}');
 								break;
 							}
 						}
@@ -146,7 +146,7 @@ void check::changeifStyle()
 				}
 			}
 		}
-		
+
 		temp = find(temp, filelist.end(), 'i');
 	}
 }
@@ -156,20 +156,20 @@ void check::changeforStyle()
 	list<char>::iterator iter0;
 	list<char>::iterator iter1;
 	list<char>::iterator temp;
-	temp = find(filelist.begin(), filelist.end(),'f');
+	temp = find(filelist.begin(), filelist.end(), 'f');
 	while (temp != filelist.end())
 	{
 		iter1 = iter0 = temp;
 		int i;
-		for(i=1;i<sizeof(check_for)/sizeof(check_for[0]);i++)
+		for (i = 1; i < sizeof(check_for) / sizeof(check_for[0]); i++)
 		{
 			iter1++;
-			if(*iter1 != check_for[i])
+			if (*iter1 != check_for[i])
 			{
 				break;
 			}
 		}
-		if(i!=sizeof(check_for)/sizeof(check_for[0]))
+		if (i != sizeof(check_for) / sizeof(check_for[0]))
 		{
 			temp++;
 			temp = find(temp, filelist.end(), 'f');
@@ -184,25 +184,25 @@ void check::changeforStyle()
 		{
 			int parenthesis = 0;
 			int semicolon = 0;
-			for(;iter1!=filelist.end();iter1++)
+			for (; iter1 != filelist.end(); iter1++)
 			{
-				if(*iter1 == '(')
+				if (*iter1 == '(')
 				{
 					parenthesis++;
 					break;
 				}
 			}
 			iter1++;
-			for(;iter1!=filelist.end();iter1++)
+			for (; iter1 != filelist.end(); iter1++)
 			{
-				if(*iter1 == '(')
+				if (*iter1 == '(')
 				{
 					parenthesis++;
 				}
-				else if(*iter1 == ')')
+				else if (*iter1 == ')')
 				{
 					parenthesis--;
-					if(parenthesis == 0)
+					if (parenthesis == 0)
 					{
 						break;
 					}
@@ -212,51 +212,51 @@ void check::changeforStyle()
 			//此时处理到for结束的)括号处
 			iter1++;
 			iter0 = iter1;
-			for(;iter1!=filelist.end();iter1++)
+			for (; iter1 != filelist.end(); iter1++)
 			{
-				if(*iter1=='(')
+				if (*iter1 == '(')
 				{
 					parenthesis++;
 				}
-				else if(*iter1 == ')')
+				else if (*iter1 == ')')
 				{
 					parenthesis--;
 				}
 
-				if(parenthesis==0)
+				if (parenthesis == 0)
 				{
-					if(*iter1 == '{')
+					if (*iter1 == '{')
 					{
 						break;
 					}
-					else if(*iter1 == ';')
+					else if (*iter1 == ';')
 					{
 						iter1++;
-						filelist.insert(iter1,'}');
-						filelist.insert(iter0,'{');
+						filelist.insert(iter1, '}');
+						filelist.insert(iter0, '{');
 						break;
 					}
-					else if(!beforCheck(&*iter1))
+					else if (!beforCheck(&*iter1))
 					{
-						filelist.insert(iter1,'{');
+						filelist.insert(iter1, '{');
 
-						for(iter0=iter1;iter0!=filelist.end();iter0++)
+						for (iter0 = iter1; iter0 != filelist.end(); iter0++)
 						{
-							if(*iter0=='(')
+							if (*iter0 == '(')
 							{
 								parenthesis++;
 							}
-							else if(*iter0 == ')')
+							else if (*iter0 == ')')
 							{
 								parenthesis--;
 							}
 
-							if(parenthesis==0)
+							if (parenthesis == 0)
 							{
-								if(*iter0==';')
+								if (*iter0 == ';')
 								{
 									iter0++;
-									filelist.insert(iter0,'}');
+									filelist.insert(iter0, '}');
 									break;
 								}
 							}
@@ -283,7 +283,7 @@ void check::writeBack(const char* outputfile)
 	ofstream fout(outputfile);
 	for (list<char>::iterator iter = filelist.begin(); iter != filelist.end(); iter++)
 	{
-		cout << *iter;
+		//cout << *iter;
 		fout << *iter;
 	}
 
