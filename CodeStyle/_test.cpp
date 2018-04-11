@@ -21,4 +21,9 @@ int main()
 			for(;Check();)
 				for(;Check();)
 					Check();
+
+	if(Check())
+		for(;Check();)
+			if(Check())
+				Check();
 }

@@ -11,14 +11,19 @@ bool Check()
 int main()
 {
 	if(Check())
-		if(Check())
-			if(Check())
-				if(Check())
-					Check();
+		{if(Check())
+			{if(Check())
+				{if(Check())
+					{Check();}}}}
 
 	for(;Check();)
-		for(;Check();)
-			for(;Check();)
-				for(;Check();)
-					Check();
+		{for(;Check();)
+			{for(;Check();)
+				{for(;Check();)
+					{Check();}}}}
+
+	if(Check())
+		{for(;Check();)
+			{if(Check())
+				{Check();}}}
 }
