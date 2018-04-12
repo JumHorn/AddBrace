@@ -21,10 +21,11 @@ int main(int argc, char* argv[])
 	check style;
 	for (int i = 1; i < argc; i++)
 	{
-		cout << "processing " << argv[i] << endl;
+		cout << "processing " << argv[i];
 		style.getFileContent(argv[i]);
 		style.changeStyle();
 		style.writeBack(argv[i]);
+		cout << "\t" << "finished" << endl;
 	}
 
 	return 0;

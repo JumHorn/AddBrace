@@ -23,7 +23,11 @@ public:
 	void changeStyle();
 	void changeifStyle();
 	void changeforStyle();
+	void changeelseStyle();
 	void writeBack(const char* outputfile);
+
+	template<typename T>
+	void IgnoreComments(T& t);
 };
 
 #endif
