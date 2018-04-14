@@ -40,7 +40,10 @@ protected:
 	void IgnoreQuotation(T& t);
 
 	template<typename T>
-	void Ignorebrackets(T& t);
+	void IgnoreParenthesis(T& t);
+
+	template<typename T>
+	void IgnoreBrace(T& t);
 };
 
 #endif

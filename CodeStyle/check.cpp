@@ -80,7 +80,7 @@ void check::changeifStyle()
 			IgnoreComments(iter1);
 			IgnoreApostrophe(iter1);
 			IgnoreQuotation(iter1);
-			Ignorebrackets(iter1);
+			IgnoreParenthesis(iter1);
 			temp = iter1;
 			//此时处理到if结束的)括号处
 			iter0 = iter1;
@@ -89,7 +89,7 @@ void check::changeifStyle()
 				IgnoreComments(iter1);
 				IgnoreApostrophe(iter1);
 				IgnoreQuotation(iter1);
-				Ignorebrackets(iter1);
+				IgnoreParenthesis(iter1);
 				IgnoreComments(iter1);
 
 				if (*iter1 == '{')
@@ -111,12 +111,18 @@ void check::changeifStyle()
 						IgnoreComments(iter0);
 						IgnoreApostrophe(iter0);
 						IgnoreQuotation(iter0);
-						Ignorebrackets(iter0);
+						IgnoreParenthesis(iter0);
 
 						if (*iter0 == ';')
 						{
 							iter0++;
 							IgnoreOneLineComments(iter0);
+							filelist.insert(iter0, '}');
+							break;
+						}
+						else if (*iter0 == '{')
+						{
+							IgnoreBrace(iter0);
 							filelist.insert(iter0, '}');
 							break;
 						}
@@ -187,7 +193,7 @@ void check::changeforStyle()
 			IgnoreComments(iter1);
 			IgnoreApostrophe(iter1);
 			IgnoreQuotation(iter1);
-			Ignorebrackets(iter1);
+			IgnoreParenthesis(iter1);
 			temp = iter1;
 			//此时处理到for结束的)括号处
 			iter0 = iter1;
@@ -196,7 +202,7 @@ void check::changeforStyle()
 				IgnoreComments(iter1);
 				IgnoreApostrophe(iter1);
 				IgnoreQuotation(iter1);
-				Ignorebrackets(iter1);
+				IgnoreParenthesis(iter1);
 				IgnoreComments(iter1);
 
 				if (*iter1 == '{')
@@ -220,12 +226,18 @@ void check::changeforStyle()
 						IgnoreComments(iter0);
 						IgnoreApostrophe(iter0);
 						IgnoreQuotation(iter0);
-						Ignorebrackets(iter0);
+						IgnoreParenthesis(iter0);
 
 						if (*iter0 == ';')
 						{
 							iter0++;
 							IgnoreOneLineComments(iter0);
+							filelist.insert(iter0, '}');
+							break;
+						}
+						else if (*iter0 == '{')
+						{
+							IgnoreBrace(iter0);
 							filelist.insert(iter0, '}');
 							break;
 						}
@@ -290,7 +302,7 @@ void check::changeelseStyle()
 			IgnoreComments(iter1);
 			IgnoreApostrophe(iter1);
 			IgnoreQuotation(iter1);
-			Ignorebrackets(iter1);
+			IgnoreParenthesis(iter1);
 
 			if (*iter1 == '{')
 			{
@@ -310,16 +322,16 @@ void check::changeelseStyle()
 						continue;
 					}
 				}
+				iter1--;
 			}
 
-			temp = iter1;
 			iter0 = iter1;
 			for (; iter1 != filelist.end(); iter1++)
 			{
 				IgnoreComments(iter1);
 				IgnoreApostrophe(iter1);
 				IgnoreQuotation(iter1);
-				Ignorebrackets(iter1);
+				IgnoreParenthesis(iter1);
 				IgnoreComments(iter1);
 
 				if (*iter1 == '{')
@@ -336,19 +348,25 @@ void check::changeelseStyle()
 				else if (!beforCheck(&*iter1))
 				{
 					IgnoreComments(iter1);
-					filelist.insert(iter1, '{');
+					filelist.insert(iter0, '{');
 
 					for (iter0 = iter1; iter0 != filelist.end(); iter0++)
 					{
 						IgnoreComments(iter0);
 						IgnoreApostrophe(iter0);
 						IgnoreQuotation(iter0);
-						Ignorebrackets(iter0);
+						IgnoreParenthesis(iter0);
 
 						if (*iter0 == ';')
 						{
 							iter0++;
 							IgnoreOneLineComments(iter0);
+							filelist.insert(iter0, '}');
+							break;
+						}
+						else if (*iter0 == '{')
+						{
+							IgnoreBrace(iter0);
 							filelist.insert(iter0, '}');
 							break;
 						}
@@ -583,8 +601,13 @@ void check::IgnoreQuotation(T& t)
 }
 
 template<typename T>
-void check::Ignorebrackets(T& t)
+void check::IgnoreParenthesis(T& t)
 {
+	if (t == filelist.end())
+	{
+		return;
+	}
+
 	int parenthesis = 1;
 	if (*t == '(')
 	{
@@ -600,6 +623,46 @@ void check::Ignorebrackets(T& t)
 				parenthesis++;
 			}
 			else if (*t == ')')
+			{
+				parenthesis--;
+			}
+			else
+			{
+			}
+
+			if (parenthesis == 0)
+			{
+				t++;
+				return;
+			}
+		}
+	}
+	return;
+}
+
+template<typename T>
+void check::IgnoreBrace(T& t)
+{
+	if (t == filelist.end())
+	{
+		return;
+	}
+
+	int parenthesis = 1;
+	if (*t == '{')
+	{
+		while (true)
+		{
+			t++;
+			IgnoreComments(t);
+			IgnoreApostrophe(t);
+			IgnoreQuotation(t);
+
+			if (*t == '{')
+			{
+				parenthesis++;
+			}
+			else if (*t == '}')
 			{
 				parenthesis--;
 			}
