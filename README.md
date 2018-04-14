@@ -1,4 +1,4 @@
-# parenthesis
+# Add parenthesis
 
 ### what it can do
 this is a little tool to adjust code format that a single statement after "if" or "for" without parenthesis.
