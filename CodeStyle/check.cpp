@@ -46,6 +46,8 @@ void check::changeifStyle()
 	while (temp != filelist.end())
 	{
 		IgnoreComments(temp);//ignore comments
+		IgnoreApostrophe(temp);
+		IgnoreQuotation(temp);
 		OutofBounds(temp, filelist.end());
 
 		if (*temp != 'i')
@@ -144,6 +146,8 @@ void check::changeforStyle()
 	while (temp != filelist.end())
 	{
 		IgnoreComments(temp);
+		IgnoreApostrophe(temp);
+		IgnoreQuotation(temp);
 		OutofBounds(temp, filelist.end());
 
 		if (*temp != 'f')
@@ -252,6 +256,8 @@ void check::changeelseStyle()
 	while (temp != filelist.end())
 	{
 		IgnoreComments(temp);
+		IgnoreApostrophe(temp);
+		IgnoreQuotation(temp);
 		OutofBounds(temp, filelist.end());
 
 		if (*temp != 'e')
@@ -519,6 +525,11 @@ void check::IgnoreOneLineComments(T& t)
 template<typename T>
 void check::IgnoreApostrophe(T& t)
 {
+	if (t == filelist.end())
+	{
+		return;
+	}
+
 	if (*t == '\'')
 	{
 		while (true)
@@ -544,6 +555,11 @@ void check::IgnoreApostrophe(T& t)
 template<typename T>
 void check::IgnoreQuotation(T& t)
 {
+	if (t == filelist.end())
+	{
+		return;
+	}
+
 	if (*t == '\"')
 	{
 		while (true)
