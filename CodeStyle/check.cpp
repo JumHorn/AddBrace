@@ -5,6 +5,8 @@
 #include "char.h"
 using namespace std;
 
+#define OutofBounds(a,b) if(a==b)break;
+
 check::check()
 {
 }
@@ -44,6 +46,7 @@ void check::changeifStyle()
 	while (temp != filelist.end())
 	{
 		IgnoreComments(temp);//ignore comments
+		OutofBounds(temp, filelist.end());
 
 		if (*temp != 'i')
 		{
@@ -70,52 +73,123 @@ void check::changeifStyle()
 		iter1++;
 		iter0--;
 		temp = iter1;
-		char c0 = *iter0;
-		char c1 = *iter1;
-		if (beforCheck(&c0) && afterCheck(&c1)) //处理if token
+		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //处理if token
 		{
-			int parenthesis = 0;
-			for (; iter1 != filelist.end(); iter1++)
-			{
-				IgnoreComments(iter1);
-				if (*iter1 == '(')
-				{
-					parenthesis++;
-					break;
-				}
-			}
-			iter1++;
-			for (; iter1 != filelist.end(); iter1++)
-			{
-				IgnoreComments(iter1);
-				if (*iter1 == '(')
-				{
-					parenthesis++;
-				}
-				else if (*iter1 == ')')
-				{
-					parenthesis--;
-					if (parenthesis == 0)
-					{
-						break;
-					}
-				}
-			}
+			IgnoreComments(iter1);
+			IgnoreApostrophe(iter1);
+			IgnoreQuotation(iter1);
+			Ignorebrackets(iter1);
 			temp = iter1;
 			//此时处理到if结束的)括号处
-			iter1++;
 			iter0 = iter1;
 			for (; iter1 != filelist.end(); iter1++)
 			{
 				IgnoreComments(iter1);
-				if (*iter1 == '(')
+				IgnoreApostrophe(iter1);
+				IgnoreQuotation(iter1);
+				Ignorebrackets(iter1);
+				IgnoreComments(iter1);
+
+				if (*iter1 == '{')
 				{
-					parenthesis++;
+					break;
 				}
-				else if (*iter1 == ')')
+				else if (*iter1 == ';')
 				{
-					parenthesis--;
+					iter1++;
+					filelist.insert(iter1, '}');
+					filelist.insert(iter0, '{');
+					break;
 				}
+				else if (!beforCheck(&*iter1))
+				{
+					filelist.insert(iter1, '{');
+					for (iter0 = iter1; iter0 != filelist.end(); iter0++)
+					{
+						IgnoreComments(iter0);
+						IgnoreApostrophe(iter0);
+						IgnoreQuotation(iter0);
+						Ignorebrackets(iter0);
+
+						if (*iter0 == ';')
+						{
+							iter0++;
+							IgnoreOneLineComments(iter0);
+							filelist.insert(iter0, '}');
+							break;
+						}
+					}
+					break;
+				}
+			}
+		}
+
+		if (temp != filelist.end())
+		{
+			temp++;
+		}
+	}
+}
+
+void check::changeforStyle()
+{
+	list<char>::iterator iter0;
+	list<char>::iterator iter1;
+	list<char>::iterator temp;
+	temp = filelist.begin();
+	while (temp != filelist.end())
+	{
+		IgnoreComments(temp);
+		OutofBounds(temp, filelist.end());
+
+		if (*temp != 'f')
+		{
+			temp++;
+			continue;
+		}
+
+		iter1 = iter0 = temp;
+		int i;
+		for (i = 1; i < sizeof(check_for) / sizeof(check_for[0]); i++)
+		{
+			if (iter1 == filelist.end())
+			{
+				break;
+			}
+			iter1++;
+			if (iter1 != filelist.end() && *iter1 != check_for[i])
+			{
+				break;
+			}
+		}
+		if (i != sizeof(check_for) / sizeof(check_for[0]))
+		{
+			if (temp != filelist.end())
+			{
+				temp++;
+			}
+			continue;
+		}
+
+		iter1++;
+		iter0--;
+		temp = iter1;
+		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //处理for token
+		{
+			IgnoreComments(iter1);
+			IgnoreApostrophe(iter1);
+			IgnoreQuotation(iter1);
+			Ignorebrackets(iter1);
+			temp = iter1;
+			//此时处理到for结束的)括号处
+			iter0 = iter1;
+			for (; iter1 != filelist.end(); iter1++)
+			{
+				IgnoreComments(iter1);
+				IgnoreApostrophe(iter1);
+				IgnoreQuotation(iter1);
+				Ignorebrackets(iter1);
+				IgnoreComments(iter1);
 
 				if (*iter1 == '{')
 				{
@@ -132,171 +206,32 @@ void check::changeifStyle()
 				{
 					IgnoreComments(iter1);
 					filelist.insert(iter1, '{');
+
 					for (iter0 = iter1; iter0 != filelist.end(); iter0++)
 					{
 						IgnoreComments(iter0);
-						if (*iter0 == '(')
-						{
-							parenthesis++;
-						}
-						else if (*iter0 == ')')
-						{
-							parenthesis--;
-						}
+						IgnoreApostrophe(iter0);
+						IgnoreQuotation(iter0);
+						Ignorebrackets(iter0);
 
-						if (parenthesis == 0)
+						if (*iter0 == ';')
 						{
-							if (*iter0 == ';')
-							{
-								iter0++;
-								while (*iter0 == ' ' || *iter0 == '\t')iter0++;
-								IgnoreComments(iter0);
-								filelist.insert(iter0, '}');
-								break;
-							}
+							iter0++;
+							IgnoreOneLineComments(iter0);
+							filelist.insert(iter0, '}');
+							break;
 						}
 					}
 					break;
+
 				}
 			}
 		}
 
-		temp++;
-	}
-}
-
-void check::changeforStyle()
-{
-	list<char>::iterator iter0;
-	list<char>::iterator iter1;
-	list<char>::iterator temp;
-	temp = filelist.begin();
-	while (temp != filelist.end())
-	{
-		IgnoreComments(temp);
-
-		if (*temp != 'f')
+		if (temp != filelist.end())
 		{
 			temp++;
-			continue;
 		}
-
-		iter1 = iter0 = temp;
-		int i;
-		for (i = 1; i < sizeof(check_for) / sizeof(check_for[0]); i++)
-		{
-			iter1++;
-			if (*iter1 != check_for[i])
-			{
-				break;
-			}
-		}
-		if (i != sizeof(check_for) / sizeof(check_for[0]))
-		{
-			temp++;
-			continue;
-		}
-
-		iter1++;
-		iter0--;
-		temp = iter1;
-		char c0 = *iter0;
-		char c1 = *iter1;
-		if (beforCheck(&c0) && afterCheck(&c1)) //处理for token
-		{
-			int parenthesis = 0;
-			for (; iter1 != filelist.end(); iter1++)
-			{
-				IgnoreComments(iter1);
-				if (*iter1 == '(')
-				{
-					parenthesis++;
-					break;
-				}
-			}
-			iter1++;
-			for (; iter1 != filelist.end(); iter1++)
-			{
-				IgnoreComments(iter1);
-				if (*iter1 == '(')
-				{
-					parenthesis++;
-				}
-				else if (*iter1 == ')')
-				{
-					parenthesis--;
-					if (parenthesis == 0)
-					{
-						break;
-					}
-				}
-			}
-			temp = iter1;
-			//此时处理到for结束的)括号处
-			iter1++;
-			iter0 = iter1;
-			for (; iter1 != filelist.end(); iter1++)
-			{
-				IgnoreComments(iter1);
-				if (*iter1 == '(')
-				{
-					parenthesis++;
-				}
-				else if (*iter1 == ')')
-				{
-					parenthesis--;
-				}
-
-				if (parenthesis == 0)
-				{
-					if (*iter1 == '{')
-					{
-						break;
-					}
-					else if (*iter1 == ';')
-					{
-						iter1++;
-						filelist.insert(iter1, '}');
-						filelist.insert(iter0, '{');
-						break;
-					}
-					else if (!beforCheck(&*iter1))
-					{
-						IgnoreComments(iter1);
-						filelist.insert(iter1, '{');
-
-						for (iter0 = iter1; iter0 != filelist.end(); iter0++)
-						{
-							IgnoreComments(iter0);
-							if (*iter0 == '(')
-							{
-								parenthesis++;
-							}
-							else if (*iter0 == ')')
-							{
-								parenthesis--;
-							}
-
-							if (parenthesis == 0)
-							{
-								if (*iter0 == ';')
-								{
-									iter0++;
-									while (*iter0 == ' ' || *iter0 == '\t')iter0++;
-									IgnoreComments(iter0);
-									filelist.insert(iter0, '}');
-									break;
-								}
-							}
-						}
-						break;
-
-					}
-				}
-			}
-		}
-
-		temp++;
 	}
 }
 
@@ -309,6 +244,7 @@ void check::changeelseStyle()
 	while (temp != filelist.end())
 	{
 		IgnoreComments(temp);
+		OutofBounds(temp, filelist.end());
 
 		if (*temp != 'e')
 		{
@@ -335,13 +271,12 @@ void check::changeelseStyle()
 		iter1++;
 		iter0--;
 		temp = iter1;
-		char c0 = *iter0;
-		char c1 = *iter1;
-		if (beforCheck(&c0) && afterCheck(&c1)) //处理else token
+		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //处理else token
 		{
-			while (*iter1 == ' ' || *iter1 == '\n' || *iter1 == '\t')iter1++;
 			IgnoreComments(iter1);
-			while (*iter1 == ' ' || *iter1 == '\n' || *iter1 == '\t')iter1++;
+			IgnoreApostrophe(iter1);
+			IgnoreQuotation(iter1);
+			Ignorebrackets(iter1);
 
 			if (*iter1 == '{')
 			{
@@ -362,71 +297,58 @@ void check::changeelseStyle()
 					}
 				}
 			}
+
 			temp = iter1;
 			iter0 = iter1;
-			int parenthesis = 0;
 			for (; iter1 != filelist.end(); iter1++)
 			{
 				IgnoreComments(iter1);
-				if (*iter1 == '(')
-				{
-					parenthesis++;
-				}
-				else if (*iter1 == ')')
-				{
-					parenthesis--;
-				}
+				IgnoreApostrophe(iter1);
+				IgnoreQuotation(iter1);
+				Ignorebrackets(iter1);
+				IgnoreComments(iter1);
 
-				if (parenthesis == 0)
+				if (*iter1 == '{')
 				{
-					if (*iter1 == '{')
-					{
-						break;
-					}
-					else if (*iter1 == ';')
-					{
-						iter1++;
-						filelist.insert(iter1, '}');
-						filelist.insert(iter0, '{');
-						break;
-					}
-					else if (!beforCheck(&*iter1))
-					{
-						IgnoreComments(iter1);
-						filelist.insert(iter1, '{');
+					break;
+				}
+				else if (*iter1 == ';')
+				{
+					iter1++;
+					filelist.insert(iter1, '}');
+					filelist.insert(iter0, '{');
+					break;
+				}
+				else if (!beforCheck(&*iter1))
+				{
+					IgnoreComments(iter1);
+					filelist.insert(iter1, '{');
 
-						for (iter0 = iter1; iter0 != filelist.end(); iter0++)
+					for (iter0 = iter1; iter0 != filelist.end(); iter0++)
+					{
+						IgnoreComments(iter0);
+						IgnoreApostrophe(iter0);
+						IgnoreQuotation(iter0);
+						Ignorebrackets(iter0);
+
+						if (*iter0 == ';')
 						{
-							IgnoreComments(iter0);
-							if (*iter0 == '(')
-							{
-								parenthesis++;
-							}
-							else if (*iter0 == ')')
-							{
-								parenthesis--;
-							}
-
-							if (parenthesis == 0)
-							{
-								if (*iter0 == ';')
-								{
-									iter0++;
-									while (*iter0 == ' ' || *iter0 == '\t')iter0++;
-									IgnoreComments(iter0);
-									filelist.insert(iter0, '}');
-									break;
-								}
-							}
+							iter0++;
+							IgnoreOneLineComments(iter0);
+							filelist.insert(iter0, '}');
+							break;
 						}
-						break;
-
 					}
+					break;
+
 				}
 			}
 		}
 
-		temp++;
+		if (temp != filelist.end())
+		{
+			temp++;
+		}
 	}
 }
 
@@ -455,12 +377,32 @@ void check::writeBack(const char* outputfile)
 template<typename T>
 void check::IgnoreComments(T& t)
 {
+	if (t == filelist.end())
+	{
+		return;
+	}
+
+	while (*t == ' ' || *t == '\t' || *t == '\n' || *t == '\r')
+	{
+		t++;
+		if (t == filelist.end())
+		{
+			return;
+		}
+
+	}
+
 	if (*t == '/')
 	{
 		t++;
 		if (*t == '/')
 		{
-			while (*t++ != '\n');
+			while (t != filelist.end() && *t != '\n')t++;
+			if (t != filelist.end())
+			{
+				t++;
+				return IgnoreComments(t);
+			}
 			return;
 		}
 		else if (*t == '*')
@@ -475,7 +417,77 @@ void check::IgnoreComments(T& t)
 				else
 				{
 					t++;
-					if (*t != '/')
+					if (*t == '*')
+					{
+						t--;
+						continue;
+					}
+					else if (*t != '/')
+					{
+						continue;
+					}
+					else
+					{
+						t++;
+						return IgnoreComments(t);
+					}
+				}
+			}
+			return;
+		}
+	}
+	return;
+}
+
+template<typename T>
+void check::IgnoreOneLineComments(T& t)
+{
+	if (t == filelist.end())
+	{
+		return;
+	}
+
+	while (*t == ' ' || *t == '\t')
+	{
+		t++;
+		if (t == filelist.end())
+		{
+			return;
+		}
+
+	}
+
+	if (*t == '/')
+	{
+		t++;
+		if (*t == '/')
+		{
+			while (t != filelist.end() && *t != '\n')t++;
+			if (t != filelist.end())
+			{
+				t++;
+				return;
+			}
+			return;
+		}
+		else if (*t == '*')
+		{
+			while (t != filelist.end())
+			{
+				t++;
+				if (*t != '*')
+				{
+					continue;
+				}
+				else
+				{
+					t++;
+					if (*t == '*')
+					{
+						t--;
+						continue;
+					}
+					else if (*t != '/')
 					{
 						continue;
 					}
@@ -487,6 +499,91 @@ void check::IgnoreComments(T& t)
 				}
 			}
 			return;
+		}
+	}
+	return;
+}
+
+template<typename T>
+void check::IgnoreApostrophe(T& t)
+{
+	if (*t == '\'')
+	{
+		while (true)
+		{
+			t++;
+			if (*t == '\\')
+			{
+				t++;
+			}
+			else if (*t == '\'')
+			{
+				t++;
+				return;
+			}
+			else
+			{
+			}
+		}
+	}
+	return;
+}
+
+template<typename T>
+void check::IgnoreQuotation(T& t)
+{
+	if (*t == '\"')
+	{
+		while (true)
+		{
+			t++;
+			if (*t == '\\')
+			{
+				t++;
+			}
+			else if (*t == '\"')
+			{
+				t++;
+				return IgnoreQuotation(t);
+			}
+			else
+			{
+			}
+		}
+	}
+	return;
+}
+
+template<typename T>
+void check::Ignorebrackets(T& t)
+{
+	int parenthesis = 1;
+	if (*t == '(')
+	{
+		while (true)
+		{
+			t++;
+			IgnoreComments(t);
+			IgnoreApostrophe(t);
+			IgnoreQuotation(t);
+
+			if (*t == '(')
+			{
+				parenthesis++;
+			}
+			else if (*t == ')')
+			{
+				parenthesis--;
+			}
+			else
+			{
+			}
+
+			if (parenthesis == 0)
+			{
+				t++;
+				return;
+			}
 		}
 	}
 	return;

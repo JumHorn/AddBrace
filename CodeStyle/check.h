@@ -26,8 +26,21 @@ public:
 	void changeelseStyle();
 	void writeBack(const char* outputfile);
 
+protected:
 	template<typename T>
 	void IgnoreComments(T& t);
+
+	template<typename T>
+	void IgnoreOneLineComments(T& t);
+
+	template<typename T>
+	void IgnoreApostrophe(T& t);
+
+	template<typename T>
+	void IgnoreQuotation(T& t);
+
+	template<typename T>
+	void Ignorebrackets(T& t);
 };
 
 #endif
