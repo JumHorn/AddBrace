@@ -9,3 +9,7 @@ it will change the .cpp file code format recursively
 
 ### what to do in the future
 there is still a lot to do with comment in the source file
+
+### mind
+this tool can't solve # else questions, do not include header files
+Even do not write # else in cpp files
