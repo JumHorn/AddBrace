@@ -123,6 +123,10 @@ void check::changeifStyle()
 				}
 			}
 		}
+		else
+		{
+			continue;
+		}
 
 		if (temp != filelist.end())
 		{
@@ -226,6 +230,10 @@ void check::changeforStyle()
 
 				}
 			}
+		}
+		else
+		{
+			continue;
 		}
 
 		if (temp != filelist.end())
@@ -343,6 +351,10 @@ void check::changeelseStyle()
 
 				}
 			}
+		}
+		else
+		{
+			continue;
 		}
 
 		if (temp != filelist.end())
