@@ -321,6 +321,7 @@ void check::changeelseStyle()
 						temp = iter1;
 						continue;
 					}
+					iter1--;
 				}
 				iter1--;
 			}
