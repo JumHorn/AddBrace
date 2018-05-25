@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string.h>
 #include"check.h"
 using namespace std;
 
@@ -6,7 +7,7 @@ int main(int argc, char* argv[])
 {
 	if (argc == 1)
 	{
-		cout << "Usage: \nCodeStyle [filename]" << endl;
+		cout << "Usage: \nAddBrace [filename]" << endl;
 		cout << "Mind the file must be in the same directory with this tool" << endl;
 		return 0;
 	}
