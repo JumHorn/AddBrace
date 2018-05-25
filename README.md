@@ -1,10 +1,10 @@
-# Add parenthesis
+# Add Brace
 
 ### what it can do
-this is a little tool to adjust code format that a single statement after "if" or "for" without add brace.
+this is a little tool to adjust code format that a single statement after "if" or "for" without brace.
 Add brace after it to pass code test
 
-leave the executive file under a directory and run it
+put the executive file under a directory and run it
 it will change the .cpp file code format recursively
 
 ### what to do in the future
@@ -22,14 +22,14 @@ code like this can not handle now
 if(statement)
     (pointer + n) -> function();
 ```
-the tool will make mistake like this
+the tool will make a mistake like this
 
 ```C++
 if(statement)
     (pointer + n) {-> function();}
 ```
 
-because I haven't check the characters after the right ) of if yet
+because I haven't checked the characters after the right ) of if yet
 and ignore all characters between the brace
 
 my code is a piece of trash which I don't want to review any more
