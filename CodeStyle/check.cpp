@@ -98,7 +98,7 @@ void check::changeifStyle()
 				IgnoreComments(iter1);
 				IgnoreApostrophe(iter1);
 				IgnoreQuotation(iter1);
-				IgnoreParenthesis(iter1);
+				//IgnoreParenthesis(iter1);
 				IgnoreComments(iter1);
 
 				if (*iter1 == '{')
@@ -211,7 +211,7 @@ void check::changeforStyle()
 				IgnoreComments(iter1);
 				IgnoreApostrophe(iter1);
 				IgnoreQuotation(iter1);
-				IgnoreParenthesis(iter1);
+				//IgnoreParenthesis(iter1);
 				IgnoreComments(iter1);
 
 				if (*iter1 == '{')
@@ -341,7 +341,7 @@ void check::changeelseStyle()
 				IgnoreComments(iter1);
 				IgnoreApostrophe(iter1);
 				IgnoreQuotation(iter1);
-				IgnoreParenthesis(iter1);
+				//IgnoreParenthesis(iter1);
 				IgnoreComments(iter1);
 
 				if (*iter1 == '{')
