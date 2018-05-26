@@ -15,6 +15,8 @@ do not include header files
 Even do not use it on cpp files with # else   
 it still can not skip #if false statement which will make a lot of mistakes
 
+****bug fixed on version 1.1****   
+~~
 #### second
 code like this can not handle now
 ```C++
@@ -30,5 +32,6 @@ if(statement)
 
 because I haven't checked the characters after the right ) of it yet
 and ignore all characters between the brace
+~~
 
-my code is a piece of trash which I don't want to review any more
+my code may make you cry which I don't want to review any more
