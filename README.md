@@ -2,19 +2,18 @@
 
 ### what it can do
 this is a little tool to adjust code format that a single statement after "if" or "for" without brace.
-Add brace after it to pass code test
+Add brace after it to pass code test (for example testbed)
 
-put the executive file under a directory and run it
+put the executive file in a directory and run it
 it will change the .cpp file code format recursively
 
-### what to do in the future
-there is still a lot to do with comment in the source file
 
 ### mind
 #### first
 this tool can't solve # else(there is a space between # and else) questions.
 do not include header files
-Even do not write # else in cpp files
+Even do not use it on cpp files with # else   
+it still can not skip #if false statement which will make a lot of mistakes
 
 #### second
 code like this can not handle now
@@ -29,7 +28,7 @@ if(statement)
     (pointer + n) {-> function();}
 ```
 
-because I haven't checked the characters after the right ) of if yet
+because I haven't checked the characters after the right ) of it yet
 and ignore all characters between the brace
 
 my code is a piece of trash which I don't want to review any more
