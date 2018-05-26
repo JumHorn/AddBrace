@@ -27,7 +27,7 @@ check::~check()
 void check::getFileContent(const char* inputfile)
 {
 	ifstream fin(inputfile);
-	//¹¹½¨string,list,vectorµÈ´ıÓÅ»¯
+	//æ„å»ºstring,list,vectorç­‰å¾…ä¼˜åŒ–
 	//string filestr((istreambuf_iterator<char>(fin)), istreambuf_iterator<char>());
 	filelist.assign(istreambuf_iterator<char>(fin), istreambuf_iterator<char>());
 	//filelist.assign(filestr.begin(), filestr.end());
@@ -84,14 +84,14 @@ void check::changeifStyle()
 		iter1++;
 		iter0--;
 		temp = iter1;
-		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //´¦Àíif token
+		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //å¤„ç†if token
 		{
 			IgnoreComments(iter1);
 			IgnoreApostrophe(iter1);
 			IgnoreQuotation(iter1);
 			IgnoreParenthesis(iter1);
 			temp = iter1;
-			//´ËÊ±´¦Àíµ½if½áÊøµÄ)À¨ºÅ´¦
+			//æ­¤æ—¶å¤„ç†åˆ°ifç»“æŸçš„)æ‹¬å·å¤„
 			iter0 = iter1;
 			for (; iter1 != filelist.end(); iter1++)
 			{
@@ -197,14 +197,14 @@ void check::changeforStyle()
 		iter1++;
 		iter0--;
 		temp = iter1;
-		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //´¦Àífor token
+		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //å¤„ç†for token
 		{
 			IgnoreComments(iter1);
 			IgnoreApostrophe(iter1);
 			IgnoreQuotation(iter1);
 			IgnoreParenthesis(iter1);
 			temp = iter1;
-			//´ËÊ±´¦Àíµ½for½áÊøµÄ)À¨ºÅ´¦
+			//æ­¤æ—¶å¤„ç†åˆ°forç»“æŸçš„)æ‹¬å·å¤„
 			iter0 = iter1;
 			for (; iter1 != filelist.end(); iter1++)
 			{
@@ -306,7 +306,7 @@ void check::changeelseStyle()
 		iter1++;
 		iter0--;
 		temp = iter1;
-		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //´¦Àíelse token
+		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //å¤„ç†else token
 		{
 			IgnoreComments(iter1);
 			IgnoreApostrophe(iter1);
