@@ -1,8 +1,9 @@
 # Add Brace
 
-### what it can do
+### usage
 this is a little tool to adjust code format that a single statement after "if" or "for" without brace.
-Add brace after it to pass code test (for example testbed)
+Now it can add else{} after else if statement without else.
+Add brace after that to pass code test (for example testbed)
 
 put the executive file in a directory and run it
 it will change the .cpp file code format recursively
