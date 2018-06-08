@@ -15,6 +15,6 @@ char check_for[] = { 'f','o','r' };
 char check_else[] = { 'e','l','s','e' };
 
 char befor_check[] = { '\t','\n',' ',';','{','}'};
-char after_check[] = { '\t','\n',' ','(' };
+char after_check[] = { '\t','\n',' ','(','{'};
 
 #endif

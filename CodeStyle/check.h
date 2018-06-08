@@ -33,6 +33,7 @@ public:
 	void changeifStyle();
 	void changeforStyle();
 	void changeelseStyle();
+	void addelse();
 	void writeBack(const char* outputfile);
 
 protected:

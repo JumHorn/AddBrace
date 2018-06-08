@@ -398,11 +398,128 @@ void check::changeelseStyle()
 	}
 }
 
+void check::addelse()
+{
+	list<char>::iterator iter0;
+	list<char>::iterator iter1;
+	list<char>::iterator temp;
+	temp = filelist.begin();
+	while (temp != filelist.end())
+	{
+		IgnoreComments(temp);
+		IgnoreApostrophe(temp);
+		IgnoreQuotation(temp);
+		OutofBounds(temp, filelist.end());
+
+		if (*temp != 'e')
+		{
+			temp++;
+			continue;
+		}
+
+		iter1 = iter0 = temp;
+		int i;
+		for (i = 1; i < sizeof(check_else) / sizeof(check_else[0]); i++)
+		{
+			iter1++;
+			if (*iter1 != check_else[i])
+			{
+				break;
+			}
+		}
+		if (i != sizeof(check_else) / sizeof(check_else[0]))
+		{
+			temp++;
+			continue;
+		}
+
+		iter1++;
+		iter0--;
+		temp = iter1;
+		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //处理else token
+		{
+			IgnoreComments(iter1);
+			IgnoreApostrophe(iter1);
+			IgnoreQuotation(iter1);
+			IgnoreParenthesis(iter1);
+
+			if (*iter1 == '{')
+			{
+				iter1++;
+				continue;
+			}
+
+			if (*iter1 == 'i')
+			{
+				iter1++;
+				if (*iter1 == 'f')
+				{
+					iter1++;
+					if (afterCheck(&*iter1))
+					{
+						IgnoreComments(iter1);
+						IgnoreApostrophe(iter1);
+						IgnoreQuotation(iter1);
+						IgnoreParenthesis(iter1);
+						IgnoreComments(iter1);
+						IgnoreBrace(iter1);
+						temp = iter1;
+
+						IgnoreComments(iter1);
+						iter0 = iter1;
+						int j=0;
+						for (j = 0; j < sizeof(check_else) / sizeof(check_else[0]); j++)
+						{
+							if (*iter1 != check_else[j])
+							{
+								string streles = "else{}";
+								filelist.insert(temp,streles.begin(),streles.end());
+								temp = iter0; 
+								break;
+							}
+							iter1++;
+						}
+						if(j==sizeof(check_else) / sizeof(check_else[0]))
+						{
+							if(!afterCheck(&*iter1))
+							{
+								string streles = "else{}";
+								filelist.insert(temp,streles.begin(),streles.end());
+								temp = iter1;
+							}
+							else
+							{
+								iter1 = iter0;
+								temp = iter0;
+							}
+						}
+						continue;
+					}
+					iter1--;
+				}
+				iter1--;
+			}
+
+			iter0 = iter1;
+		}
+		else
+		{
+			continue;
+		}
+
+		if (temp != filelist.end())
+		{
+			temp++;
+		}
+	}
+}
+
 void check::changeStyle()
 {
 	changeifStyle();
 	changeforStyle();
 	changeelseStyle();
+	addelse();
 }
 
 void check::writeBack(const char* outputfile)
