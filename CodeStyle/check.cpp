@@ -36,13 +36,13 @@ void check::getFileContent(const char* inputfile)
 
 bool check::beforCheck(const char *c)
 {
-	unsigned int temp = sizeof(befor_check) / sizeof(befor_check[0]);
+	unsigned int temp = ARRAY_SIZE(befor_check);
 	return befor_check + temp != find(befor_check, befor_check + temp, *c);
 }
 
 bool check::afterCheck(const char *c)
 {
-	unsigned int temp = sizeof(after_check) / sizeof(after_check[0]);
+	unsigned int temp = ARRAY_SIZE(after_check);
 	return after_check + temp != find(after_check, after_check + temp, *c);
 }
 
@@ -67,7 +67,7 @@ void check::changeifStyle()
 
 		iter1 = iter0 = temp;
 		int i;
-		for (i = 1; i < sizeof(check_if) / sizeof(check_if[0]); i++)
+		for (i = 1; i < ARRAY_SIZE(check_if); i++)
 		{
 			iter1++;
 			if (*iter1 != check_if[i])
@@ -75,7 +75,7 @@ void check::changeifStyle()
 				break;
 			}
 		}
-		if (i != sizeof(check_if) / sizeof(check_if[0]))
+		if (i != ARRAY_SIZE(check_if))
 		{
 			temp++;
 			continue;
@@ -173,7 +173,7 @@ void check::changeforStyle()
 
 		iter1 = iter0 = temp;
 		int i;
-		for (i = 1; i < sizeof(check_for) / sizeof(check_for[0]); i++)
+		for (i = 1; i < ARRAY_SIZE(check_for); i++)
 		{
 			if (iter1 == filelist.end())
 			{
@@ -185,7 +185,7 @@ void check::changeforStyle()
 				break;
 			}
 		}
-		if (i != sizeof(check_for) / sizeof(check_for[0]))
+		if (i != ARRAY_SIZE(check_for))
 		{
 			if (temp != filelist.end())
 			{
@@ -289,7 +289,7 @@ void check::changeelseStyle()
 
 		iter1 = iter0 = temp;
 		int i;
-		for (i = 1; i < sizeof(check_else) / sizeof(check_else[0]); i++)
+		for (i = 1; i < ARRAY_SIZE(check_else); i++)
 		{
 			iter1++;
 			if (*iter1 != check_else[i])
@@ -297,7 +297,7 @@ void check::changeelseStyle()
 				break;
 			}
 		}
-		if (i != sizeof(check_else) / sizeof(check_else[0]))
+		if (i != ARRAY_SIZE(check_else))
 		{
 			temp++;
 			continue;
@@ -419,7 +419,7 @@ void check::addelse()
 
 		iter1 = iter0 = temp;
 		int i;
-		for (i = 1; i < sizeof(check_else) / sizeof(check_else[0]); i++)
+		for (i = 1; i < ARRAY_SIZE(check_else); i++)
 		{
 			iter1++;
 			if (*iter1 != check_else[i])
@@ -427,7 +427,7 @@ void check::addelse()
 				break;
 			}
 		}
-		if (i != sizeof(check_else) / sizeof(check_else[0]))
+		if (i != ARRAY_SIZE(check_else))
 		{
 			temp++;
 			continue;
@@ -468,7 +468,7 @@ void check::addelse()
 						IgnoreComments(iter1);
 						iter0 = iter1;
 						int j=0;
-						for (j = 0; j < sizeof(check_else) / sizeof(check_else[0]); j++)
+						for (j = 0; j < ARRAY_SIZE(check_else); j++)
 						{
 							if (*iter1 != check_else[j])
 							{
@@ -479,7 +479,7 @@ void check::addelse()
 							}
 							iter1++;
 						}
-						if(j==sizeof(check_else) / sizeof(check_else[0]))
+						if(j==ARRAY_SIZE(check_else))
 						{
 							if(!afterCheck(&*iter1))
 							{
