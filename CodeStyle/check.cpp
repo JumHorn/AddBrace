@@ -48,8 +48,8 @@ bool check::afterCheck(const char *c)
 
 void check::changeifStyle()
 {
-	list<char>::iterator iter0;
-	list<char>::iterator iter1;
+	list<char>::iterator worker;
+	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = filelist.begin();
 	while (temp != filelist.end())
@@ -65,12 +65,12 @@ void check::changeifStyle()
 			continue;
 		}
 
-		iter1 = iter0 = temp;
+		runner = worker = temp;
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_if); i++)
 		{
-			iter1++;
-			if (*iter1 != check_if[i])
+			runner++;
+			if (*runner != check_if[i])
 			{
 				break;
 			}
@@ -81,58 +81,58 @@ void check::changeifStyle()
 			continue;
 		}
 
-		iter1++;
-		iter0--;
-		temp = iter1;
-		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //处理if token
+		runner++;
+		worker--;
+		temp = runner;
+		if (worker != filelist.end() && beforCheck(&*worker) && runner != filelist.end() && afterCheck(&*runner)) //处理if token
 		{
-			IgnoreComments(iter1);
-			IgnoreApostrophe(iter1);
-			IgnoreQuotation(iter1);
-			IgnoreParenthesis(iter1);
-			temp = iter1;
+			IgnoreComments(runner);
+			IgnoreApostrophe(runner);
+			IgnoreQuotation(runner);
+			IgnoreParenthesis(runner);
+			temp = runner;
 			//此时处理到if结束的)括号处
-			iter0 = iter1;
-			for (; iter1 != filelist.end(); iter1++)
+			worker = runner;
+			for (; runner != filelist.end(); runner++)
 			{
-				IgnoreComments(iter1);
-				IgnoreApostrophe(iter1);
-				IgnoreQuotation(iter1);
-				//IgnoreParenthesis(iter1);
-				IgnoreComments(iter1);
+				IgnoreComments(runner);
+				IgnoreApostrophe(runner);
+				IgnoreQuotation(runner);
+				//IgnoreParenthesis(runner);
+				IgnoreComments(runner);
 
-				if (*iter1 == '{')
+				if (*runner == '{')
 				{
 					break;
 				}
-				else if (*iter1 == ';')
+				else if (*runner == ';')
 				{
-					iter1++;
-					filelist.insert(iter1, '}');
-					filelist.insert(iter0, '{');
+					runner++;
+					filelist.insert(runner, '}');
+					filelist.insert(worker, '{');
 					break;
 				}
-				else if (!beforCheck(&*iter1))
+				else if (!beforCheck(&*runner))
 				{
-					filelist.insert(iter1, '{');
-					for (iter0 = iter1; iter0 != filelist.end(); iter0++)
+					filelist.insert(runner, '{');
+					for (worker = runner; worker != filelist.end(); worker++)
 					{
-						IgnoreComments(iter0);
-						IgnoreApostrophe(iter0);
-						IgnoreQuotation(iter0);
-						IgnoreParenthesis(iter0);
+						IgnoreComments(worker);
+						IgnoreApostrophe(worker);
+						IgnoreQuotation(worker);
+						IgnoreParenthesis(worker);
 
-						if (*iter0 == ';')
+						if (*worker == ';')
 						{
-							iter0++;
-							IgnoreOneLineComments(iter0);
-							filelist.insert(iter0, '}');
+							worker++;
+							IgnoreOneLineComments(worker);
+							filelist.insert(worker, '}');
 							break;
 						}
-						else if (*iter0 == '{')
+						else if (*worker == '{')
 						{
-							IgnoreBrace(iter0);
-							filelist.insert(iter0, '}');
+							IgnoreBrace(worker);
+							filelist.insert(worker, '}');
 							break;
 						}
 					}
@@ -154,8 +154,8 @@ void check::changeifStyle()
 
 void check::changeforStyle()
 {
-	list<char>::iterator iter0;
-	list<char>::iterator iter1;
+	list<char>::iterator worker;
+	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = filelist.begin();
 	while (temp != filelist.end())
@@ -171,16 +171,16 @@ void check::changeforStyle()
 			continue;
 		}
 
-		iter1 = iter0 = temp;
+		runner = worker = temp;
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_for); i++)
 		{
-			if (iter1 == filelist.end())
+			if (runner == filelist.end())
 			{
 				break;
 			}
-			iter1++;
-			if (iter1 != filelist.end() && *iter1 != check_for[i])
+			runner++;
+			if (runner != filelist.end() && *runner != check_for[i])
 			{
 				break;
 			}
@@ -194,60 +194,60 @@ void check::changeforStyle()
 			continue;
 		}
 
-		iter1++;
-		iter0--;
-		temp = iter1;
-		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //处理for token
+		runner++;
+		worker--;
+		temp = runner;
+		if (worker != filelist.end() && beforCheck(&*worker) && runner != filelist.end() && afterCheck(&*runner)) //处理for token
 		{
-			IgnoreComments(iter1);
-			IgnoreApostrophe(iter1);
-			IgnoreQuotation(iter1);
-			IgnoreParenthesis(iter1);
-			temp = iter1;
+			IgnoreComments(runner);
+			IgnoreApostrophe(runner);
+			IgnoreQuotation(runner);
+			IgnoreParenthesis(runner);
+			temp = runner;
 			//此时处理到for结束的)括号处
-			iter0 = iter1;
-			for (; iter1 != filelist.end(); iter1++)
+			worker = runner;
+			for (; runner != filelist.end(); runner++)
 			{
-				IgnoreComments(iter1);
-				IgnoreApostrophe(iter1);
-				IgnoreQuotation(iter1);
-				//IgnoreParenthesis(iter1);
-				IgnoreComments(iter1);
+				IgnoreComments(runner);
+				IgnoreApostrophe(runner);
+				IgnoreQuotation(runner);
+				//IgnoreParenthesis(runner);
+				IgnoreComments(runner);
 
-				if (*iter1 == '{')
+				if (*runner == '{')
 				{
 					break;
 				}
-				else if (*iter1 == ';')
+				else if (*runner == ';')
 				{
-					iter1++;
-					filelist.insert(iter1, '}');
-					filelist.insert(iter0, '{');
+					runner++;
+					filelist.insert(runner, '}');
+					filelist.insert(worker, '{');
 					break;
 				}
-				else if (!beforCheck(&*iter1))
+				else if (!beforCheck(&*runner))
 				{
-					IgnoreComments(iter1);
-					filelist.insert(iter1, '{');
+					IgnoreComments(runner);
+					filelist.insert(runner, '{');
 
-					for (iter0 = iter1; iter0 != filelist.end(); iter0++)
+					for (worker = runner; worker != filelist.end(); worker++)
 					{
-						IgnoreComments(iter0);
-						IgnoreApostrophe(iter0);
-						IgnoreQuotation(iter0);
-						IgnoreParenthesis(iter0);
+						IgnoreComments(worker);
+						IgnoreApostrophe(worker);
+						IgnoreQuotation(worker);
+						IgnoreParenthesis(worker);
 
-						if (*iter0 == ';')
+						if (*worker == ';')
 						{
-							iter0++;
-							IgnoreOneLineComments(iter0);
-							filelist.insert(iter0, '}');
+							worker++;
+							IgnoreOneLineComments(worker);
+							filelist.insert(worker, '}');
 							break;
 						}
-						else if (*iter0 == '{')
+						else if (*worker == '{')
 						{
-							IgnoreBrace(iter0);
-							filelist.insert(iter0, '}');
+							IgnoreBrace(worker);
+							filelist.insert(worker, '}');
 							break;
 						}
 					}
@@ -270,8 +270,8 @@ void check::changeforStyle()
 
 void check::changeelseStyle()
 {
-	list<char>::iterator iter0;
-	list<char>::iterator iter1;
+	list<char>::iterator worker;
+	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = filelist.begin();
 	while (temp != filelist.end())
@@ -287,12 +287,12 @@ void check::changeelseStyle()
 			continue;
 		}
 
-		iter1 = iter0 = temp;
+		runner = worker = temp;
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_else); i++)
 		{
-			iter1++;
-			if (*iter1 != check_else[i])
+			runner++;
+			if (*runner != check_else[i])
 			{
 				break;
 			}
@@ -303,81 +303,81 @@ void check::changeelseStyle()
 			continue;
 		}
 
-		iter1++;
-		iter0--;
-		temp = iter1;
-		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //处理else token
+		runner++;
+		worker--;
+		temp = runner;
+		if (worker != filelist.end() && beforCheck(&*worker) && runner != filelist.end() && afterCheck(&*runner)) //处理else token
 		{
-			IgnoreComments(iter1);
-			IgnoreApostrophe(iter1);
-			IgnoreQuotation(iter1);
-			IgnoreParenthesis(iter1);
+			IgnoreComments(runner);
+			IgnoreApostrophe(runner);
+			IgnoreQuotation(runner);
+			IgnoreParenthesis(runner);
 
-			if (*iter1 == '{')
+			if (*runner == '{')
 			{
-				iter1++;
+				runner++;
 				continue;
 			}
 
-			if (*iter1 == 'i')
+			if (*runner == 'i')
 			{
-				iter1++;
-				if (*iter1 == 'f')
+				runner++;
+				if (*runner == 'f')
 				{
-					iter1++;
-					if (afterCheck(&*iter1))
+					runner++;
+					if (afterCheck(&*runner))
 					{
-						temp = iter1;
+						temp = runner;
 						continue;
 					}
-					iter1--;
+					runner--;
 				}
-				iter1--;
+				runner--;
 			}
 
-			iter0 = iter1;
-			for (; iter1 != filelist.end(); iter1++)
+			worker = runner;
+			for (; runner != filelist.end(); runner++)
 			{
-				IgnoreComments(iter1);
-				IgnoreApostrophe(iter1);
-				IgnoreQuotation(iter1);
-				//IgnoreParenthesis(iter1);
-				IgnoreComments(iter1);
+				IgnoreComments(runner);
+				IgnoreApostrophe(runner);
+				IgnoreQuotation(runner);
+				//IgnoreParenthesis(runner);
+				IgnoreComments(runner);
 
-				if (*iter1 == '{')
+				if (*runner == '{')
 				{
 					break;
 				}
-				else if (*iter1 == ';')
+				else if (*runner == ';')
 				{
-					iter1++;
-					filelist.insert(iter1, '}');
-					filelist.insert(iter0, '{');
+					runner++;
+					filelist.insert(runner, '}');
+					filelist.insert(worker, '{');
 					break;
 				}
-				else if (!beforCheck(&*iter1))
+				else if (!beforCheck(&*runner))
 				{
-					IgnoreComments(iter1);
-					filelist.insert(iter0, '{');
+					IgnoreComments(runner);
+					filelist.insert(worker, '{');
 
-					for (iter0 = iter1; iter0 != filelist.end(); iter0++)
+					for (worker = runner; worker != filelist.end(); worker++)
 					{
-						IgnoreComments(iter0);
-						IgnoreApostrophe(iter0);
-						IgnoreQuotation(iter0);
-						IgnoreParenthesis(iter0);
+						IgnoreComments(worker);
+						IgnoreApostrophe(worker);
+						IgnoreQuotation(worker);
+						IgnoreParenthesis(worker);
 
-						if (*iter0 == ';')
+						if (*worker == ';')
 						{
-							iter0++;
-							IgnoreOneLineComments(iter0);
-							filelist.insert(iter0, '}');
+							worker++;
+							IgnoreOneLineComments(worker);
+							filelist.insert(worker, '}');
 							break;
 						}
-						else if (*iter0 == '{')
+						else if (*worker == '{')
 						{
-							IgnoreBrace(iter0);
-							filelist.insert(iter0, '}');
+							IgnoreBrace(worker);
+							filelist.insert(worker, '}');
 							break;
 						}
 					}
@@ -400,8 +400,8 @@ void check::changeelseStyle()
 
 void check::addelse()
 {
-	list<char>::iterator iter0;
-	list<char>::iterator iter1;
+	list<char>::iterator worker;
+	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = filelist.begin();
 	while (temp != filelist.end())
@@ -417,12 +417,12 @@ void check::addelse()
 			continue;
 		}
 
-		iter1 = iter0 = temp;
+		runner = worker = temp;
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_else); i++)
 		{
-			iter1++;
-			if (*iter1 != check_else[i])
+			runner++;
+			if (*runner != check_else[i])
 			{
 				break;
 			}
@@ -433,74 +433,74 @@ void check::addelse()
 			continue;
 		}
 
-		iter1++;
-		iter0--;
-		temp = iter1;
-		if (iter0 != filelist.end() && beforCheck(&*iter0) && iter1 != filelist.end() && afterCheck(&*iter1)) //处理else token
+		runner++;
+		worker--;
+		temp = runner;
+		if (worker != filelist.end() && beforCheck(&*worker) && runner != filelist.end() && afterCheck(&*runner)) //处理else token
 		{
-			IgnoreComments(iter1);
-			IgnoreApostrophe(iter1);
-			IgnoreQuotation(iter1);
-			IgnoreParenthesis(iter1);
+			IgnoreComments(runner);
+			IgnoreApostrophe(runner);
+			IgnoreQuotation(runner);
+			IgnoreParenthesis(runner);
 
-			if (*iter1 == '{')
+			if (*runner == '{')
 			{
-				iter1++;
+				runner++;
 				continue;
 			}
 
-			if (*iter1 == 'i')
+			if (*runner == 'i')
 			{
-				iter1++;
-				if (*iter1 == 'f')
+				runner++;
+				if (*runner == 'f')
 				{
-					iter1++;
-					if (afterCheck(&*iter1))
+					runner++;
+					if (afterCheck(&*runner))
 					{
-						IgnoreComments(iter1);
-						IgnoreApostrophe(iter1);
-						IgnoreQuotation(iter1);
-						IgnoreParenthesis(iter1);
-						IgnoreComments(iter1);
-						IgnoreBrace(iter1);
-						temp = iter1;
+						IgnoreComments(runner);
+						IgnoreApostrophe(runner);
+						IgnoreQuotation(runner);
+						IgnoreParenthesis(runner);
+						IgnoreComments(runner);
+						IgnoreBrace(runner);
+						temp = runner;
 
-						IgnoreComments(iter1);
-						iter0 = iter1;
+						IgnoreComments(runner);
+						worker = runner;
 						int j=0;
 						for (j = 0; j < ARRAY_SIZE(check_else); j++)
 						{
-							if (*iter1 != check_else[j])
+							if (*runner != check_else[j])
 							{
 								string streles = "else{}";
 								filelist.insert(temp,streles.begin(),streles.end());
-								temp = iter0; 
+								temp = worker; 
 								break;
 							}
-							iter1++;
+							runner++;
 						}
 						if(j==ARRAY_SIZE(check_else))
 						{
-							if(!afterCheck(&*iter1))
+							if(!afterCheck(&*runner))
 							{
 								string streles = "else{}";
 								filelist.insert(temp,streles.begin(),streles.end());
-								temp = iter1;
+								temp = runner;
 							}
 							else
 							{
-								iter1 = iter0;
-								temp = iter0;
+								runner = worker;
+								temp = worker;
 							}
 						}
 						continue;
 					}
-					iter1--;
+					runner--;
 				}
-				iter1--;
+				runner--;
 			}
 
-			iter0 = iter1;
+			worker = runner;
 		}
 		else
 		{
