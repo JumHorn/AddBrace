@@ -24,19 +24,20 @@ private:
 
 	bool beforCheck(const char *c);
 	bool afterCheck(const char *c);
+	void preprocess();
 public:
 	check();
 	~check();
 
 	void getFileContent(const char* inputfile);
 	void changeStyle();
-	void changeifStyle();
-	void changeforStyle();
-	void changeelseStyle();
-	void addelse();
+	void changeifStyle(list<char>::iterator start, list<char>::iterator end);
+	void changeforStyle(list<char>::iterator start, list<char>::iterator end);
+	void changeelseStyle(list<char>::iterator start, list<char>::iterator end);
+	void addelse(list<char>::iterator start, list<char>::iterator end);
 	void writeBack(const char* outputfile);
 
-protected:
+private:
 	template<typename T>
 	void IgnoreComments(T& t);
 

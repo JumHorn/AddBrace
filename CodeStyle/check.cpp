@@ -46,18 +46,18 @@ bool check::afterCheck(const char *c)
 	return after_check + temp != find(after_check, after_check + temp, *c);
 }
 
-void check::changeifStyle()
+void check::changeifStyle(list<char>::iterator start,list<char>::iterator end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
-	temp = filelist.begin();
-	while (temp != filelist.end())
+	temp = start;
+	while (temp != end)
 	{
 		IgnoreComments(temp);//ignore comments
 		IgnoreApostrophe(temp);
 		IgnoreQuotation(temp);
-		OutofBounds(temp, filelist.end());
+		OutofBounds(temp, end);
 
 		if (*temp != 'i')
 		{
@@ -84,7 +84,7 @@ void check::changeifStyle()
 		runner++;
 		worker--;
 		temp = runner;
-		if (worker != filelist.end() && beforCheck(&*worker) && runner != filelist.end() && afterCheck(&*runner)) //处理if token
+		if (worker != end && beforCheck(&*worker) && runner != end && afterCheck(&*runner)) //处理if token
 		{
 			IgnoreComments(runner);
 			IgnoreApostrophe(runner);
@@ -93,7 +93,7 @@ void check::changeifStyle()
 			temp = runner;
 			//此时处理到if结束的)括号处
 			worker = runner;
-			for (; runner != filelist.end(); runner++)
+			for (; runner != end; runner++)
 			{
 				IgnoreComments(runner);
 				IgnoreApostrophe(runner);
@@ -115,7 +115,7 @@ void check::changeifStyle()
 				else if (!beforCheck(&*runner))
 				{
 					filelist.insert(runner, '{');
-					for (worker = runner; worker != filelist.end(); worker++)
+					for (worker = runner; worker != end; worker++)
 					{
 						IgnoreComments(worker);
 						IgnoreApostrophe(worker);
@@ -145,25 +145,25 @@ void check::changeifStyle()
 			continue;
 		}
 
-		if (temp != filelist.end())
+		if (temp != end)
 		{
 			temp++;
 		}
 	}
 }
 
-void check::changeforStyle()
+void check::changeforStyle(list<char>::iterator start, list<char>::iterator end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
-	temp = filelist.begin();
-	while (temp != filelist.end())
+	temp = start;
+	while (temp != end)
 	{
 		IgnoreComments(temp);
 		IgnoreApostrophe(temp);
 		IgnoreQuotation(temp);
-		OutofBounds(temp, filelist.end());
+		OutofBounds(temp, end);
 
 		if (*temp != 'f')
 		{
@@ -175,19 +175,19 @@ void check::changeforStyle()
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_for); i++)
 		{
-			if (runner == filelist.end())
+			if (runner == end)
 			{
 				break;
 			}
 			runner++;
-			if (runner != filelist.end() && *runner != check_for[i])
+			if (runner != end && *runner != check_for[i])
 			{
 				break;
 			}
 		}
 		if (i != ARRAY_SIZE(check_for))
 		{
-			if (temp != filelist.end())
+			if (temp != end)
 			{
 				temp++;
 			}
@@ -197,7 +197,7 @@ void check::changeforStyle()
 		runner++;
 		worker--;
 		temp = runner;
-		if (worker != filelist.end() && beforCheck(&*worker) && runner != filelist.end() && afterCheck(&*runner)) //处理for token
+		if (worker != end && beforCheck(&*worker) && runner != end && afterCheck(&*runner)) //处理for token
 		{
 			IgnoreComments(runner);
 			IgnoreApostrophe(runner);
@@ -206,7 +206,7 @@ void check::changeforStyle()
 			temp = runner;
 			//此时处理到for结束的)括号处
 			worker = runner;
-			for (; runner != filelist.end(); runner++)
+			for (; runner != end; runner++)
 			{
 				IgnoreComments(runner);
 				IgnoreApostrophe(runner);
@@ -230,7 +230,7 @@ void check::changeforStyle()
 					IgnoreComments(runner);
 					filelist.insert(runner, '{');
 
-					for (worker = runner; worker != filelist.end(); worker++)
+					for (worker = runner; worker != end; worker++)
 					{
 						IgnoreComments(worker);
 						IgnoreApostrophe(worker);
@@ -261,25 +261,25 @@ void check::changeforStyle()
 			continue;
 		}
 
-		if (temp != filelist.end())
+		if (temp != end)
 		{
 			temp++;
 		}
 	}
 }
 
-void check::changeelseStyle()
+void check::changeelseStyle(list<char>::iterator start, list<char>::iterator end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
-	temp = filelist.begin();
-	while (temp != filelist.end())
+	temp = start;
+	while (temp != end)
 	{
 		IgnoreComments(temp);
 		IgnoreApostrophe(temp);
 		IgnoreQuotation(temp);
-		OutofBounds(temp, filelist.end());
+		OutofBounds(temp, end);
 
 		if (*temp != 'e')
 		{
@@ -306,7 +306,7 @@ void check::changeelseStyle()
 		runner++;
 		worker--;
 		temp = runner;
-		if (worker != filelist.end() && beforCheck(&*worker) && runner != filelist.end() && afterCheck(&*runner)) //处理else token
+		if (worker != end && beforCheck(&*worker) && runner != end && afterCheck(&*runner)) //处理else token
 		{
 			IgnoreComments(runner);
 			IgnoreApostrophe(runner);
@@ -336,7 +336,7 @@ void check::changeelseStyle()
 			}
 
 			worker = runner;
-			for (; runner != filelist.end(); runner++)
+			for (; runner != end; runner++)
 			{
 				IgnoreComments(runner);
 				IgnoreApostrophe(runner);
@@ -360,7 +360,7 @@ void check::changeelseStyle()
 					IgnoreComments(runner);
 					filelist.insert(worker, '{');
 
-					for (worker = runner; worker != filelist.end(); worker++)
+					for (worker = runner; worker != end; worker++)
 					{
 						IgnoreComments(worker);
 						IgnoreApostrophe(worker);
@@ -391,25 +391,25 @@ void check::changeelseStyle()
 			continue;
 		}
 
-		if (temp != filelist.end())
+		if (temp != end)
 		{
 			temp++;
 		}
 	}
 }
 
-void check::addelse()
+void check::addelse(list<char>::iterator start, list<char>::iterator end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
-	temp = filelist.begin();
-	while (temp != filelist.end())
+	temp = start;
+	while (temp != end)
 	{
 		IgnoreComments(temp);
 		IgnoreApostrophe(temp);
 		IgnoreQuotation(temp);
-		OutofBounds(temp, filelist.end());
+		OutofBounds(temp, end);
 
 		if (*temp != 'e')
 		{
@@ -436,7 +436,7 @@ void check::addelse()
 		runner++;
 		worker--;
 		temp = runner;
-		if (worker != filelist.end() && beforCheck(&*worker) && runner != filelist.end() && afterCheck(&*runner)) //处理else token
+		if (worker != end && beforCheck(&*worker) && runner != end && afterCheck(&*runner)) //处理else token
 		{
 			IgnoreComments(runner);
 			IgnoreApostrophe(runner);
@@ -507,19 +507,24 @@ void check::addelse()
 			continue;
 		}
 
-		if (temp != filelist.end())
+		if (temp != end)
 		{
 			temp++;
 		}
 	}
 }
 
+//pre process for #if #else 
+void check::preprocess()
+{}
+
 void check::changeStyle()
 {
-	changeifStyle();
-	changeforStyle();
-	changeelseStyle();
-	addelse();
+	preprocess();
+	changeifStyle(filelist.begin(),filelist.end());
+	changeforStyle(filelist.begin(), filelist.end());
+	changeelseStyle(filelist.begin(), filelist.end());
+	addelse(filelist.begin(), filelist.end());
 }
 
 void check::writeBack(const char* outputfile)
