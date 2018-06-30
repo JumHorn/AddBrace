@@ -34,19 +34,19 @@ void check::getFileContent(const char* inputfile)
 	//filevec.assign(filestr.begin(),filestr.end());
 }
 
-bool check::beforCheck(const char *c)
+bool check::beforCheck(const char *c) const
 {
 	unsigned int temp = ARRAY_SIZE(befor_check);
 	return befor_check + temp != find(befor_check, befor_check + temp, *c);
 }
 
-bool check::afterCheck(const char *c)
+bool check::afterCheck(const char *c) const
 {
 	unsigned int temp = ARRAY_SIZE(after_check);
 	return after_check + temp != find(after_check, after_check + temp, *c);
 }
 
-void check::changeifStyle(list<char>::iterator& start, list<char>::iterator& end)
+void check::changeifStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
@@ -82,9 +82,8 @@ void check::changeifStyle(list<char>::iterator& start, list<char>::iterator& end
 		}
 
 		runner++;
-		worker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理if token
+		if (runner != end && (worker-- == start || beforCheck(&*worker)) && afterCheck(&*runner))//处理if token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -101,7 +100,7 @@ void check::changeifStyle(list<char>::iterator& start, list<char>::iterator& end
 				//IgnoreParenthesis(runner,end);
 				IgnoreComments(runner, end);
 
-				if (*runner == '{')
+				if (*runner == '{' || *runner == '#')
 				{
 					break;
 				}
@@ -152,7 +151,7 @@ void check::changeifStyle(list<char>::iterator& start, list<char>::iterator& end
 	}
 }
 
-void check::changeforStyle(list<char>::iterator& start, list<char>::iterator& end)
+void check::changeforStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
@@ -268,7 +267,7 @@ void check::changeforStyle(list<char>::iterator& start, list<char>::iterator& en
 	}
 }
 
-void check::changeelseStyle(list<char>::iterator& start, list<char>::iterator& end)
+void check::changeelseStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
@@ -398,7 +397,7 @@ void check::changeelseStyle(list<char>::iterator& start, list<char>::iterator& e
 	}
 }
 
-void check::addelse(list<char>::iterator& start, list<char>::iterator& end)
+void check::addelse(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
@@ -514,13 +513,52 @@ void check::addelse(list<char>::iterator& start, list<char>::iterator& end)
 	}
 }
 
-//process for #if #else #endif
-void check::changeendifstyle(list<char>::iterator& flag)
+//process for #if #else #elif #endif recursively
+bool check::changeendifstyle(list<char>::iterator& flag)
 {
-
+	list<char>::iterator worker;
+	list<char>::iterator runner;
+	list<char>::iterator temp;
+	temp = flag;	//temp points to character i
+	runner = worker = temp;
+	runner++;
+	if (!afterCheck(&*++runner))
+	{
+		return false;
+	}
+	if (worker-- == filelist.begin())
+	{
+		return false;
+	}
+	if (!beforCheck(&*worker))
+	{
+		if (*worker != '#')
+		{
+			return false;
+		}
+	}
+	while (*worker != '\n'&&worker != filelist.begin())
+	{
+		worker--;
+	}
+	worker++;
+	while (*worker != '#')
+	{
+		if (*worker != '\t'&&*worker != ' ')
+		{
+			return false;
+		}
+		else
+		{
+			worker++;
+		}
+	}
+	//now it is #if statement
+	//how to handle it recursively is a big problem that I haven't done yet
+	return true;
 }
 
-void check::changeStyle(list<char>::iterator& start, list<char>::iterator& end)
+void check::changeStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	changeifStyle(start, end);
 	changeforStyle(start, end);
@@ -533,23 +571,23 @@ void check::start()
 	changeStyle(filelist.begin(), filelist.end());
 }
 
-void check::writeBack(const char* outputfile)
+void check::writeBack(const char* outputfile) const
 {
 	ofstream fout(outputfile);
-	for (list<char>::iterator iter = filelist.begin(); iter != filelist.end(); iter++)
+	for (list<char>::const_iterator iter = filelist.begin(); iter != filelist.end(); iter++)
 	{
 		//cout << *iter;
 		fout << *iter;
 	}
 
-	//for(vector<char>::iterator iter = filevec.begin();iter!=filevec.end();iter++)
+	//for(vector<char>::const_iterator iter = filevec.begin();iter!=filevec.end();iter++)
 	//{
 	//	cout<<*iter;
 	//}
 }
 
 template<typename T>
-void check::IgnoreComments(T& t, T& end)
+void check::IgnoreComments(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -614,7 +652,7 @@ void check::IgnoreComments(T& t, T& end)
 }
 
 template<typename T>
-void check::IgnoreOneLineComments(T& t, T& end)
+void check::IgnoreOneLineComments(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -679,7 +717,7 @@ void check::IgnoreOneLineComments(T& t, T& end)
 }
 
 template<typename T>
-void check::IgnoreApostrophe(T& t, T& end)
+void check::IgnoreApostrophe(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -709,7 +747,7 @@ void check::IgnoreApostrophe(T& t, T& end)
 }
 
 template<typename T>
-void check::IgnoreQuotation(T& t, T& end)
+void check::IgnoreQuotation(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -739,7 +777,7 @@ void check::IgnoreQuotation(T& t, T& end)
 }
 
 template<typename T>
-void check::IgnoreParenthesis(T& t, T& end)
+void check::IgnoreParenthesis(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -779,7 +817,7 @@ void check::IgnoreParenthesis(T& t, T& end)
 }
 
 template<typename T>
-void check::IgnoreBrace(T& t, T& end)
+void check::IgnoreBrace(T& t, const T& end)
 {
 	if (t == end)
 	{

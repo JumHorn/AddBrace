@@ -22,40 +22,40 @@ private:
 	list<char> filelist;
 	vector<char> filevec;
 
-	bool beforCheck(const char *c);
-	bool afterCheck(const char *c);
-	void changeendifstyle(list<char>::iterator& flag);
+	bool beforCheck(const char *c) const;
+	bool afterCheck(const char *c) const;
+	bool changeendifstyle(list<char>::iterator& flag);
 public:
 	check();
 	~check();
 
 	void start();
 	void getFileContent(const char* inputfile);
-	void changeStyle(list<char>::iterator& start, list<char>::iterator& end);
-	void changeifStyle(list<char>::iterator& start, list<char>::iterator& end);
-	void changeforStyle(list<char>::iterator& start, list<char>::iterator& end);
-	void changeelseStyle(list<char>::iterator& start, list<char>::iterator& end);
-	void addelse(list<char>::iterator& start, list<char>::iterator& end);
-	void writeBack(const char* outputfile);
+	void changeStyle(list<char>::iterator& start, const list<char>::iterator& end);
+	void changeifStyle(list<char>::iterator& start, const list<char>::iterator& end);
+	void changeforStyle(list<char>::iterator& start, const list<char>::iterator& end);
+	void changeelseStyle(list<char>::iterator& start, const list<char>::iterator& end);
+	void addelse(list<char>::iterator& start, const list<char>::iterator& end);
+	void writeBack(const char* outputfile) const;
 
 private:
 	template<typename T>
-	void IgnoreComments(T& t, T& end);
+	void IgnoreComments(T& t, const T& end);
 
 	template<typename T>
-	void IgnoreOneLineComments(T& t, T& end);
+	void IgnoreOneLineComments(T& t, const T& end);
 
 	template<typename T>
-	void IgnoreApostrophe(T& t, T& end);
+	void IgnoreApostrophe(T& t, const T& end);
 
 	template<typename T>
-	void IgnoreQuotation(T& t, T& end);
+	void IgnoreQuotation(T& t, const T& end);
 
 	template<typename T>
-	void IgnoreParenthesis(T& t, T& end);
+	void IgnoreParenthesis(T& t, const T& end);
 
 	template<typename T>
-	void IgnoreBrace(T& t, T& end);
+	void IgnoreBrace(T& t, const T& end);
 };
 
 #endif
