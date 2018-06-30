@@ -46,7 +46,7 @@ bool check::afterCheck(const char *c)
 	return after_check + temp != find(after_check, after_check + temp, *c);
 }
 
-void check::changeifStyle(list<char>::iterator start,list<char>::iterator end)
+void check::changeifStyle(list<char>::iterator& start, list<char>::iterator& end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
@@ -54,9 +54,9 @@ void check::changeifStyle(list<char>::iterator start,list<char>::iterator end)
 	temp = start;
 	while (temp != end)
 	{
-		IgnoreComments(temp);//ignore comments
-		IgnoreApostrophe(temp);
-		IgnoreQuotation(temp);
+		IgnoreComments(temp, end);//ignore comments
+		IgnoreApostrophe(temp, end);
+		IgnoreQuotation(temp, end);
 		OutofBounds(temp, end);
 
 		if (*temp != 'i')
@@ -84,22 +84,22 @@ void check::changeifStyle(list<char>::iterator start,list<char>::iterator end)
 		runner++;
 		worker--;
 		temp = runner;
-		if (worker != end && beforCheck(&*worker) && runner != end && afterCheck(&*runner)) //处理if token
+		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理if token
 		{
-			IgnoreComments(runner);
-			IgnoreApostrophe(runner);
-			IgnoreQuotation(runner);
-			IgnoreParenthesis(runner);
+			IgnoreComments(runner, end);
+			IgnoreApostrophe(runner, end);
+			IgnoreQuotation(runner, end);
+			IgnoreParenthesis(runner, end);
 			temp = runner;
 			//此时处理到if结束的)括号处
 			worker = runner;
 			for (; runner != end; runner++)
 			{
-				IgnoreComments(runner);
-				IgnoreApostrophe(runner);
-				IgnoreQuotation(runner);
-				//IgnoreParenthesis(runner);
-				IgnoreComments(runner);
+				IgnoreComments(runner, end);
+				IgnoreApostrophe(runner, end);
+				IgnoreQuotation(runner, end);
+				//IgnoreParenthesis(runner,end);
+				IgnoreComments(runner, end);
 
 				if (*runner == '{')
 				{
@@ -117,21 +117,21 @@ void check::changeifStyle(list<char>::iterator start,list<char>::iterator end)
 					filelist.insert(runner, '{');
 					for (worker = runner; worker != end; worker++)
 					{
-						IgnoreComments(worker);
-						IgnoreApostrophe(worker);
-						IgnoreQuotation(worker);
-						IgnoreParenthesis(worker);
+						IgnoreComments(worker, end);
+						IgnoreApostrophe(worker, end);
+						IgnoreQuotation(worker, end);
+						IgnoreParenthesis(worker, end);
 
 						if (*worker == ';')
 						{
 							worker++;
-							IgnoreOneLineComments(worker);
+							IgnoreOneLineComments(worker, end);
 							filelist.insert(worker, '}');
 							break;
 						}
 						else if (*worker == '{')
 						{
-							IgnoreBrace(worker);
+							IgnoreBrace(worker, end);
 							filelist.insert(worker, '}');
 							break;
 						}
@@ -152,7 +152,7 @@ void check::changeifStyle(list<char>::iterator start,list<char>::iterator end)
 	}
 }
 
-void check::changeforStyle(list<char>::iterator start, list<char>::iterator end)
+void check::changeforStyle(list<char>::iterator& start, list<char>::iterator& end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
@@ -160,9 +160,9 @@ void check::changeforStyle(list<char>::iterator start, list<char>::iterator end)
 	temp = start;
 	while (temp != end)
 	{
-		IgnoreComments(temp);
-		IgnoreApostrophe(temp);
-		IgnoreQuotation(temp);
+		IgnoreComments(temp, end);
+		IgnoreApostrophe(temp, end);
+		IgnoreQuotation(temp, end);
 		OutofBounds(temp, end);
 
 		if (*temp != 'f')
@@ -197,22 +197,22 @@ void check::changeforStyle(list<char>::iterator start, list<char>::iterator end)
 		runner++;
 		worker--;
 		temp = runner;
-		if (worker != end && beforCheck(&*worker) && runner != end && afterCheck(&*runner)) //处理for token
+		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理for token
 		{
-			IgnoreComments(runner);
-			IgnoreApostrophe(runner);
-			IgnoreQuotation(runner);
-			IgnoreParenthesis(runner);
+			IgnoreComments(runner, end);
+			IgnoreApostrophe(runner, end);
+			IgnoreQuotation(runner, end);
+			IgnoreParenthesis(runner, end);
 			temp = runner;
 			//此时处理到for结束的)括号处
 			worker = runner;
 			for (; runner != end; runner++)
 			{
-				IgnoreComments(runner);
-				IgnoreApostrophe(runner);
-				IgnoreQuotation(runner);
-				//IgnoreParenthesis(runner);
-				IgnoreComments(runner);
+				IgnoreComments(runner, end);
+				IgnoreApostrophe(runner, end);
+				IgnoreQuotation(runner, end);
+				//IgnoreParenthesis(runner,end);
+				IgnoreComments(runner, end);
 
 				if (*runner == '{')
 				{
@@ -227,26 +227,26 @@ void check::changeforStyle(list<char>::iterator start, list<char>::iterator end)
 				}
 				else if (!beforCheck(&*runner))
 				{
-					IgnoreComments(runner);
+					IgnoreComments(runner, end);
 					filelist.insert(runner, '{');
 
 					for (worker = runner; worker != end; worker++)
 					{
-						IgnoreComments(worker);
-						IgnoreApostrophe(worker);
-						IgnoreQuotation(worker);
-						IgnoreParenthesis(worker);
+						IgnoreComments(worker, end);
+						IgnoreApostrophe(worker, end);
+						IgnoreQuotation(worker, end);
+						IgnoreParenthesis(worker, end);
 
 						if (*worker == ';')
 						{
 							worker++;
-							IgnoreOneLineComments(worker);
+							IgnoreOneLineComments(worker, end);
 							filelist.insert(worker, '}');
 							break;
 						}
 						else if (*worker == '{')
 						{
-							IgnoreBrace(worker);
+							IgnoreBrace(worker, end);
 							filelist.insert(worker, '}');
 							break;
 						}
@@ -268,7 +268,7 @@ void check::changeforStyle(list<char>::iterator start, list<char>::iterator end)
 	}
 }
 
-void check::changeelseStyle(list<char>::iterator start, list<char>::iterator end)
+void check::changeelseStyle(list<char>::iterator& start, list<char>::iterator& end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
@@ -276,9 +276,9 @@ void check::changeelseStyle(list<char>::iterator start, list<char>::iterator end
 	temp = start;
 	while (temp != end)
 	{
-		IgnoreComments(temp);
-		IgnoreApostrophe(temp);
-		IgnoreQuotation(temp);
+		IgnoreComments(temp, end);
+		IgnoreApostrophe(temp, end);
+		IgnoreQuotation(temp, end);
 		OutofBounds(temp, end);
 
 		if (*temp != 'e')
@@ -306,12 +306,12 @@ void check::changeelseStyle(list<char>::iterator start, list<char>::iterator end
 		runner++;
 		worker--;
 		temp = runner;
-		if (worker != end && beforCheck(&*worker) && runner != end && afterCheck(&*runner)) //处理else token
+		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理else token
 		{
-			IgnoreComments(runner);
-			IgnoreApostrophe(runner);
-			IgnoreQuotation(runner);
-			IgnoreParenthesis(runner);
+			IgnoreComments(runner, end);
+			IgnoreApostrophe(runner, end);
+			IgnoreQuotation(runner, end);
+			IgnoreParenthesis(runner, end);
 
 			if (*runner == '{')
 			{
@@ -338,11 +338,11 @@ void check::changeelseStyle(list<char>::iterator start, list<char>::iterator end
 			worker = runner;
 			for (; runner != end; runner++)
 			{
-				IgnoreComments(runner);
-				IgnoreApostrophe(runner);
-				IgnoreQuotation(runner);
+				IgnoreComments(runner, end);
+				IgnoreApostrophe(runner, end);
+				IgnoreQuotation(runner, end);
 				//IgnoreParenthesis(runner);
-				IgnoreComments(runner);
+				IgnoreComments(runner, end);
 
 				if (*runner == '{')
 				{
@@ -357,26 +357,26 @@ void check::changeelseStyle(list<char>::iterator start, list<char>::iterator end
 				}
 				else if (!beforCheck(&*runner))
 				{
-					IgnoreComments(runner);
+					IgnoreComments(runner, end);
 					filelist.insert(worker, '{');
 
 					for (worker = runner; worker != end; worker++)
 					{
-						IgnoreComments(worker);
-						IgnoreApostrophe(worker);
-						IgnoreQuotation(worker);
-						IgnoreParenthesis(worker);
+						IgnoreComments(worker, end);
+						IgnoreApostrophe(worker, end);
+						IgnoreQuotation(worker, end);
+						IgnoreParenthesis(worker, end);
 
 						if (*worker == ';')
 						{
 							worker++;
-							IgnoreOneLineComments(worker);
+							IgnoreOneLineComments(worker, end);
 							filelist.insert(worker, '}');
 							break;
 						}
 						else if (*worker == '{')
 						{
-							IgnoreBrace(worker);
+							IgnoreBrace(worker, end);
 							filelist.insert(worker, '}');
 							break;
 						}
@@ -398,7 +398,7 @@ void check::changeelseStyle(list<char>::iterator start, list<char>::iterator end
 	}
 }
 
-void check::addelse(list<char>::iterator start, list<char>::iterator end)
+void check::addelse(list<char>::iterator& start, list<char>::iterator& end)
 {
 	list<char>::iterator worker;
 	list<char>::iterator runner;
@@ -406,9 +406,9 @@ void check::addelse(list<char>::iterator start, list<char>::iterator end)
 	temp = start;
 	while (temp != end)
 	{
-		IgnoreComments(temp);
-		IgnoreApostrophe(temp);
-		IgnoreQuotation(temp);
+		IgnoreComments(temp, end);
+		IgnoreApostrophe(temp, end);
+		IgnoreQuotation(temp, end);
 		OutofBounds(temp, end);
 
 		if (*temp != 'e')
@@ -436,12 +436,12 @@ void check::addelse(list<char>::iterator start, list<char>::iterator end)
 		runner++;
 		worker--;
 		temp = runner;
-		if (worker != end && beforCheck(&*worker) && runner != end && afterCheck(&*runner)) //处理else token
+		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理else token
 		{
-			IgnoreComments(runner);
-			IgnoreApostrophe(runner);
-			IgnoreQuotation(runner);
-			IgnoreParenthesis(runner);
+			IgnoreComments(runner, end);
+			IgnoreApostrophe(runner, end);
+			IgnoreQuotation(runner, end);
+			IgnoreParenthesis(runner, end);
 
 			if (*runner == '{')
 			{
@@ -457,34 +457,34 @@ void check::addelse(list<char>::iterator start, list<char>::iterator end)
 					runner++;
 					if (afterCheck(&*runner))
 					{
-						IgnoreComments(runner);
-						IgnoreApostrophe(runner);
-						IgnoreQuotation(runner);
-						IgnoreParenthesis(runner);
-						IgnoreComments(runner);
-						IgnoreBrace(runner);
+						IgnoreComments(runner, end);
+						IgnoreApostrophe(runner, end);
+						IgnoreQuotation(runner, end);
+						IgnoreParenthesis(runner, end);
+						IgnoreComments(runner, end);
+						IgnoreBrace(runner, end);
 						temp = runner;
 
-						IgnoreComments(runner);
+						IgnoreComments(runner, end);
 						worker = runner;
-						int j=0;
+						int j = 0;
 						for (j = 0; j < ARRAY_SIZE(check_else); j++)
 						{
 							if (*runner != check_else[j])
 							{
 								string streles = "else{}";
-								filelist.insert(temp,streles.begin(),streles.end());
-								temp = worker; 
+								filelist.insert(temp, streles.begin(), streles.end());
+								temp = worker;
 								break;
 							}
 							runner++;
 						}
-						if(j==ARRAY_SIZE(check_else))
+						if (j == ARRAY_SIZE(check_else))
 						{
-							if(!afterCheck(&*runner))
+							if (!afterCheck(&*runner))
 							{
 								string streles = "else{}";
-								filelist.insert(temp,streles.begin(),streles.end());
+								filelist.insert(temp, streles.begin(), streles.end());
 								temp = runner;
 							}
 							else
@@ -514,17 +514,23 @@ void check::addelse(list<char>::iterator start, list<char>::iterator end)
 	}
 }
 
-//pre process for #if #else 
-void check::preprocess()
-{}
-
-void check::changeStyle()
+//process for #if #else #endif
+void check::changeendifstyle(list<char>::iterator& flag)
 {
-	preprocess();
-	changeifStyle(filelist.begin(),filelist.end());
-	changeforStyle(filelist.begin(), filelist.end());
-	changeelseStyle(filelist.begin(), filelist.end());
-	addelse(filelist.begin(), filelist.end());
+
+}
+
+void check::changeStyle(list<char>::iterator& start, list<char>::iterator& end)
+{
+	changeifStyle(start, end);
+	changeforStyle(start, end);
+	changeelseStyle(start, end);
+	addelse(start, end);
+}
+
+void check::start()
+{
+	changeStyle(filelist.begin(), filelist.end());
 }
 
 void check::writeBack(const char* outputfile)
@@ -543,9 +549,9 @@ void check::writeBack(const char* outputfile)
 }
 
 template<typename T>
-void check::IgnoreComments(T& t)
+void check::IgnoreComments(T& t, T& end)
 {
-	if (t == filelist.end())
+	if (t == end)
 	{
 		return;
 	}
@@ -553,7 +559,7 @@ void check::IgnoreComments(T& t)
 	while (*t == ' ' || *t == '\t' || *t == '\n' || *t == '\r')
 	{
 		t++;
-		if (t == filelist.end())
+		if (t == end)
 		{
 			return;
 		}
@@ -565,17 +571,17 @@ void check::IgnoreComments(T& t)
 		t++;
 		if (*t == '/')
 		{
-			while (t != filelist.end() && *t != '\n')t++;
-			if (t != filelist.end())
+			while (t != end && *t != '\n')t++;
+			if (t != end)
 			{
 				t++;
-				return IgnoreComments(t);
+				return IgnoreComments(t, end);
 			}
 			return;
 		}
 		else if (*t == '*')
 		{
-			while (t != filelist.end())
+			while (t != end)
 			{
 				t++;
 				if (*t != '*')
@@ -597,7 +603,7 @@ void check::IgnoreComments(T& t)
 					else
 					{
 						t++;
-						return IgnoreComments(t);
+						return IgnoreComments(t, end);
 					}
 				}
 			}
@@ -608,9 +614,9 @@ void check::IgnoreComments(T& t)
 }
 
 template<typename T>
-void check::IgnoreOneLineComments(T& t)
+void check::IgnoreOneLineComments(T& t, T& end)
 {
-	if (t == filelist.end())
+	if (t == end)
 	{
 		return;
 	}
@@ -618,7 +624,7 @@ void check::IgnoreOneLineComments(T& t)
 	while (*t == ' ' || *t == '\t')
 	{
 		t++;
-		if (t == filelist.end())
+		if (t == end)
 		{
 			return;
 		}
@@ -630,8 +636,8 @@ void check::IgnoreOneLineComments(T& t)
 		t++;
 		if (*t == '/')
 		{
-			while (t != filelist.end() && *t != '\n')t++;
-			if (t != filelist.end())
+			while (t != end && *t != '\n')t++;
+			if (t != end)
 			{
 				t++;
 				return;
@@ -640,7 +646,7 @@ void check::IgnoreOneLineComments(T& t)
 		}
 		else if (*t == '*')
 		{
-			while (t != filelist.end())
+			while (t != end)
 			{
 				t++;
 				if (*t != '*')
@@ -673,9 +679,9 @@ void check::IgnoreOneLineComments(T& t)
 }
 
 template<typename T>
-void check::IgnoreApostrophe(T& t)
+void check::IgnoreApostrophe(T& t, T& end)
 {
-	if (t == filelist.end())
+	if (t == end)
 	{
 		return;
 	}
@@ -703,9 +709,9 @@ void check::IgnoreApostrophe(T& t)
 }
 
 template<typename T>
-void check::IgnoreQuotation(T& t)
+void check::IgnoreQuotation(T& t, T& end)
 {
-	if (t == filelist.end())
+	if (t == end)
 	{
 		return;
 	}
@@ -722,7 +728,7 @@ void check::IgnoreQuotation(T& t)
 			else if (*t == '\"')
 			{
 				t++;
-				return IgnoreQuotation(t);
+				return IgnoreQuotation(t, end);
 			}
 			else
 			{
@@ -733,9 +739,9 @@ void check::IgnoreQuotation(T& t)
 }
 
 template<typename T>
-void check::IgnoreParenthesis(T& t)
+void check::IgnoreParenthesis(T& t, T& end)
 {
-	if (t == filelist.end())
+	if (t == end)
 	{
 		return;
 	}
@@ -746,9 +752,9 @@ void check::IgnoreParenthesis(T& t)
 		while (true)
 		{
 			t++;
-			IgnoreComments(t);
-			IgnoreApostrophe(t);
-			IgnoreQuotation(t);
+			IgnoreComments(t, end);
+			IgnoreApostrophe(t, end);
+			IgnoreQuotation(t, end);
 
 			if (*t == '(')
 			{
@@ -773,9 +779,9 @@ void check::IgnoreParenthesis(T& t)
 }
 
 template<typename T>
-void check::IgnoreBrace(T& t)
+void check::IgnoreBrace(T& t, T& end)
 {
-	if (t == filelist.end())
+	if (t == end)
 	{
 		return;
 	}
@@ -786,9 +792,9 @@ void check::IgnoreBrace(T& t)
 		while (true)
 		{
 			t++;
-			IgnoreComments(t);
-			IgnoreApostrophe(t);
-			IgnoreQuotation(t);
+			IgnoreComments(t, end);
+			IgnoreApostrophe(t, end);
+			IgnoreQuotation(t, end);
 
 			if (*t == '{')
 			{

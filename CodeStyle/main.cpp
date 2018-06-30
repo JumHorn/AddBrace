@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 	{
 		cout << "processing " << argv[i];
 		style.getFileContent(argv[i]);
-		style.changeStyle();
+		style.start();
 		style.writeBack(argv[i]);
 		cout << "\t" << "finished" << endl;
 	}
