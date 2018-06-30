@@ -11,28 +11,20 @@ it will change the .cpp file code format recursively
 
 ### mind
 #### first
-this tool can't solve # else(there is a space between # and else) questions.
+this tool can't solve # else(there is a space between # and else) style.
 do not include header files
-Even do not use it on cpp files with # else   
-it still can not skip #if false statement which will make a lot of mistakes
-
-****bug fixed on version 1.1****   
-
-#### second
-code like this can not handle now
+Even do not use it in cpp files with # else   
+code like this will remain unchanged
 ```C++
-if(statement)
-    (pointer + n) -> function();
+bool check()
+{
+    if(check())
+#if 0
+#endif
+    return true;
+}
 ```
-the tool will make a mistake like this
-
-```C++
-if(statement)
-    (pointer + n) {-> function();}
-```
-
-because I haven't checked the characters after the right ) of it yet
-and ignore all characters between the brace   
+you probably solve this problem by delete white character between # and if
 
 ### conclusion
 my code will make you cry which I don't want to review any more
