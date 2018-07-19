@@ -26,5 +26,22 @@ bool check()
 ```
 you probably solve this problem by delete white character between # and if
 
+### version
+the latest version 1.2   
+fix add more else bugs
+```C++
+int main()
+{
+    if(check())
+        {statement;}
+#if 1
+    else if(check())//comment
+        {statement;}else{}
+#endif
+    else//comment
+        {statement;}
+}
+```
+
 ### conclusion
 my code will make you cry which I don't want to review any more

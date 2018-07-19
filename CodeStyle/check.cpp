@@ -340,7 +340,7 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 				IgnoreComments(runner, end);
 				IgnoreApostrophe(runner, end);
 				IgnoreQuotation(runner, end);
-				//IgnoreParenthesis(runner);
+				//IgnoreParenthesis(runner, end);
 				IgnoreComments(runner, end);
 
 				if (*runner == '{')
@@ -466,6 +466,12 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 
 						IgnoreComments(runner, end);
 						worker = runner;
+
+						if (*runner == '#')
+						{
+							continue;
+						}
+
 						int j = 0;
 						for (j = 0; j < ARRAY_SIZE(check_else); j++)
 						{
