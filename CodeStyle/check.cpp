@@ -437,6 +437,7 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 		temp = runner;
 		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理else token
 		{
+			worker = runner;
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
@@ -465,7 +466,6 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 						temp = runner;
 
 						IgnoreComments(runner, end);
-						worker = runner;
 
 						if (*runner == '#')
 						{
@@ -490,7 +490,7 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 							{
 								string streles = "else{}";
 								filelist.insert(temp, streles.begin(), streles.end());
-								temp = runner;
+								temp = worker;
 							}
 							else
 							{
