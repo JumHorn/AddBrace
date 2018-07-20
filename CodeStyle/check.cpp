@@ -48,7 +48,7 @@ bool check::afterCheck(const char *c) const
 
 void check::changeifStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
-	list<char>::iterator worker;
+	list<char>::iterator walker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = start;
@@ -65,7 +65,7 @@ void check::changeifStyle(list<char>::iterator& start, const list<char>::iterato
 			continue;
 		}
 
-		runner = worker = temp;
+		runner = walker = temp;
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_if); i++)
 		{
@@ -83,7 +83,7 @@ void check::changeifStyle(list<char>::iterator& start, const list<char>::iterato
 
 		runner++;
 		temp = runner;
-		if (runner != end && (worker-- == start || beforCheck(&*worker)) && afterCheck(&*runner))//处理if token
+		if (runner != end && (walker-- == start || beforCheck(&*walker)) && afterCheck(&*runner))//处理if token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -91,7 +91,7 @@ void check::changeifStyle(list<char>::iterator& start, const list<char>::iterato
 			IgnoreParenthesis(runner, end);
 			temp = runner;
 			//此时处理到if结束的)括号处
-			worker = runner;
+			walker = runner;
 			for (; runner != end; runner++)
 			{
 				IgnoreComments(runner, end);
@@ -108,30 +108,30 @@ void check::changeifStyle(list<char>::iterator& start, const list<char>::iterato
 				{
 					runner++;
 					filelist.insert(runner, '}');
-					filelist.insert(worker, '{');
+					filelist.insert(walker, '{');
 					break;
 				}
 				else if (!beforCheck(&*runner))
 				{
 					filelist.insert(runner, '{');
-					for (worker = runner; worker != end; worker++)
+					for (walker = runner; walker != end; walker++)
 					{
-						IgnoreComments(worker, end);
-						IgnoreApostrophe(worker, end);
-						IgnoreQuotation(worker, end);
-						IgnoreParenthesis(worker, end);
+						IgnoreComments(walker, end);
+						IgnoreApostrophe(walker, end);
+						IgnoreQuotation(walker, end);
+						IgnoreParenthesis(walker, end);
 
-						if (*worker == ';')
+						if (*walker == ';')
 						{
-							worker++;
-							IgnoreOneLineComments(worker, end);
-							filelist.insert(worker, '}');
+							walker++;
+							IgnoreOneLineComments(walker, end);
+							filelist.insert(walker, '}');
 							break;
 						}
-						else if (*worker == '{')
+						else if (*walker == '{')
 						{
-							IgnoreBrace(worker, end);
-							filelist.insert(worker, '}');
+							IgnoreBrace(walker, end);
+							filelist.insert(walker, '}');
 							break;
 						}
 					}
@@ -153,7 +153,7 @@ void check::changeifStyle(list<char>::iterator& start, const list<char>::iterato
 
 void check::changeforStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
-	list<char>::iterator worker;
+	list<char>::iterator walker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = start;
@@ -170,7 +170,7 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 			continue;
 		}
 
-		runner = worker = temp;
+		runner = walker = temp;
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_for); i++)
 		{
@@ -194,9 +194,9 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 		}
 
 		runner++;
-		worker--;
+		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理for token
+		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //处理for token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -204,7 +204,7 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 			IgnoreParenthesis(runner, end);
 			temp = runner;
 			//此时处理到for结束的)括号处
-			worker = runner;
+			walker = runner;
 			for (; runner != end; runner++)
 			{
 				IgnoreComments(runner, end);
@@ -221,7 +221,7 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 				{
 					runner++;
 					filelist.insert(runner, '}');
-					filelist.insert(worker, '{');
+					filelist.insert(walker, '{');
 					break;
 				}
 				else if (!beforCheck(&*runner))
@@ -229,24 +229,24 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 					IgnoreComments(runner, end);
 					filelist.insert(runner, '{');
 
-					for (worker = runner; worker != end; worker++)
+					for (walker = runner; walker != end; walker++)
 					{
-						IgnoreComments(worker, end);
-						IgnoreApostrophe(worker, end);
-						IgnoreQuotation(worker, end);
-						IgnoreParenthesis(worker, end);
+						IgnoreComments(walker, end);
+						IgnoreApostrophe(walker, end);
+						IgnoreQuotation(walker, end);
+						IgnoreParenthesis(walker, end);
 
-						if (*worker == ';')
+						if (*walker == ';')
 						{
-							worker++;
-							IgnoreOneLineComments(worker, end);
-							filelist.insert(worker, '}');
+							walker++;
+							IgnoreOneLineComments(walker, end);
+							filelist.insert(walker, '}');
 							break;
 						}
-						else if (*worker == '{')
+						else if (*walker == '{')
 						{
-							IgnoreBrace(worker, end);
-							filelist.insert(worker, '}');
+							IgnoreBrace(walker, end);
+							filelist.insert(walker, '}');
 							break;
 						}
 					}
@@ -269,7 +269,7 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 
 void check::changeelseStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
-	list<char>::iterator worker;
+	list<char>::iterator walker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = start;
@@ -286,7 +286,7 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 			continue;
 		}
 
-		runner = worker = temp;
+		runner = walker = temp;
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_else); i++)
 		{
@@ -303,9 +303,9 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 		}
 
 		runner++;
-		worker--;
+		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理else token
+		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //处理else token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -334,7 +334,7 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 				runner--;
 			}
 
-			worker = runner;
+			walker = runner;
 			for (; runner != end; runner++)
 			{
 				IgnoreComments(runner, end);
@@ -351,32 +351,32 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 				{
 					runner++;
 					filelist.insert(runner, '}');
-					filelist.insert(worker, '{');
+					filelist.insert(walker, '{');
 					break;
 				}
 				else if (!beforCheck(&*runner))
 				{
 					IgnoreComments(runner, end);
-					filelist.insert(worker, '{');
+					filelist.insert(walker, '{');
 
-					for (worker = runner; worker != end; worker++)
+					for (walker = runner; walker != end; walker++)
 					{
-						IgnoreComments(worker, end);
-						IgnoreApostrophe(worker, end);
-						IgnoreQuotation(worker, end);
-						IgnoreParenthesis(worker, end);
+						IgnoreComments(walker, end);
+						IgnoreApostrophe(walker, end);
+						IgnoreQuotation(walker, end);
+						IgnoreParenthesis(walker, end);
 
-						if (*worker == ';')
+						if (*walker == ';')
 						{
-							worker++;
-							IgnoreOneLineComments(worker, end);
-							filelist.insert(worker, '}');
+							walker++;
+							IgnoreOneLineComments(walker, end);
+							filelist.insert(walker, '}');
 							break;
 						}
-						else if (*worker == '{')
+						else if (*walker == '{')
 						{
-							IgnoreBrace(worker, end);
-							filelist.insert(worker, '}');
+							IgnoreBrace(walker, end);
+							filelist.insert(walker, '}');
 							break;
 						}
 					}
@@ -399,7 +399,7 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 
 void check::addelse(list<char>::iterator& start, const list<char>::iterator& end)
 {
-	list<char>::iterator worker;
+	list<char>::iterator walker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = start;
@@ -416,7 +416,7 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 			continue;
 		}
 
-		runner = worker = temp;
+		runner = walker = temp;
 		int i;
 		for (i = 1; i < ARRAY_SIZE(check_else); i++)
 		{
@@ -433,11 +433,11 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 		}
 
 		runner++;
-		worker--;
+		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*worker) && afterCheck(&*runner)) //处理else token
+		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //处理else token
 		{
-			worker = runner;
+			walker = runner;
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
@@ -479,7 +479,7 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 							{
 								string streles = "else{}";
 								filelist.insert(temp, streles.begin(), streles.end());
-								temp = worker;
+								temp = walker;
 								break;
 							}
 							runner++;
@@ -490,12 +490,12 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 							{
 								string streles = "else{}";
 								filelist.insert(temp, streles.begin(), streles.end());
-								temp = worker;
+								temp = walker;
 							}
 							else
 							{
-								runner = worker;
-								temp = worker;
+								runner = walker;
+								temp = walker;
 							}
 						}
 						continue;
@@ -505,7 +505,7 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 				runner--;
 			}
 
-			worker = runner;
+			walker = runner;
 		}
 		else
 		{
@@ -522,41 +522,41 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 //process for #if #else #elif #endif recursively
 bool check::changeendifstyle(list<char>::iterator& flag)
 {
-	list<char>::iterator worker;
+	list<char>::iterator walker;
 	list<char>::iterator runner;
 	list<char>::iterator temp;
 	temp = flag;	//temp points to character i
-	runner = worker = temp;
+	runner = walker = temp;
 	runner++;
 	if (!afterCheck(&*++runner))
 	{
 		return false;
 	}
-	if (worker-- == filelist.begin())
+	if (walker-- == filelist.begin())
 	{
 		return false;
 	}
-	if (!beforCheck(&*worker))
+	if (!beforCheck(&*walker))
 	{
-		if (*worker != '#')
+		if (*walker != '#')
 		{
 			return false;
 		}
 	}
-	while (*worker != '\n'&&worker != filelist.begin())
+	while (*walker != '\n'&&walker != filelist.begin())
 	{
-		worker--;
+		walker--;
 	}
-	worker++;
-	while (*worker != '#')
+	walker++;
+	while (*walker != '#')
 	{
-		if (*worker != '\t'&&*worker != ' ')
+		if (*walker != '\t'&&*walker != ' ')
 		{
 			return false;
 		}
 		else
 		{
-			worker++;
+			walker++;
 		}
 	}
 	//now it is #if statement
