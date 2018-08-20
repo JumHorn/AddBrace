@@ -8,7 +8,7 @@ of the License, or any later version.
 */
 
 #include<iostream>
-#include<string.h>
+#include<string.h> //for strcmp
 #include"formatter.h"
 using namespace std;
 
