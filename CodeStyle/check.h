@@ -15,7 +15,7 @@ of the License, or any later version.
 #include<vector>
 using namespace std;
 
-class check
+class Formatter
 {
 private:
 	string filestr;
@@ -26,11 +26,11 @@ private:
 	bool afterCheck(const char *c) const;
 	bool changeendifstyle(list<char>::iterator& flag);
 public:
-	check();
-	~check();
+	Formatter();
+	~Formatter();
 
 	void start();
-	void getFileContent(const char* inputfile);
+	bool getFileContent(const char* inputfile);
 	void changeStyle(list<char>::iterator& start, const list<char>::iterator& end);
 	void changeifStyle(list<char>::iterator& start, const list<char>::iterator& end);
 	void changeforStyle(list<char>::iterator& start, const list<char>::iterator& end);

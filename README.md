@@ -26,8 +26,18 @@ bool check()
 ```
 you probably solve this problem by delete white character between # and if
 
-### version
-the latest version 1.2   
+
+### conclusion
+my code will make you cry which I don't want to review any more
+
+### version history
+* V2.3   
+fix some bugs as follows:
+1. do not gererate useless files when given file name is incorrect
+2. change variable name for better understanding
+3. some other optimazation
+
+* V2.1   
 fix add more else bugs
 ```C++
 int main()
@@ -42,6 +52,3 @@ int main()
         {statement;}
 }
 ```
-
-### conclusion
-my code will make you cry which I don't want to review any more

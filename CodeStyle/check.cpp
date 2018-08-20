@@ -16,37 +16,42 @@ using namespace std;
 
 #define OutofBounds(a,b) if(a==b)break;
 
-check::check()
+Formatter::Formatter()
 {
 }
 
-check::~check()
+Formatter::~Formatter()
 {
 }
 
-void check::getFileContent(const char* inputfile)
+bool Formatter::getFileContent(const char* inputfile)
 {
 	ifstream fin(inputfile);
-	//构建string,list,vector等待优化
+	if (!fin)
+	{
+		return false;
+	}
+	//construct string,list,vector waiting for optimization
 	//string filestr((istreambuf_iterator<char>(fin)), istreambuf_iterator<char>());
 	filelist.assign(istreambuf_iterator<char>(fin), istreambuf_iterator<char>());
 	//filelist.assign(filestr.begin(), filestr.end());
 	//filevec.assign(filestr.begin(),filestr.end());
+	return true;
 }
 
-bool check::beforCheck(const char *c) const
+bool Formatter::beforCheck(const char *c) const
 {
 	unsigned int temp = ARRAY_SIZE(befor_check);
 	return befor_check + temp != find(befor_check, befor_check + temp, *c);
 }
 
-bool check::afterCheck(const char *c) const
+bool Formatter::afterCheck(const char *c) const
 {
 	unsigned int temp = ARRAY_SIZE(after_check);
 	return after_check + temp != find(after_check, after_check + temp, *c);
 }
 
-void check::changeifStyle(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::changeifStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -83,14 +88,14 @@ void check::changeifStyle(list<char>::iterator& start, const list<char>::iterato
 
 		runner++;
 		temp = runner;
-		if (runner != end && (walker-- == start || beforCheck(&*walker)) && afterCheck(&*runner))//处理if token
+		if (runner != end && (walker-- == start || beforCheck(&*walker)) && afterCheck(&*runner))//handle if token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
 			IgnoreParenthesis(runner, end);
 			temp = runner;
-			//此时处理到if结束的)括号处
+			//now the runner is at the position of the right ) after if
 			walker = runner;
 			for (; runner != end; runner++)
 			{
@@ -151,7 +156,7 @@ void check::changeifStyle(list<char>::iterator& start, const list<char>::iterato
 	}
 }
 
-void check::changeforStyle(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::changeforStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -196,14 +201,14 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 		runner++;
 		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //处理for token
+		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //handle for token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
 			IgnoreParenthesis(runner, end);
 			temp = runner;
-			//此时处理到for结束的)括号处
+			//now the runner is at the position of the right ) after for
 			walker = runner;
 			for (; runner != end; runner++)
 			{
@@ -213,7 +218,7 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 				//IgnoreParenthesis(runner,end);
 				IgnoreComments(runner, end);
 
-				if (*runner == '{')
+				if (*runner == '{' || *runner == '#')
 				{
 					break;
 				}
@@ -267,7 +272,7 @@ void check::changeforStyle(list<char>::iterator& start, const list<char>::iterat
 	}
 }
 
-void check::changeelseStyle(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -305,7 +310,7 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 		runner++;
 		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //处理else token
+		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //handle else token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -314,7 +319,7 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 
 			if (*runner == '{')
 			{
-				runner++;
+				temp = runner;
 				continue;
 			}
 
@@ -397,7 +402,7 @@ void check::changeelseStyle(list<char>::iterator& start, const list<char>::itera
 	}
 }
 
-void check::addelse(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::addelse(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -435,7 +440,7 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 		runner++;
 		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //处理else token
+		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //handle else token
 		{
 			walker = runner;
 			IgnoreComments(runner, end);
@@ -520,7 +525,7 @@ void check::addelse(list<char>::iterator& start, const list<char>::iterator& end
 }
 
 //process for #if #else #elif #endif recursively
-bool check::changeendifstyle(list<char>::iterator& flag)
+bool Formatter::changeendifstyle(list<char>::iterator& flag)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -564,7 +569,7 @@ bool check::changeendifstyle(list<char>::iterator& flag)
 	return true;
 }
 
-void check::changeStyle(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::changeStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	changeifStyle(start, end);
 	changeforStyle(start, end);
@@ -572,28 +577,22 @@ void check::changeStyle(list<char>::iterator& start, const list<char>::iterator&
 	addelse(start, end);
 }
 
-void check::start()
+void Formatter::start()
 {
 	changeStyle(filelist.begin(), filelist.end());
 }
 
-void check::writeBack(const char* outputfile) const
+void Formatter::writeBack(const char* outputfile) const
 {
 	ofstream fout(outputfile);
 	for (list<char>::const_iterator iter = filelist.begin(); iter != filelist.end(); iter++)
 	{
-		//cout << *iter;
 		fout << *iter;
 	}
-
-	//for(vector<char>::const_iterator iter = filevec.begin();iter!=filevec.end();iter++)
-	//{
-	//	cout<<*iter;
-	//}
 }
 
 template<typename T>
-void check::IgnoreComments(T& t, const T& end)
+void Formatter::IgnoreComments(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -658,7 +657,7 @@ void check::IgnoreComments(T& t, const T& end)
 }
 
 template<typename T>
-void check::IgnoreOneLineComments(T& t, const T& end)
+void Formatter::IgnoreOneLineComments(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -723,7 +722,7 @@ void check::IgnoreOneLineComments(T& t, const T& end)
 }
 
 template<typename T>
-void check::IgnoreApostrophe(T& t, const T& end)
+void Formatter::IgnoreApostrophe(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -753,7 +752,7 @@ void check::IgnoreApostrophe(T& t, const T& end)
 }
 
 template<typename T>
-void check::IgnoreQuotation(T& t, const T& end)
+void Formatter::IgnoreQuotation(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -783,7 +782,7 @@ void check::IgnoreQuotation(T& t, const T& end)
 }
 
 template<typename T>
-void check::IgnoreParenthesis(T& t, const T& end)
+void Formatter::IgnoreParenthesis(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -823,7 +822,7 @@ void check::IgnoreParenthesis(T& t, const T& end)
 }
 
 template<typename T>
-void check::IgnoreBrace(T& t, const T& end)
+void Formatter::IgnoreBrace(T& t, const T& end)
 {
 	if (t == end)
 	{
