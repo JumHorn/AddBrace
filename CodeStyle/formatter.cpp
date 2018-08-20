@@ -24,7 +24,7 @@ Formatter::~Formatter()
 {
 }
 
-bool Formatter::getFileContent(const char* inputfile)
+bool Formatter::getFileContent(const string& inputfile)
 {
 	ifstream fin(inputfile);
 	if (!fin)
@@ -582,7 +582,7 @@ void Formatter::start()
 	changeStyle(filelist.begin(), filelist.end());
 }
 
-void Formatter::writeBack(const char* outputfile) const
+void Formatter::writeBack(const string& outputfile) const
 {
 	ofstream fout(outputfile);
 	for (list<char>::const_iterator iter = filelist.begin(); iter != filelist.end(); iter++)
