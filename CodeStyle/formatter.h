@@ -27,7 +27,7 @@ public:
 	~Formatter();
 
 	void start();
-	void changeStyle(list<char>::iterator start, const list<char>::iterator& end);
+	void changeStyle(list<char>::iterator& start, const list<char>::iterator& end);
 
 	void changeIfStyle(list<char>::iterator& start, const list<char>::iterator& end);
 	void changeForStyle(list<char>::iterator& start, const list<char>::iterator& end);

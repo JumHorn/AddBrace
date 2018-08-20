@@ -461,7 +461,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 	}
 }
 
-void Formatter::changeStyle(list<char>::iterator start, const list<char>::iterator& end)
+void Formatter::changeStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	changeIfStyle(start, end);
 	changeForStyle(start, end);
@@ -471,7 +471,8 @@ void Formatter::changeStyle(list<char>::iterator start, const list<char>::iterat
 
 void Formatter::start()
 {
-	changeStyle(filelist.begin(), filelist.end());
+	list<char>::iterator iter=filelist.begin();//for clang
+	changeStyle(iter, filelist.end());
 }
 
 void Formatter::writeBack(const string& outputfile) const
