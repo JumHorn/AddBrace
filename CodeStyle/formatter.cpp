@@ -57,7 +57,7 @@ bool Formatter::compare(list<char>::iterator& start, const list<char>::iterator&
 	{
 		return false;
 	}
-	for (string::size_type i = 0; i <token.length(); i++)
+	for (string::size_type i = 0; i < token.length(); i++)
 	{
 		if (*start++ != token[i])
 		{
@@ -420,19 +420,13 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 							continue;
 						}
 
-						int j = 0;
-						for (j = 0; j < ARRAY_SIZE(check_else); j++)
+						if (!compare(runner, end, "else"))
 						{
-							if (*runner != check_else[j])
-							{
-								string streles = "else{}";
-								filelist.insert(temp, streles.begin(), streles.end());
-								temp = walker;
-								break;
-							}
-							runner++;
+							string streles = "else{}";
+							filelist.insert(temp, streles.begin(), streles.end());
+							temp = walker;
 						}
-						if (j == ARRAY_SIZE(check_else))
+						else
 						{
 							if (!afterCheck(*runner))
 							{

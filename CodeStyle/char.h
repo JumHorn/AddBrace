@@ -12,11 +12,6 @@ of the License, or any later version.
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
-char check_if[] = { 'i','f' };
-char check_for[] = { 'f','o','r' };
-char check_else[] = { 'e','l','s','e' };
-char check_endif[] = { 'e','n','d','i','f' };
-
 char befor_check[] = { '\t','\n',' ',';','{','}','/' };
 char after_check[] = { '\t','\n',' ','(','{','/' };
 
