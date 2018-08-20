@@ -24,7 +24,7 @@ Formatter::~Formatter()
 {
 }
 
-bool Formatter::getFileContent(const string& inputfile)
+bool Formatter::getContent(const string& inputfile)
 {
 	ifstream fin(inputfile);
 	if (!fin)
@@ -51,7 +51,23 @@ bool Formatter::afterCheck(char c) const
 	return after_check + temp != find(after_check, after_check + temp, c);
 }
 
-void Formatter::changeifStyle(list<char>::iterator& start, const list<char>::iterator& end)
+bool Formatter::compare(list<char>::iterator& start, const list<char>::iterator& end, const string& token) const
+{
+	if (distance(start, end) <= (int)token.length())
+	{
+		return false;
+	}
+	for (string::size_type i = 0; i <token.length(); i++)
+	{
+		if (*start++ != token[i])
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void Formatter::changeIfStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -64,31 +80,16 @@ void Formatter::changeifStyle(list<char>::iterator& start, const list<char>::ite
 		IgnoreQuotation(temp, end);
 		OutofBounds(temp, end);
 
-		if (*temp != 'i')
-		{
-			temp++;
-			continue;
-		}
-
 		runner = walker = temp;
-		int i;
-		for (i = 1; i < ARRAY_SIZE(check_if); i++)
-		{
-			runner++;
-			if (*runner != check_if[i])
-			{
-				break;
-			}
-		}
-		if (i != ARRAY_SIZE(check_if))
+		if (!compare(runner, end, "if"))
 		{
 			temp++;
 			continue;
 		}
 
-		runner++;
+		walker--;
 		temp = runner;
-		if (runner != end && (walker-- == start || beforCheck(*walker)) && afterCheck(*runner))//handle if token
+		if (runner != end && beforCheck(*walker) && afterCheck(*runner))//handle if token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -102,7 +103,6 @@ void Formatter::changeifStyle(list<char>::iterator& start, const list<char>::ite
 				IgnoreComments(runner, end);
 				IgnoreApostrophe(runner, end);
 				IgnoreQuotation(runner, end);
-				//IgnoreParenthesis(runner,end);
 				IgnoreComments(runner, end);
 
 				if (*runner == '{' || *runner == '#')
@@ -156,7 +156,7 @@ void Formatter::changeifStyle(list<char>::iterator& start, const list<char>::ite
 	}
 }
 
-void Formatter::changeforStyle(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::changeForStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -169,36 +169,13 @@ void Formatter::changeforStyle(list<char>::iterator& start, const list<char>::it
 		IgnoreQuotation(temp, end);
 		OutofBounds(temp, end);
 
-		if (*temp != 'f')
+		runner = walker = temp;
+		if (!compare(runner, end, "for"))
 		{
 			temp++;
 			continue;
 		}
 
-		runner = walker = temp;
-		int i;
-		for (i = 1; i < ARRAY_SIZE(check_for); i++)
-		{
-			if (runner == end)
-			{
-				break;
-			}
-			runner++;
-			if (runner != end && *runner != check_for[i])
-			{
-				break;
-			}
-		}
-		if (i != ARRAY_SIZE(check_for))
-		{
-			if (temp != end)
-			{
-				temp++;
-			}
-			continue;
-		}
-
-		runner++;
 		walker--;
 		temp = runner;
 		if (runner != end && beforCheck(*walker) && afterCheck(*runner)) //handle for token
@@ -215,7 +192,6 @@ void Formatter::changeforStyle(list<char>::iterator& start, const list<char>::it
 				IgnoreComments(runner, end);
 				IgnoreApostrophe(runner, end);
 				IgnoreQuotation(runner, end);
-				//IgnoreParenthesis(runner,end);
 				IgnoreComments(runner, end);
 
 				if (*runner == '{' || *runner == '#')
@@ -272,7 +248,7 @@ void Formatter::changeforStyle(list<char>::iterator& start, const list<char>::it
 	}
 }
 
-void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -285,29 +261,13 @@ void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::i
 		IgnoreQuotation(temp, end);
 		OutofBounds(temp, end);
 
-		if (*temp != 'e')
-		{
-			temp++;
-			continue;
-		}
-
 		runner = walker = temp;
-		int i;
-		for (i = 1; i < ARRAY_SIZE(check_else); i++)
-		{
-			runner++;
-			if (*runner != check_else[i])
-			{
-				break;
-			}
-		}
-		if (i != ARRAY_SIZE(check_else))
+		if (!compare(runner, end, "else"))
 		{
 			temp++;
 			continue;
 		}
 
-		runner++;
 		walker--;
 		temp = runner;
 		if (runner != end && beforCheck(*walker) && afterCheck(*runner)) //handle else token
@@ -345,7 +305,6 @@ void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::i
 				IgnoreComments(runner, end);
 				IgnoreApostrophe(runner, end);
 				IgnoreQuotation(runner, end);
-				//IgnoreParenthesis(runner, end);
 				IgnoreComments(runner, end);
 
 				if (*runner == '{')
@@ -402,7 +361,7 @@ void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::i
 	}
 }
 
-void Formatter::addelse(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator walker;
 	list<char>::iterator runner;
@@ -415,29 +374,13 @@ void Formatter::addelse(list<char>::iterator& start, const list<char>::iterator&
 		IgnoreQuotation(temp, end);
 		OutofBounds(temp, end);
 
-		if (*temp != 'e')
-		{
-			temp++;
-			continue;
-		}
-
 		runner = walker = temp;
-		int i;
-		for (i = 1; i < ARRAY_SIZE(check_else); i++)
-		{
-			runner++;
-			if (*runner != check_else[i])
-			{
-				break;
-			}
-		}
-		if (i != ARRAY_SIZE(check_else))
+		if (!compare(runner, end, "else"))
 		{
 			temp++;
 			continue;
 		}
 
-		runner++;
 		walker--;
 		temp = runner;
 		if (runner != end && beforCheck(*walker) && afterCheck(*runner)) //handle else token
@@ -526,10 +469,10 @@ void Formatter::addelse(list<char>::iterator& start, const list<char>::iterator&
 
 void Formatter::changeStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
-	changeifStyle(start, end);
-	changeforStyle(start, end);
-	changeelseStyle(start, end);
-	addelse(start, end);
+	changeIfStyle(start, end);
+	changeForStyle(start, end);
+	changeElseStyle(start, end);
+	addElse(start, end);
 }
 
 void Formatter::start()

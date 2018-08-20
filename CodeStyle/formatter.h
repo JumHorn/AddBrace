@@ -29,17 +29,18 @@ public:
 	void start();
 	void changeStyle(list<char>::iterator& start, const list<char>::iterator& end);
 
-	void changeifStyle(list<char>::iterator& start, const list<char>::iterator& end);
-	void changeforStyle(list<char>::iterator& start, const list<char>::iterator& end);
-	void changeelseStyle(list<char>::iterator& start, const list<char>::iterator& end);
-	void addelse(list<char>::iterator& start, const list<char>::iterator& end);
+	void changeIfStyle(list<char>::iterator& start, const list<char>::iterator& end);
+	void changeForStyle(list<char>::iterator& start, const list<char>::iterator& end);
+	void changeElseStyle(list<char>::iterator& start, const list<char>::iterator& end);
+	void addElse(list<char>::iterator& start, const list<char>::iterator& end);
 
-	bool getFileContent(const string& inputfile);
+	bool getContent(const string& inputfile);
 	void writeBack(const string& outputfile) const;
 
 private:
 	bool beforCheck(char c) const;
 	bool afterCheck(char c) const;
+	bool compare(list<char>::iterator& start, const list<char>::iterator& end, const string& token) const;
 
 private:
 	template<typename T>
