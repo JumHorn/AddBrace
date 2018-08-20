@@ -148,10 +148,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="char.h" />
-    <ClInclude Include="check.h" />
+    <ClInclude Include="formatter.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="check.cpp" />
+    <ClCompile Include="formatter.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

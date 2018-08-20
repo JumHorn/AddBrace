@@ -9,7 +9,7 @@ of the License, or any later version.
 
 #include<iostream>
 #include<string.h>
-#include"check.h"
+#include"formatter.h"
 using namespace std;
 
 int main(int argc, char* argv[])

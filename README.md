@@ -26,6 +26,18 @@ bool check()
 ```
 you probably solve this problem by delete white character between # and if
 
+#### second
+this is always a big problem to solve witch have not been done yet
+```C++
+if(true)
+    if(false)
+        cout<<1<<endl;
+    else if(false)
+        cout<<2<<endl;
+    else
+        cout<<3<<endl;
+```
+
 
 ### conclusion
 my code will make you cry which I don't want to review any more

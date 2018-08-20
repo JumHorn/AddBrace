@@ -10,7 +10,7 @@ of the License, or any later version.
 #include<iostream>
 #include<fstream>
 #include<algorithm>
-#include "check.h"
+#include "formatter.h"
 #include "char.h"
 using namespace std;
 
@@ -317,7 +317,7 @@ void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::i
 			IgnoreQuotation(runner, end);
 			IgnoreParenthesis(runner, end);
 
-			if (*runner == '{')
+			if (*runner == '{' || *runner == '#')
 			{
 				temp = runner;
 				continue;
