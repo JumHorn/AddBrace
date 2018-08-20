@@ -28,16 +28,16 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	Formatter style;
+	Formatter formatter;
 	for (int i = 1; i < argc; i++)
 	{
-		if (!style.getFileContent(argv[i]))
+		if (!formatter.getFileContent(argv[i]))
 		{
 			continue;
 		}
 		cout << "processing " << argv[i];
-		style.start();
-		style.writeBack(argv[i]);
+		formatter.start();
+		formatter.writeBack(argv[i]);
 		cout << "\t" << "finished" << endl;
 	}
 
