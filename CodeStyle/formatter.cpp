@@ -461,7 +461,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 	}
 }
 
-void Formatter::changeStyle(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::changeStyle(list<char>::iterator start, const list<char>::iterator& end)
 {
 	changeIfStyle(start, end);
 	changeForStyle(start, end);
