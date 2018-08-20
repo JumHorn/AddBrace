@@ -524,51 +524,6 @@ void Formatter::addelse(list<char>::iterator& start, const list<char>::iterator&
 	}
 }
 
-//process for #if #else #elif #endif recursively
-bool Formatter::changeendifstyle(list<char>::iterator& flag)
-{
-	list<char>::iterator walker;
-	list<char>::iterator runner;
-	list<char>::iterator temp;
-	temp = flag;	//temp points to character i
-	runner = walker = temp;
-	runner++;
-	if (!afterCheck(&*++runner))
-	{
-		return false;
-	}
-	if (walker-- == filelist.begin())
-	{
-		return false;
-	}
-	if (!beforCheck(&*walker))
-	{
-		if (*walker != '#')
-		{
-			return false;
-		}
-	}
-	while (*walker != '\n'&&walker != filelist.begin())
-	{
-		walker--;
-	}
-	walker++;
-	while (*walker != '#')
-	{
-		if (*walker != '\t'&&*walker != ' ')
-		{
-			return false;
-		}
-		else
-		{
-			walker++;
-		}
-	}
-	//now it is #if statement
-	//how to handle it recursively is a big problem that I haven't done yet
-	return true;
-}
-
 void Formatter::changeStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	changeifStyle(start, end);

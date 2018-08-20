@@ -24,18 +24,20 @@ private:
 
 	bool beforCheck(const char *c) const;
 	bool afterCheck(const char *c) const;
-	bool changeendifstyle(list<char>::iterator& flag);
+
 public:
 	Formatter();
 	~Formatter();
 
 	void start();
-	bool getFileContent(const string& inputfile);
 	void changeStyle(list<char>::iterator& start, const list<char>::iterator& end);
+
 	void changeifStyle(list<char>::iterator& start, const list<char>::iterator& end);
 	void changeforStyle(list<char>::iterator& start, const list<char>::iterator& end);
 	void changeelseStyle(list<char>::iterator& start, const list<char>::iterator& end);
 	void addelse(list<char>::iterator& start, const list<char>::iterator& end);
+
+	bool getFileContent(const string& inputfile);
 	void writeBack(const string& outputfile) const;
 
 private:
