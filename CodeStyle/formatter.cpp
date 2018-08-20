@@ -39,16 +39,16 @@ bool Formatter::getFileContent(const string& inputfile)
 	return true;
 }
 
-bool Formatter::beforCheck(const char *c) const
+bool Formatter::beforCheck(char c) const
 {
 	unsigned int temp = ARRAY_SIZE(befor_check);
-	return befor_check + temp != find(befor_check, befor_check + temp, *c);
+	return befor_check + temp != find(befor_check, befor_check + temp, c);
 }
 
-bool Formatter::afterCheck(const char *c) const
+bool Formatter::afterCheck(char c) const
 {
 	unsigned int temp = ARRAY_SIZE(after_check);
-	return after_check + temp != find(after_check, after_check + temp, *c);
+	return after_check + temp != find(after_check, after_check + temp, c);
 }
 
 void Formatter::changeifStyle(list<char>::iterator& start, const list<char>::iterator& end)
@@ -88,7 +88,7 @@ void Formatter::changeifStyle(list<char>::iterator& start, const list<char>::ite
 
 		runner++;
 		temp = runner;
-		if (runner != end && (walker-- == start || beforCheck(&*walker)) && afterCheck(&*runner))//handle if token
+		if (runner != end && (walker-- == start || beforCheck(*walker)) && afterCheck(*runner))//handle if token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -116,7 +116,7 @@ void Formatter::changeifStyle(list<char>::iterator& start, const list<char>::ite
 					filelist.insert(walker, '{');
 					break;
 				}
-				else if (!beforCheck(&*runner))
+				else if (!beforCheck(*runner))
 				{
 					filelist.insert(runner, '{');
 					for (walker = runner; walker != end; walker++)
@@ -201,7 +201,7 @@ void Formatter::changeforStyle(list<char>::iterator& start, const list<char>::it
 		runner++;
 		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //handle for token
+		if (runner != end && beforCheck(*walker) && afterCheck(*runner)) //handle for token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -229,7 +229,7 @@ void Formatter::changeforStyle(list<char>::iterator& start, const list<char>::it
 					filelist.insert(walker, '{');
 					break;
 				}
-				else if (!beforCheck(&*runner))
+				else if (!beforCheck(*runner))
 				{
 					IgnoreComments(runner, end);
 					filelist.insert(runner, '{');
@@ -310,7 +310,7 @@ void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::i
 		runner++;
 		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //handle else token
+		if (runner != end && beforCheck(*walker) && afterCheck(*runner)) //handle else token
 		{
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
@@ -329,7 +329,7 @@ void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::i
 				if (*runner == 'f')
 				{
 					runner++;
-					if (afterCheck(&*runner))
+					if (afterCheck(*runner))
 					{
 						temp = runner;
 						continue;
@@ -359,7 +359,7 @@ void Formatter::changeelseStyle(list<char>::iterator& start, const list<char>::i
 					filelist.insert(walker, '{');
 					break;
 				}
-				else if (!beforCheck(&*runner))
+				else if (!beforCheck(*runner))
 				{
 					IgnoreComments(runner, end);
 					filelist.insert(walker, '{');
@@ -440,7 +440,7 @@ void Formatter::addelse(list<char>::iterator& start, const list<char>::iterator&
 		runner++;
 		walker--;
 		temp = runner;
-		if (runner != end && beforCheck(&*walker) && afterCheck(&*runner)) //handle else token
+		if (runner != end && beforCheck(*walker) && afterCheck(*runner)) //handle else token
 		{
 			walker = runner;
 			IgnoreComments(runner, end);
@@ -460,7 +460,7 @@ void Formatter::addelse(list<char>::iterator& start, const list<char>::iterator&
 				if (*runner == 'f')
 				{
 					runner++;
-					if (afterCheck(&*runner))
+					if (afterCheck(*runner))
 					{
 						IgnoreComments(runner, end);
 						IgnoreApostrophe(runner, end);
@@ -491,7 +491,7 @@ void Formatter::addelse(list<char>::iterator& start, const list<char>::iterator&
 						}
 						if (j == ARRAY_SIZE(check_else))
 						{
-							if (!afterCheck(&*runner))
+							if (!afterCheck(*runner))
 							{
 								string streles = "else{}";
 								filelist.insert(temp, streles.begin(), streles.end());

@@ -22,9 +22,6 @@ private:
 	list<char> filelist;
 	vector<char> filevec;
 
-	bool beforCheck(const char *c) const;
-	bool afterCheck(const char *c) const;
-
 public:
 	Formatter();
 	~Formatter();
@@ -39,6 +36,10 @@ public:
 
 	bool getFileContent(const string& inputfile);
 	void writeBack(const string& outputfile) const;
+
+private:
+	bool beforCheck(char c) const;
+	bool afterCheck(char c) const;
 
 private:
 	template<typename T>
