@@ -7,7 +7,6 @@ as published by the Free Software Foundation; either version 2
 of the License, or any later version.
 */
 
-#include<iostream>
 #include<fstream>
 #include<algorithm>
 #include "formatter.h"

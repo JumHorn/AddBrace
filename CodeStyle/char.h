@@ -15,4 +15,8 @@ of the License, or any later version.
 char befor_check[] = { '\t','\n',' ',';','{','}','/' };
 char after_check[] = { '\t','\n',' ','(','{','/' };
 
+char add_indentation[] = {'{'};
+char remove_indentation[] = {'}'};
+char new_line[] = {';'};
+
 #endif
