@@ -382,10 +382,16 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 void Formatter::start()
 {
 	list<char>::iterator iter = filelist.begin();//for clang
-	changeIfStyle(filelist.begin(), filelist.end());
-	changeForStyle(filelist.begin(), filelist.end());
-	changeElseStyle(filelist.begin(), filelist.end());
-	addElse(filelist.begin(), filelist.end());
+	changeIfStyle(iter, filelist.end());
+
+	iter = filelist.begin();//for clang
+	changeForStyle(iter, filelist.end());
+
+	iter = filelist.begin();//for clang
+	changeElseStyle(iter, filelist.end());
+
+	iter = filelist.begin();//for clang
+	addElse(iter, filelist.end());
 }
 
 void Formatter::writeBack(const string& outputfile) const
