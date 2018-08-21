@@ -41,6 +41,7 @@ private:
 	bool afterCheck(char c) const;
 	void changeStyle(list<char>::iterator& start, const list<char>::iterator& end, const string& token);
 	bool compare(list<char>::iterator& start, const list<char>::iterator& end, const string& token) const;
+	void findInsertPosition(list<char>::iterator& start, const list<char>::iterator& end);
 
 private:
 	template<typename T>

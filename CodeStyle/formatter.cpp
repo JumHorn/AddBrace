@@ -342,27 +342,7 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 				else if (!beforCheck(*runner))
 				{
 					filelist.insert(runner, '{');
-					for (walker = runner; walker != end; walker++)
-					{
-						IgnoreComments(walker, end);
-						IgnoreApostrophe(walker, end);
-						IgnoreQuotation(walker, end);
-						IgnoreParenthesis(walker, end);
-
-						if (*walker == ';')
-						{
-							walker++;
-							IgnoreOneLineComments(walker, end);
-							filelist.insert(walker, '}');
-							break;
-						}
-						else if (*walker == '{')
-						{
-							IgnoreBrace(walker, end);
-							filelist.insert(walker, '}');
-							break;
-						}
-					}
+					findInsertPosition(runner, end);
 					break;
 				}
 			}
@@ -375,6 +355,80 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 		if (temp != end)
 		{
 			temp++;
+		}
+	}
+}
+
+void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>::iterator& end)
+{
+	if (compare(start, end, "if"))
+	{
+		for (list<char>::iterator& walker = start; walker != end; walker++)
+		{
+			IgnoreComments(walker, end);
+			IgnoreApostrophe(walker, end);
+			IgnoreQuotation(walker, end);
+			IgnoreParenthesis(walker, end);
+
+			if (*walker == ';')
+			{
+				walker++;
+				IgnoreOneLineComments(walker, end);
+
+				list<char>::iterator tmp = walker;
+				IgnoreComments(tmp, end);
+				if (compare(tmp, end, "else"))
+				{
+					IgnoreComments(tmp, end);
+					findInsertPosition(tmp, end);
+				}
+				else
+				{
+					filelist.insert(walker, '}');
+				}
+				break;
+			}
+			else if (*walker == '{')
+			{
+				IgnoreBrace(walker, end);
+
+				list<char>::iterator tmp = walker;
+				IgnoreComments(tmp, end);
+				if (compare(tmp, end, "else"))
+				{
+					IgnoreComments(tmp, end);
+					findInsertPosition(tmp, end);
+				}
+				else
+				{
+					filelist.insert(walker, '}');
+				}
+				break;
+			}
+		}
+	}
+	else
+	{
+		for (list<char>::iterator& walker = --start; walker != end; walker++)
+		{
+			IgnoreComments(walker, end);
+			IgnoreApostrophe(walker, end);
+			IgnoreQuotation(walker, end);
+			IgnoreParenthesis(walker, end);
+
+			if (*walker == ';')
+			{
+				walker++;
+				IgnoreOneLineComments(walker, end);
+				filelist.insert(walker, '}');
+				break;
+			}
+			else if (*walker == '{')
+			{
+				IgnoreBrace(walker, end);
+				filelist.insert(walker, '}');
+				break;
+			}
 		}
 	}
 }

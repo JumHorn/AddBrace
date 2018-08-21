@@ -27,7 +27,7 @@ bool check()
 you probably solve this problem by delete white character between # and if
 
 #### second
-this is always a big problem to solve witch have not been done yet
+code like this have been solved after the version if V2.5
 ```C++
 if(true)
     if(false)
@@ -43,6 +43,9 @@ if(true)
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V2.5   
+fix a big problem described above
+
 * V2.4   
 Refactor my code
 
