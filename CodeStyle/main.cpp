@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 	Formatter formatter;
 	for (int i = 1; i < argc; i++)
 	{
-		if (!formatter.getContent(argv[i]))
+		if (!formatter.setContent(argv[i]))
 		{
 			continue;
 		}

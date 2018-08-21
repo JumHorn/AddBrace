@@ -24,7 +24,7 @@ Formatter::~Formatter()
 {
 }
 
-bool Formatter::getContent(const string& inputfile)
+bool Formatter::setContent(const string& inputfile)
 {
 	ifstream fin(inputfile);
 	if (!fin)

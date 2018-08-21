@@ -34,7 +34,7 @@ public:
 	void changeElseStyle(list<char>::iterator& start, const list<char>::iterator& end);
 	void addElse(list<char>::iterator& start, const list<char>::iterator& end);
 
-	bool getContent(const string& inputfile);
+	bool setContent(const string& inputfile);
 	void writeBack(const string& outputfile) const;
 
 private:
