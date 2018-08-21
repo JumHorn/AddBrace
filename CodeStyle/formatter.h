@@ -27,7 +27,6 @@ public:
 	~Formatter();
 
 	void start();
-	void changeStyle(list<char>::iterator& start, const list<char>::iterator& end);
 
 	void changeIfStyle(list<char>::iterator& start, const list<char>::iterator& end);
 	void changeForStyle(list<char>::iterator& start, const list<char>::iterator& end);
@@ -40,6 +39,7 @@ public:
 private:
 	bool beforCheck(char c) const;
 	bool afterCheck(char c) const;
+	void changeStyle(list<char>::iterator& start, const list<char>::iterator& end, const string& token);
 	bool compare(list<char>::iterator& start, const list<char>::iterator& end, const string& token) const;
 
 private:

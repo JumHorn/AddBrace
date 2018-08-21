@@ -69,183 +69,12 @@ bool Formatter::compare(list<char>::iterator& start, const list<char>::iterator&
 
 void Formatter::changeIfStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
-	list<char>::iterator walker;
-	list<char>::iterator runner;
-	list<char>::iterator temp;
-	temp = start;
-	while (temp != end)
-	{
-		IgnoreComments(temp, end);//ignore comments
-		IgnoreApostrophe(temp, end);
-		IgnoreQuotation(temp, end);
-		OutofBounds(temp, end);
-
-		runner = walker = temp;
-		if (!compare(runner, end, "if"))
-		{
-			temp++;
-			continue;
-		}
-
-		walker--;
-		temp = runner;
-		if (runner != end && beforCheck(*walker) && afterCheck(*runner))//handle if token
-		{
-			IgnoreComments(runner, end);
-			IgnoreApostrophe(runner, end);
-			IgnoreQuotation(runner, end);
-			IgnoreParenthesis(runner, end);
-			temp = runner;
-			//now the runner is at the position of the right ) after if
-			walker = runner;
-			for (; runner != end; runner++)
-			{
-				IgnoreComments(runner, end);
-				IgnoreApostrophe(runner, end);
-				IgnoreQuotation(runner, end);
-				IgnoreComments(runner, end);
-
-				if (*runner == '{' || *runner == '#')
-				{
-					break;
-				}
-				else if (*runner == ';')
-				{
-					runner++;
-					filelist.insert(runner, '}');
-					filelist.insert(walker, '{');
-					break;
-				}
-				else if (!beforCheck(*runner))
-				{
-					filelist.insert(runner, '{');
-					for (walker = runner; walker != end; walker++)
-					{
-						IgnoreComments(walker, end);
-						IgnoreApostrophe(walker, end);
-						IgnoreQuotation(walker, end);
-						IgnoreParenthesis(walker, end);
-
-						if (*walker == ';')
-						{
-							walker++;
-							IgnoreOneLineComments(walker, end);
-							filelist.insert(walker, '}');
-							break;
-						}
-						else if (*walker == '{')
-						{
-							IgnoreBrace(walker, end);
-							filelist.insert(walker, '}');
-							break;
-						}
-					}
-					break;
-				}
-			}
-		}
-		else
-		{
-			continue;
-		}
-
-		if (temp != end)
-		{
-			temp++;
-		}
-	}
+	changeStyle(start, end, "if");
 }
 
 void Formatter::changeForStyle(list<char>::iterator& start, const list<char>::iterator& end)
 {
-	list<char>::iterator walker;
-	list<char>::iterator runner;
-	list<char>::iterator temp;
-	temp = start;
-	while (temp != end)
-	{
-		IgnoreComments(temp, end);
-		IgnoreApostrophe(temp, end);
-		IgnoreQuotation(temp, end);
-		OutofBounds(temp, end);
-
-		runner = walker = temp;
-		if (!compare(runner, end, "for"))
-		{
-			temp++;
-			continue;
-		}
-
-		walker--;
-		temp = runner;
-		if (runner != end && beforCheck(*walker) && afterCheck(*runner)) //handle for token
-		{
-			IgnoreComments(runner, end);
-			IgnoreApostrophe(runner, end);
-			IgnoreQuotation(runner, end);
-			IgnoreParenthesis(runner, end);
-			temp = runner;
-			//now the runner is at the position of the right ) after for
-			walker = runner;
-			for (; runner != end; runner++)
-			{
-				IgnoreComments(runner, end);
-				IgnoreApostrophe(runner, end);
-				IgnoreQuotation(runner, end);
-				IgnoreComments(runner, end);
-
-				if (*runner == '{' || *runner == '#')
-				{
-					break;
-				}
-				else if (*runner == ';')
-				{
-					runner++;
-					filelist.insert(runner, '}');
-					filelist.insert(walker, '{');
-					break;
-				}
-				else if (!beforCheck(*runner))
-				{
-					IgnoreComments(runner, end);
-					filelist.insert(runner, '{');
-
-					for (walker = runner; walker != end; walker++)
-					{
-						IgnoreComments(walker, end);
-						IgnoreApostrophe(walker, end);
-						IgnoreQuotation(walker, end);
-						IgnoreParenthesis(walker, end);
-
-						if (*walker == ';')
-						{
-							walker++;
-							IgnoreOneLineComments(walker, end);
-							filelist.insert(walker, '}');
-							break;
-						}
-						else if (*walker == '{')
-						{
-							IgnoreBrace(walker, end);
-							filelist.insert(walker, '}');
-							break;
-						}
-					}
-					break;
-
-				}
-			}
-		}
-		else
-		{
-			continue;
-		}
-
-		if (temp != end)
-		{
-			temp++;
-		}
-	}
+	changeStyle(start, end, "for");
 }
 
 void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::iterator& end)
@@ -461,18 +290,102 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 	}
 }
 
-void Formatter::changeStyle(list<char>::iterator& start, const list<char>::iterator& end)
+void Formatter::changeStyle(list<char>::iterator& start, const list<char>::iterator& end, const string& token)
 {
-	changeIfStyle(start, end);
-	changeForStyle(start, end);
-	changeElseStyle(start, end);
-	addElse(start, end);
+	list<char>::iterator walker;
+	list<char>::iterator runner;
+	list<char>::iterator temp;
+	temp = start;
+	while (temp != end)
+	{
+		IgnoreComments(temp, end);//ignore comments
+		IgnoreApostrophe(temp, end);
+		IgnoreQuotation(temp, end);
+		OutofBounds(temp, end);
+
+		runner = walker = temp;
+		if (!compare(runner, end, token))
+		{
+			temp++;
+			continue;
+		}
+
+		walker--;
+		temp = runner;
+		if (runner != end && beforCheck(*walker) && afterCheck(*runner))//handle if/for token
+		{
+			IgnoreComments(runner, end);
+			IgnoreApostrophe(runner, end);
+			IgnoreQuotation(runner, end);
+			IgnoreParenthesis(runner, end);
+			temp = runner;
+			//now the runner is at the position of the right ) after if or for
+			walker = runner;
+			for (; runner != end; runner++)
+			{
+				IgnoreComments(runner, end);
+				IgnoreApostrophe(runner, end);
+				IgnoreQuotation(runner, end);
+				IgnoreComments(runner, end);
+
+				if (*runner == '{' || *runner == '#')
+				{
+					break;
+				}
+				else if (*runner == ';')
+				{
+					runner++;
+					filelist.insert(runner, '}');
+					filelist.insert(walker, '{');
+					break;
+				}
+				else if (!beforCheck(*runner))
+				{
+					filelist.insert(runner, '{');
+					for (walker = runner; walker != end; walker++)
+					{
+						IgnoreComments(walker, end);
+						IgnoreApostrophe(walker, end);
+						IgnoreQuotation(walker, end);
+						IgnoreParenthesis(walker, end);
+
+						if (*walker == ';')
+						{
+							walker++;
+							IgnoreOneLineComments(walker, end);
+							filelist.insert(walker, '}');
+							break;
+						}
+						else if (*walker == '{')
+						{
+							IgnoreBrace(walker, end);
+							filelist.insert(walker, '}');
+							break;
+						}
+					}
+					break;
+				}
+			}
+		}
+		else
+		{
+			continue;
+		}
+
+		if (temp != end)
+		{
+			temp++;
+		}
+	}
 }
 
 void Formatter::start()
 {
-	list<char>::iterator iter=filelist.begin();//for clang
-	changeStyle(iter, filelist.end());
+	list<char>::iterator iter = filelist.begin();//for clang
+	changeIfStyle(filelist.begin(), filelist.end());
+	changeForStyle(filelist.begin(), filelist.end());
+	changeElseStyle(filelist.begin(), filelist.end());
+	addElse(filelist.begin(), filelist.end());
 }
 
 void Formatter::writeBack(const string& outputfile) const
@@ -666,9 +579,6 @@ void Formatter::IgnoreQuotation(T& t, const T& end)
 				t++;
 				return IgnoreQuotation(t, end);
 			}
-			else
-			{
-			}
 		}
 	}
 	return;
@@ -699,9 +609,6 @@ void Formatter::IgnoreParenthesis(T& t, const T& end)
 			else if (*t == ')')
 			{
 				parenthesis--;
-			}
-			else
-			{
 			}
 
 			if (parenthesis == 0)
@@ -739,9 +646,6 @@ void Formatter::IgnoreBrace(T& t, const T& end)
 			else if (*t == '}')
 			{
 				parenthesis--;
-			}
-			else
-			{
 			}
 
 			if (parenthesis == 0)
