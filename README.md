@@ -43,6 +43,9 @@ if(true)
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V2.6   
+more abstract using template. A great Refactoring code now.
+
 * V2.5   
 fix a big problem described above
 

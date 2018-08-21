@@ -1,10 +1,10 @@
 AddBrace : formatter.o main.o
 	g++ -o AddBrace formatter.o main.o
 
-formatter.o : formatter.cpp formatter.h char.h
+formatter.o : formatter.cpp
 	g++ -c formatter.cpp
 
-main.o : main.cpp formatter.h
+main.o : main.cpp
 	g++ -c main.cpp
 
 clean : 
