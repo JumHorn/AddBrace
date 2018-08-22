@@ -12,9 +12,34 @@ of the License, or any later version.
 using namespace std;
 
 Style::Style()
-{}
+{
+}
 
 Style::~Style()
-{}
+{
+}
 
+bool Style::setContent(const string& input)
+{
+	ifstream fin(input);
+	if (!fin)
+	{
+		return false;
+	}
+	content.assign(istreambuf_iterator<char>(fin), istreambuf_iterator<char>());
+	return true;
+}
 
+void Style::flushContent(const string& output) const
+{
+	ofstream fout(output);
+	for (list<char>::const_iterator iter = content.begin(); iter != content.end(); iter++)
+	{
+		fout << *iter;
+	}
+
+}
+
+void Style::Format()
+{
+}

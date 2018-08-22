@@ -170,21 +170,19 @@ void Ignore<T>::IgnoreApostrophe(T& t, const T& end)
 
 	if (*t == '\'')
 	{
-		while (true)
+		t++;
+		while (t!=end)
 		{
-			t++;
-			if (*t == '\\')
+			if(*t=='\\')
 			{
 				t++;
-			}
+			}	
 			else if (*t == '\'')
 			{
 				t++;
 				return;
 			}
-			else
-			{
-			}
+			t++;
 		}
 	}
 	return;
@@ -200,9 +198,9 @@ void Ignore<T>::IgnoreQuotation(T& t, const T& end)
 
 	if (*t == '\"')
 	{
-		while (true)
+		t++;
+		while (t!=end)
 		{
-			t++;
 			if (*t == '\\')
 			{
 				t++;
@@ -212,6 +210,7 @@ void Ignore<T>::IgnoreQuotation(T& t, const T& end)
 				t++;
 				return IgnoreQuotation(t, end);
 			}
+			t++;
 		}
 	}
 	return;
@@ -228,9 +227,9 @@ void Ignore<T>::IgnoreParenthesis(T& t, const T& end)
 	int parenthesis = 1;
 	if (*t == '(')
 	{
-		while (true)
+		t++;
+		while (t!=end)
 		{
-			t++;
 			IgnoreComments(t, end);
 			IgnoreApostrophe(t, end);
 			IgnoreQuotation(t, end);
@@ -249,6 +248,7 @@ void Ignore<T>::IgnoreParenthesis(T& t, const T& end)
 				t++;
 				return;
 			}
+			t++;
 		}
 	}
 	return;
@@ -265,9 +265,9 @@ void Ignore<T>::IgnoreBrace(T& t, const T& end)
 	int parenthesis = 1;
 	if (*t == '{')
 	{
-		while (true)
+		t++;
+		while (t!=end)
 		{
-			t++;
 			IgnoreComments(t, end);
 			IgnoreApostrophe(t, end);
 			IgnoreQuotation(t, end);
@@ -286,6 +286,7 @@ void Ignore<T>::IgnoreBrace(T& t, const T& end)
 				t++;
 				return;
 			}
+			t++;
 		}
 	}
 	return;

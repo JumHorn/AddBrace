@@ -177,15 +177,6 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 				}
 			}
 		}
-		else
-		{
-			continue;
-		}
-
-		if (temp != end)
-		{
-			temp++;
-		}
 	}
 }
 
@@ -277,15 +268,6 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 
 			walker = runner;
 		}
-		else
-		{
-			continue;
-		}
-
-		if (temp != end)
-		{
-			temp++;
-		}
 	}
 }
 
@@ -345,15 +327,6 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 					break;
 				}
 			}
-		}
-		else
-		{
-			continue;
-		}
-
-		if (temp != end)
-		{
-			temp++;
 		}
 	}
 }

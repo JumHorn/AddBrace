@@ -43,6 +43,10 @@ if(true)
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V2.7
+1. fix the bug that ignore comment code failure cause handle the if in the comment
+2. fix that uncompiled code cause app stop running  
+
 * V2.6   
 more abstract using template. A great Refactoring code now.
 

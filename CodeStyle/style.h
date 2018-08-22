@@ -21,8 +21,8 @@ public:
 	Style();
 	~Style();
 
-	void setContent(const string& input);
-	void flushContent(const string& output);
+	bool setContent(const string& input);
+	void flushContent(const string& output) const;
 	void Format();
 
 private:
