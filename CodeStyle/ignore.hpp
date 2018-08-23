@@ -233,6 +233,10 @@ void Ignore<T>::IgnoreParenthesis(T& t, const T& end)
 			IgnoreComments(t, end);
 			IgnoreApostrophe(t, end);
 			IgnoreQuotation(t, end);
+			if(t==end)
+			{
+				return;
+			}
 
 			if (*t == '(')
 			{
@@ -271,6 +275,10 @@ void Ignore<T>::IgnoreBrace(T& t, const T& end)
 			IgnoreComments(t, end);
 			IgnoreApostrophe(t, end);
 			IgnoreQuotation(t, end);
+			if(t==end)
+			{
+				return;
+			}
 
 			if (*t == '{')
 			{

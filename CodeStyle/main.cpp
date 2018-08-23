@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 	}
 	if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "-V"))
 	{
-		cout << "V2.7" << endl;
+		cout << "V2.8" << endl;
 		cout << "created by JumHorn" << endl;
 		cout << "all rights reserved" << endl;
 		return 0;

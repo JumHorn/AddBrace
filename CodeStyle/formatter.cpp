@@ -13,7 +13,7 @@ of the License, or any later version.
 #include "char.h"
 using namespace std;
 
-#define OutofBounds(a,b) if(a==b)break;
+#define OUTOFBOUNDS(a,b) if(a==b)break;
 
 Formatter::Formatter()
 {
@@ -52,13 +52,14 @@ bool Formatter::afterCheck(char c) const
 
 bool Formatter::compare(list<char>::iterator& start, const list<char>::iterator& end, const string& token) const
 {
-	if (distance(start, end) <= (int)token.length())
-	{
-		return false;
-	}
+	//time consuming
+	// if (distance(start, end) <= (int)token.length())
+	// {
+	// 	return false;
+	// }
 	for (string::size_type i = 0; i < token.length(); i++)
 	{
-		if (*start++ != token[i])
+		if (start==end||*start++ != token[i])
 		{
 			return false;
 		}
@@ -87,7 +88,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 		IgnoreComments(temp, end);
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		OutofBounds(temp, end);
+		OUTOFBOUNDS(temp, end);
 
 		runner = walker = temp;
 		if (!compare(runner, end, "else"))
@@ -104,6 +105,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
 			IgnoreParenthesis(runner, end);
+			OUTOFBOUNDS(runner, end);
 
 			if (*runner == '{' || *runner == '#')
 			{
@@ -134,6 +136,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 				IgnoreApostrophe(runner, end);
 				IgnoreQuotation(runner, end);
 				IgnoreComments(runner, end);
+				OUTOFBOUNDS(runner, end);
 
 				if (*runner == '{')
 				{
@@ -157,6 +160,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 						IgnoreApostrophe(walker, end);
 						IgnoreQuotation(walker, end);
 						IgnoreParenthesis(walker, end);
+						OUTOFBOUNDS(walker, end);
 
 						if (*walker == ';')
 						{
@@ -191,7 +195,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 		IgnoreComments(temp, end);
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		OutofBounds(temp, end);
+		OUTOFBOUNDS(temp, end);
 
 		runner = walker = temp;
 		if (!compare(runner, end, "else"))
@@ -209,6 +213,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
 			IgnoreParenthesis(runner, end);
+			OUTOFBOUNDS(runner, end);
 
 			if (*runner == '{')
 			{
@@ -233,6 +238,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 						temp = runner;
 
 						IgnoreComments(runner, end);
+						OUTOFBOUNDS(runner, end);
 
 						if (*runner == '#')
 						{
@@ -282,7 +288,7 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 		IgnoreComments(temp, end);//ignore comments
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		OutofBounds(temp, end);
+		OUTOFBOUNDS(temp, end);
 
 		runner = walker = temp;
 		if (!compare(runner, end, token))
@@ -308,6 +314,7 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 				IgnoreApostrophe(runner, end);
 				IgnoreQuotation(runner, end);
 				IgnoreComments(runner, end);
+				OUTOFBOUNDS(runner, end);
 
 				if (*runner == '{' || *runner == '#')
 				{
@@ -341,6 +348,7 @@ void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>
 			IgnoreApostrophe(walker, end);
 			IgnoreQuotation(walker, end);
 			IgnoreParenthesis(walker, end);
+			OUTOFBOUNDS(walker, end);
 
 			if (*walker == ';')
 			{
@@ -387,6 +395,7 @@ void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>
 			IgnoreApostrophe(walker, end);
 			IgnoreQuotation(walker, end);
 			IgnoreParenthesis(walker, end);
+			OUTOFBOUNDS(walker, end);
 
 			if (*walker == ';')
 			{

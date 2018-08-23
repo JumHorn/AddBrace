@@ -43,15 +43,24 @@ if(true)
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V2.8
+1. remove time consuming stl function distance
+2. add a lot of OUTOFBOUNDS macro to avoid undeferecable iterator 
+
 * V2.7
 1. fix the bug that ignore comment code failure cause handle the if in the comment
-2. fix that uncompiled code cause app stop running  
+```C++
+if(true)// if no
+    statement;
+```
+2. fix code that can not compiled causing app stop running   
+especially parethesie or brace not match
 
 * V2.6   
 more abstract using template. A great Refactoring code now.
 
 * V2.5   
-fix a big problem described above
+fix a big problem described above **sencond**
 
 * V2.4   
 Refactor my code
