@@ -165,14 +165,14 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 							walker++;
 							IgnoreOneLineComments(walker, end);
 							OUTOFBOUNDS(walker, end);
-							if(*walker=='#')
+							if(*walker=='\n'||*walker=='\r')
 							{
 								filelist.insert(walker, '}');
-								filelist.insert(walker, '\n');
 							}
 							else
 							{
 								filelist.insert(walker, '}');
+								filelist.insert(walker, '\n');
 							}
 							break;
 						}
@@ -409,14 +409,14 @@ void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>
 				walker++;
 				IgnoreOneLineComments(walker, end);
 				OUTOFBOUNDS(walker, end);
-				if(*walker=='#')
+				if(*walker=='\n'||*walker=='\r')
 				{
 					filelist.insert(walker, '}');
-					filelist.insert(walker, '\n');
 				}
 				else
 				{
 					filelist.insert(walker, '}');
+					filelist.insert(walker, '\n');
 				}
 				break;
 			}

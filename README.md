@@ -27,7 +27,7 @@ bool check()
 you probably solve this problem by delete white character between # and if
 
 #### second
-code like this have been solved after the version if V2.5
+code like this have been solved after the version of V2.5
 ```C++
 if(true)
     if(false)
@@ -81,7 +81,7 @@ especially parethesie or brace not match
 more abstract using template. A great Refactoring code now.
 
 * V2.5   
-fix a big problem described above **sencond**
+fix a big problem described above **second**
 
 * V2.4   
 Refactor my code
@@ -90,7 +90,7 @@ Refactor my code
 fix some bugs as follows:
 1. do not gererate useless files when given file name is incorrect
 2. change variable name for better understanding
-3. some other optimazation
+3. some other optimazations
 
 * V2.1   
 fix add more else bugs
