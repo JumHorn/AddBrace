@@ -11,6 +11,8 @@ of the License, or any later version.
 #define _STYLE_H_
 
 #include<list>
+#include<map>
+#include<string>
 #include "ignore.hpp"
 #include "char.h"
 using namespace std;
@@ -26,7 +28,11 @@ public:
 	void Format();
 
 private:
+	string getIndent(int indentnum);
+
+private:
 	list<char> content;
+	map<int,string> tab;
 };
 
 #endif

@@ -12,8 +12,21 @@ of the License, or any later version.
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
-char befor_check[] = { '\t','\n',' ',';','{','}','/' };
-char after_check[] = { '\t','\n',' ','(','{','/' };
+/*
+newline and return
+r stand for return to the head of line
+n stand for new line
+Windows \r\n
+Unix \n
+Mac \r
+*/
+
+char befor_check[] = { '\t','\n','\r',' ',';','{','}','/' };
+char after_check[] = { '\t','\n','\r',' ','(','{','/' };
+
+/*
+indentation
+*/
 
 char add_indentation[] = {'{'};
 char remove_indentation[] = {'}'};

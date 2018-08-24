@@ -104,7 +104,6 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
-			IgnoreParenthesis(runner, end);
 			OUTOFBOUNDS(runner, end);
 
 			if (*runner == '{' || *runner == '#')
@@ -159,14 +158,22 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 						IgnoreComments(walker, end);
 						IgnoreApostrophe(walker, end);
 						IgnoreQuotation(walker, end);
-						IgnoreParenthesis(walker, end);
 						OUTOFBOUNDS(walker, end);
 
 						if (*walker == ';')
 						{
 							walker++;
 							IgnoreOneLineComments(walker, end);
-							filelist.insert(walker, '}');
+							OUTOFBOUNDS(walker, end);
+							if(*walker=='#')
+							{
+								filelist.insert(walker, '}');
+								filelist.insert(walker, '\n');
+							}
+							else
+							{
+								filelist.insert(walker, '}');
+							}
 							break;
 						}
 						else if (*walker == '{')
@@ -215,7 +222,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 			IgnoreParenthesis(runner, end);
 			OUTOFBOUNDS(runner, end);
 
-			if (*runner == '{')
+			if (*runner == '{' || *runner=='#')
 			{
 				runner++;
 				continue;
@@ -401,7 +408,16 @@ void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>
 			{
 				walker++;
 				IgnoreOneLineComments(walker, end);
-				filelist.insert(walker, '}');
+				OUTOFBOUNDS(walker, end);
+				if(*walker=='#')
+				{
+					filelist.insert(walker, '}');
+					filelist.insert(walker, '\n');
+				}
+				else
+				{
+					filelist.insert(walker, '}');
+				}
 				break;
 			}
 			else if (*walker == '{')

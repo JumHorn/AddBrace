@@ -43,6 +43,27 @@ if(true)
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V2.9
+1. fix adding else without skipping # statement 
+```C++
+#if 0
+    if(true)
+        statement;
+    else if(false)
+    {
+#endif
+    int a;
+```
+2.add brace causing #endif after } not working 
+```C++
+#if 0
+    if(true)
+        {statement;//comment
+}#endif
+```
+3. add support for mac new line \r
+4. add a safety pig to bless you
+
 * V2.8
 1. remove time consuming stl function distance
 2. add a lot of OUTOFBOUNDS macro to avoid undeferecable iterator 
