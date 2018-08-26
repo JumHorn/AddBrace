@@ -9,6 +9,7 @@ of the License, or any later version.
 
 #include <fstream>
 #include "style.h"
+#include "char.h"
 using namespace std;
 
 Style::Style()
@@ -26,7 +27,7 @@ Style::~Style()
 
 bool Style::setContent(const string& input)
 {
-	ifstream fin(input);
+	fstream fin(input);
 	if (!fin)
 	{
 		return false;
@@ -42,8 +43,59 @@ void Style::flushContent(const string& output) const
 	{
 		fout << *iter;
 	}
-
 }
+
+void Style::start()
+{
+	list<char>::iterator iter = content.begin();
+	erasePostlineWhitespace(iter,content.end());
+}
+/*
+delete white character before each line
+*/
+void Style::erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator end)
+{
+}
+
+
+/*
+delete white character after each line
+*/
+void Style::erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator end)
+{
+	list<char>::iterator tmp;
+	list<char>::iterator forward;
+	while(tmp!=end)
+	{
+		if(*tmp!='\n')
+		{
+			tmp++;
+			continue;
+		}
+		forward=tmp;
+		forward--;
+		if(*forward=='\r')
+		{
+			forward--;
+		}
+		if(*forward=='\n')
+		{
+			continue;
+		}
+		while(isWhitespace(*forward))
+		{
+			list<char>::iterator it = forward;
+			forward--;
+			content.erase(it);
+		}
+	}
+}
+
+/*
+delete extra new line
+*/
+void Style::eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator end)
+{}
 
 void Style::Format()
 {
@@ -61,4 +113,10 @@ string Style::getIndent(int indentnum)
 		indent+="\t";
 	}
 	return indent;
+}
+
+bool Style::isWhitespace(char c) const
+{
+	unsigned int temp = ARRAY_SIZE(white_space);
+	return white_space + temp != find(white_space, white_space + temp, c);
 }

@@ -14,7 +14,6 @@ of the License, or any later version.
 #include<map>
 #include<string>
 #include "ignore.hpp"
-#include "char.h"
 using namespace std;
 
 class Style : public Ignore<list<char>::iterator>
@@ -25,9 +24,14 @@ public:
 
 	bool setContent(const string& input);
 	void flushContent(const string& output) const;
+	void erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator end);
+	void erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator end);
+	void eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator end);
 	void Format();
+	void start();
 
 private:
+	bool isWhitespace(char c) const;
 	string getIndent(int indentnum);
 
 private:

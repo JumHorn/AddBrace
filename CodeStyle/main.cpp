@@ -11,6 +11,7 @@ of the License, or any later version.
 #include<string>
 #include<string.h> //for strcmp
 #include"formatter.h"
+#include"style.h"
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -55,16 +56,26 @@ int main(int argc, char* argv[])
 	}
 
 	Formatter formatter;
+	Style checker;
 	for (int i = 1; i < argc; i++)
 	{
-		if (!formatter.setContent(argv[i]))
+		if (!checker.setContent(argv[i]))
 		{
 			continue;
 		}
 		cout << "processing " << argv[i];
-		formatter.start();
-		formatter.writeBack(argv[i]);
+		checker.start();
+		checker.flushContent(argv[i]);
 		cout << "\t" << "finished" << endl;
+
+		// if (!formatter.setContent(argv[i]))
+		// {
+		// 	continue;
+		// }
+		// cout << "processing " << argv[i];
+		// formatter.start();
+		// formatter.writeBack(argv[i]);
+		// cout << "\t" << "finished" << endl;
 	}
 
 	cout<<endl;

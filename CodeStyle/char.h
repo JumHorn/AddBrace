@@ -45,5 +45,6 @@ indentation
 char add_indentation[] = {'{'};
 char remove_indentation[] = {'}'};
 char new_line[] = {';'};
+char white_space[]={' ','\t'};
 
 #endif
