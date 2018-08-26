@@ -46,7 +46,7 @@ my code will make you cry which I don't want to review any more
 * V3.0
 1. new line macro to support various systems
 2. a new feature style formatter to be added 
-3. do not define any symbol in header file
+3. do not define any symbol with external link in header file
 
 * V2.9
 1. fix adding else without skipping # statement 

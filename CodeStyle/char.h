@@ -7,6 +7,12 @@ as published by the Free Software Foundation; either version 2
 of the License, or any later version.
 */
 
+/*
+const variable with internal link
+these code may not be compiled by the compiler that does not support it
+and it is still easy to set these variable to be static to pass the compiler
+*/
+
 #ifndef _CHAR_H_
 #define _CHAR_H_
 
