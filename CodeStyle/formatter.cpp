@@ -165,7 +165,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 							walker++;
 							IgnoreOneLineComments(walker, end);
 							OUTOFBOUNDS(walker, end);
-							if(*walker=='\n'||*walker=='\r')
+							if(*walker=='\n')
 							{
 								filelist.insert(walker, '}');
 							}
@@ -409,7 +409,7 @@ void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>
 				walker++;
 				IgnoreOneLineComments(walker, end);
 				OUTOFBOUNDS(walker, end);
-				if(*walker=='\n'||*walker=='\r')
+				if(*walker=='\n')
 				{
 					filelist.insert(walker, '}');
 				}

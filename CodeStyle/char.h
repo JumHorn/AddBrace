@@ -16,18 +16,32 @@ of the License, or any later version.
 newline and return
 r stand for return to the head of line
 n stand for new line
+
 Windows \r\n
 Unix \n
 Mac \r
 */
+#ifdef __LINUX__
+const char newline = '\n';
+#endif
 
+#ifdef _WIN32
+const char newline = '\n';
+#endif
+
+#ifdef __APPLE__
+const char newline = '\r';
+#endif
+
+/*
+only these characters can be placed in front of a token or after a token
+*/
 char befor_check[] = { '\t','\n','\r',' ',';','{','}','/' };
 char after_check[] = { '\t','\n','\r',' ','(','{','/' };
 
 /*
 indentation
 */
-
 char add_indentation[] = {'{'};
 char remove_indentation[] = {'}'};
 char new_line[] = {';'};
