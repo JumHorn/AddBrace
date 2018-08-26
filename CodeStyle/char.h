@@ -36,15 +36,15 @@ const char newline = '\r';
 /*
 only these characters can be placed in front of a token or after a token
 */
-char befor_check[] = { '\t','\n','\r',' ',';','{','}','/' };
-char after_check[] = { '\t','\n','\r',' ','(','{','/' };
+const char befor_check[] = { '\t','\n','\r',' ',';','{','}','/' };
+const char after_check[] = { '\t','\n','\r',' ','(','{','/' };
 
 /*
 indentation
 */
-char add_indentation[] = {'{'};
-char remove_indentation[] = {'}'};
-char new_line[] = {';'};
-char white_space[]={' ','\t'};
+const char add_indentation[] = {'{'};
+const char remove_indentation[] = {'}'};
+const char new_line[] = {';'};
+const char white_space[]={' ','\t'};
 
 #endif
