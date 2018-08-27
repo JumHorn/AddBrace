@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	Formatter formatter;
+	//Formatter formatter;
 	Style checker;
 	for (int i = 1; i < argc; i++)
 	{

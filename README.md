@@ -59,7 +59,7 @@ my code will make you cry which I don't want to review any more
 #endif
     int a;
 ```
-2.add brace causing #endif after } not working 
+2. add brace causing #endif after } not working 
 ```C++
 #if 0
     if(true)

@@ -11,4 +11,4 @@ main.o : main.cpp formatter.h style.h
 	g++ -c main.cpp
 
 clean : 
-	rm main.o formatter.o
+	rm main.o formatter.o style.o

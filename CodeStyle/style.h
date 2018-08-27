@@ -27,12 +27,14 @@ public:
 	void erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator end);
 	void erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator end);
 	void eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator end);
+	void addNewline(list<char>::iterator& start,const list<char>::iterator end);
 	void Format();
 	void start();
 
 private:
 	bool isWhitespace(char c) const;
 	string getIndent(int indentnum);
+	bool isNewline(char c) const;
 
 private:
 	list<char> content;

@@ -49,12 +49,43 @@ void Style::start()
 {
 	list<char>::iterator iter = content.begin();
 	erasePostlineWhitespace(iter,content.end());
+	iter = content.begin();
+	eraseExtraNewline(iter,content.end());
+	iter = content.begin();
+	erasePrelineWhitespace(iter,content.end());
 }
 /*
 delete white character before each line
 */
 void Style::erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator end)
 {
+	list<char>::iterator tmp = start;
+	list<char>::iterator backward;
+	//delete header line white space
+	while(tmp!=end&&isWhitespace(*tmp))
+	{
+		list<char>::iterator it = tmp;
+		tmp++;
+		content.erase(it);
+	}
+
+	while(tmp!=end)
+	{
+		if(*tmp!='\n')
+		{
+			tmp++;
+			continue;
+		}
+		backward=tmp;
+		backward++;
+		while(isWhitespace(*backward))
+		{
+			list<char>::iterator it = backward;
+			backward++;
+			content.erase(it);
+		}
+		tmp=backward;
+	}
 }
 
 
@@ -63,7 +94,7 @@ delete white character after each line
 */
 void Style::erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator end)
 {
-	list<char>::iterator tmp;
+	list<char>::iterator tmp = start;
 	list<char>::iterator forward;
 	while(tmp!=end)
 	{
@@ -80,6 +111,7 @@ void Style::erasePostlineWhitespace(list<char>::iterator& start,const list<char>
 		}
 		if(*forward=='\n')
 		{
+			tmp++;
 			continue;
 		}
 		while(isWhitespace(*forward))
@@ -88,6 +120,7 @@ void Style::erasePostlineWhitespace(list<char>::iterator& start,const list<char>
 			forward--;
 			content.erase(it);
 		}
+		tmp++;
 	}
 }
 
@@ -95,6 +128,55 @@ void Style::erasePostlineWhitespace(list<char>::iterator& start,const list<char>
 delete extra new line
 */
 void Style::eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator end)
+{
+	list<char>::iterator tmp = start;
+	list<char>::iterator backward;
+	while(tmp!=end)
+	{
+		if(*tmp!='\n')
+		{
+			tmp++;
+			continue;
+		}
+		backward=tmp;
+		backward++;
+		if(*backward=='\r')
+		{
+			backward++;
+		}
+		if(*backward!='\n')
+		{
+			tmp=backward;
+			continue;
+		}
+		backward++;
+		while((backward!=end)&&(*backward=='\r'||*backward=='\n'))
+		{
+			list<char>::iterator it = backward;
+			backward++;
+			content.erase(it);
+		}
+		tmp=backward;
+	}
+	//delete tailer '\n'
+	tmp--;
+	while((tmp!=start)&&(*tmp=='\r'||*tmp=='\n'))
+	{
+		list<char>::iterator it = tmp;
+		tmp--;
+		content.erase(it);
+	}
+	//delete header '\n'
+	tmp=start;
+	while((tmp!=end)&&(*tmp=='\r'||*tmp=='\n'))
+	{
+		list<char>::iterator it = tmp;
+		tmp++;
+		content.erase(it);
+	}
+}
+
+void addNewline(list<char>::iterator& start,const list<char>::iterator end)
 {}
 
 void Style::Format()
@@ -113,6 +195,12 @@ string Style::getIndent(int indentnum)
 		indent+="\t";
 	}
 	return indent;
+}
+
+bool Style::isNewline(char c) const
+{
+	unsigned int temp = ARRAY_SIZE(new_line);
+	return new_line + temp != find(new_line, new_line + temp, c);
 }
 
 bool Style::isWhitespace(char c) const
