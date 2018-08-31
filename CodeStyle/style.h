@@ -24,17 +24,18 @@ public:
 
 	bool setContent(const string& input);
 	void flushContent(const string& output) const;
-	void erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator end);
-	void erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator end);
-	void eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator end);
-	void addNewline(list<char>::iterator& start,const list<char>::iterator end);
-	void Format();
+	void erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator& end);
+	void erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator& end);
+	void eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator& end);
+	void addNewline(list<char>::iterator& start,const list<char>::iterator& end);
+	void addSpace(list<char>::iterator& start,const list<char>::iterator& end);
+	void makeIndentation(list<char>::iterator& start,const list<char>::iterator& end);
 	void start();
 
 private:
 	bool isWhitespace(char c) const;
-	string getIndent(int indentnum);
 	bool isNewline(char c) const;
+	string getIndent(int indentnum);
 
 private:
 	list<char> content;

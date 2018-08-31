@@ -54,10 +54,11 @@ void Style::start()
 	iter = content.begin();
 	erasePrelineWhitespace(iter,content.end());
 }
+
 /*
 delete white character before each line
 */
-void Style::erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator end)
+void Style::erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator& end)
 {
 	list<char>::iterator tmp = start;
 	list<char>::iterator backward;
@@ -88,17 +89,16 @@ void Style::erasePrelineWhitespace(list<char>::iterator& start,const list<char>:
 	}
 }
 
-
 /*
 delete white character after each line
 */
-void Style::erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator end)
+void Style::erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator& end)
 {
 	list<char>::iterator tmp = start;
 	list<char>::iterator forward;
 	while(tmp!=end)
 	{
-		if(*tmp!='\n')
+		if(*tmp!='\n' || tmp==start)
 		{
 			tmp++;
 			continue;
@@ -127,7 +127,7 @@ void Style::erasePostlineWhitespace(list<char>::iterator& start,const list<char>
 /*
 delete extra new line
 */
-void Style::eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator end)
+void Style::eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator& end)
 {
 	list<char>::iterator tmp = start;
 	list<char>::iterator backward;
@@ -176,11 +176,17 @@ void Style::eraseExtraNewline(list<char>::iterator& start,const list<char>::iter
 	}
 }
 
-void addNewline(list<char>::iterator& start,const list<char>::iterator end)
+void Style::addNewline(list<char>::iterator& start,const list<char>::iterator& end)
 {}
 
-void Style::Format()
+void Style::addSpace(list<char>::iterator& start,const list<char>::iterator& end)
+{}
+
+void Style::makeIndentation(list<char>::iterator& start,const list<char>::iterator& end)
 {
+	int indent=0;
+	IgnoreComments(start,end);
+
 }
 
 string Style::getIndent(int indentnum) 
