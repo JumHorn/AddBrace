@@ -16,16 +16,12 @@ class Ignore
 {
 protected:
 	void IgnoreComments(T& t, const T& end);
-
 	void IgnoreOneLineComments(T& t, const T& end);
-
 	void IgnoreApostrophe(T& t, const T& end);
-
 	void IgnoreQuotation(T& t, const T& end);
-
 	void IgnoreParenthesis(T& t, const T& end);
-
 	void IgnoreBrace(T& t, const T& end);
+	void IgnoreWhitespace(T& t, const T& end);
 };
 
 
@@ -299,6 +295,24 @@ void Ignore<T>::IgnoreBrace(T& t, const T& end)
 		}
 	}
 	return;
+}
+
+template<typename T>
+void Ignore<T>::IgnoreWhitespace(T& t, const T& end)
+{
+	if(t==end)
+	{
+		return;
+	}
+	while (*t == ' ' || *t == '\t')
+	{
+		t++;
+		if (t == end)
+		{
+			return;
+		}
+
+	}
 }
 
 #endif
