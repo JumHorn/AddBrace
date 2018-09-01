@@ -71,7 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)utils\</OutDir>
+    <TargetName>AddBrace</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -151,10 +152,13 @@
   <ItemGroup>
     <ClInclude Include="char.h" />
     <ClInclude Include="formatter.h" />
+    <ClInclude Include="ignore.hpp" />
+    <ClInclude Include="style.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="formatter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="style.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

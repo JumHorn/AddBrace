@@ -21,12 +21,21 @@
     <ClInclude Include="formatter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ignore.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="style.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="formatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="style.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
