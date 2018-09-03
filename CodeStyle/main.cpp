@@ -49,13 +49,13 @@ int main(int argc, char* argv[])
 		cout<<"A Safety Pig has been provided below for your benefit"<<endl;
 		cout<<pig<<endl;
 
-		cout << "Version 2.9" << endl;
+		cout << "Version 3.0" << endl;
 		cout << "created by JumHorn" << endl;
 		cout << "all rights reserved" << endl;
 		return 0;
 	}
 
-	//Formatter formatter;
+	Formatter formatter;
 	Style checker;
 	for (int i = 1; i < argc; i++)
 	{
@@ -68,14 +68,14 @@ int main(int argc, char* argv[])
 		checker.flushContent(argv[i]);
 		cout << "\t" << "finished" << endl;
 
-		// if (!formatter.setContent(argv[i]))
-		// {
-		// 	continue;
-		// }
-		// cout << "processing " << argv[i];
-		// formatter.start();
-		// formatter.writeBack(argv[i]);
-		// cout << "\t" << "finished" << endl;
+		 //if (!formatter.setContent(argv[i]))
+		 //{
+		 //	continue;
+		 //}
+		 //cout << "processing " << argv[i];
+		 //formatter.start();
+		 //formatter.writeBack(argv[i]);
+		 //cout << "\t" << "finished" << endl;
 	}
 
 	cout<<endl;

@@ -29,7 +29,7 @@ public:
 	void eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator& end);
 	void addNewline(list<char>::iterator& start,const list<char>::iterator& end);
 	void addSpace(list<char>::iterator& start,const list<char>::iterator& end);
-	void makeIndentation(list<char>::iterator& start,const list<char>::iterator& end);
+	void makeBraceIndentation(list<char>::iterator& start,const list<char>::iterator& end);
 	void start();
 
 private:

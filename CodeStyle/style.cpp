@@ -182,7 +182,7 @@ void Style::addNewline(list<char>::iterator& start,const list<char>::iterator& e
 void Style::addSpace(list<char>::iterator& start,const list<char>::iterator& end)
 {}
 
-void Style::makeIndentation(list<char>::iterator& start,const list<char>::iterator& end)
+void Style::makeBraceIndentation(list<char>::iterator& start,const list<char>::iterator& end)
 {
 	int indent=0;
 	IgnoreComments(start,end);
