@@ -38,6 +38,24 @@ if(true)
         cout<<3<<endl;
 ```
 
+#### third
+this big problem still exists until V3.0   
+if statement without semicolon and the braces not match correctly   
+```C++
+void fun()
+{
+#if 0
+    if(true)
+        statement
+    else if(true)
+    {
+#endif
+    statement;
+}
+
+int main()
+{}
+```
 
 ### conclusion
 my code will make you cry which I don't want to review any more
