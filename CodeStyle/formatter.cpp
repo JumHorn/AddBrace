@@ -59,7 +59,7 @@ bool Formatter::compare(list<char>::iterator& start, const list<char>::iterator&
 	// }
 	for (string::size_type i = 0; i < token.length(); i++)
 	{
-		if (start==end||*start++ != token[i])
+		if (start == end || *start++ != token[i])
 		{
 			return false;
 		}
@@ -165,7 +165,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 							walker++;
 							IgnoreOneLineComments(walker, end);
 							OUTOFBOUNDS(walker, end);
-							if(*walker=='\n')
+							if (*walker == '\n')
 							{
 								filelist.insert(walker, '}');
 							}
@@ -222,7 +222,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 			IgnoreParenthesis(runner, end);
 			OUTOFBOUNDS(runner, end);
 
-			if (*runner == '{' || *runner=='#')
+			if (*runner == '{' || *runner == '#')
 			{
 				runner++;
 				continue;
@@ -409,7 +409,7 @@ void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>
 				walker++;
 				IgnoreOneLineComments(walker, end);
 				OUTOFBOUNDS(walker, end);
-				if(*walker=='\n')
+				if (*walker == '\n')
 				{
 					filelist.insert(walker, '}');
 				}

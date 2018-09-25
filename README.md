@@ -61,6 +61,11 @@ int main()
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V3.1
+1. simplify code logic
+2. add make indentation feature
+3. add statistics framework
+
 * V3.0
 1. new line macro to support various systems
 2. a new feature style formatter to be added 

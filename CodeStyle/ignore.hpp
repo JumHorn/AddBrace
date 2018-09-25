@@ -62,23 +62,14 @@ void Ignore<T>::IgnoreComments(T& t, const T& end)
 			while (t != end)
 			{
 				t++;
-				if (*t != '*')
-				{
-					continue;
-				}
-				else
+				if (*t == '*')
 				{
 					t++;
 					if (*t == '*')
 					{
 						t--;
-						continue;
 					}
-					else if (*t != '/')
-					{
-						continue;
-					}
-					else
+					else if (*t == '/')
 					{
 						t++;
 						return IgnoreComments(t, end);
@@ -127,23 +118,14 @@ void Ignore<T>::IgnoreOneLineComments(T& t, const T& end)
 			while (t != end)
 			{
 				t++;
-				if (*t != '*')
-				{
-					continue;
-				}
-				else
+				if (*t == '*')
 				{
 					t++;
 					if (*t == '*')
 					{
 						t--;
-						continue;
 					}
-					else if (*t != '/')
-					{
-						continue;
-					}
-					else
+					else if (*t == '/')
 					{
 						t++;
 						return;
@@ -167,12 +149,12 @@ void Ignore<T>::IgnoreApostrophe(T& t, const T& end)
 	if (*t == '\'')
 	{
 		t++;
-		while (t!=end)
+		while (t != end)
 		{
-			if(*t=='\\')
+			if (*t == '\\')
 			{
 				t++;
-			}	
+			}
 			else if (*t == '\'')
 			{
 				t++;
@@ -195,7 +177,7 @@ void Ignore<T>::IgnoreQuotation(T& t, const T& end)
 	if (*t == '\"')
 	{
 		t++;
-		while (t!=end)
+		while (t != end)
 		{
 			if (*t == '\\')
 			{
@@ -225,12 +207,12 @@ void Ignore<T>::IgnoreParenthesis(T& t, const T& end)
 	if (*t == '(')
 	{
 		t++;
-		while (t!=end)
+		while (t != end)
 		{
 			IgnoreComments(t, end);
 			IgnoreApostrophe(t, end);
 			IgnoreQuotation(t, end);
-			if(t==end)
+			if (t == end)
 			{
 				return;
 			}
@@ -267,12 +249,12 @@ void Ignore<T>::IgnoreBrace(T& t, const T& end)
 	if (*t == '{')
 	{
 		t++;
-		while (t!=end)
+		while (t != end)
 		{
 			IgnoreComments(t, end);
 			IgnoreApostrophe(t, end);
 			IgnoreQuotation(t, end);
-			if(t==end)
+			if (t == end)
 			{
 				return;
 			}
@@ -300,7 +282,7 @@ void Ignore<T>::IgnoreBrace(T& t, const T& end)
 template<typename T>
 void Ignore<T>::IgnoreWhitespace(T& t, const T& end)
 {
-	if(t==end)
+	if (t == end)
 	{
 		return;
 	}

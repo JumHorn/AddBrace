@@ -48,9 +48,9 @@ const char after_check[] = { '\t','\n','\r',' ','(','{','/' };
 /*
 indentation
 */
-const char add_indentation[] = {'{'};
-const char remove_indentation[] = {'}'};
-const char new_line[] = {';'};
-const char white_space[]={' ','\t'};
+const char add_indentation[] = { '{' };
+const char remove_indentation[] = { '}' };
+const char new_line[] = { ';' };
+const char white_space[] = { ' ','\t' };
 
 #endif

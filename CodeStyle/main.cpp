@@ -33,10 +33,10 @@ int main(int argc, char* argv[])
 		"              /,_/      '`-'       \n";
 	if (argc == 1)
 	{
-		cout<<endl;
-		cout<<"WARNING: This tool may destroy your code:"<<endl;
-		cout<<"A Safety Pig has been provided below for your benefit"<<endl;
-		cout<<pig<<endl;
+		cout << endl;
+		cout << "WARNING: This tool may destroy your code:" << endl;
+		cout << "A Safety Pig has been provided below for your benefit" << endl;
+		cout << pig << endl;
 
 		cout << "Usage: \nAddBrace [filename] ..." << endl;
 		cout << "The file must be in the same directory with this tool or input the absolute path of your files" << endl;
@@ -44,10 +44,10 @@ int main(int argc, char* argv[])
 	}
 	if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "-V"))
 	{
-		cout<<endl;
-		cout<<"WARNING: This tool may destroy your code:"<<endl;
-		cout<<"A Safety Pig has been provided below for your benefit"<<endl;
-		cout<<pig<<endl;
+		cout << endl;
+		cout << "WARNING: This tool may destroy your code:" << endl;
+		cout << "A Safety Pig has been provided below for your benefit" << endl;
+		cout << pig << endl;
 
 		cout << "Version 3.0" << endl;
 		cout << "created by JumHorn" << endl;
@@ -68,19 +68,19 @@ int main(int argc, char* argv[])
 		checker.flushContent(argv[i]);
 		cout << "\t" << "finished" << endl;
 
-		 //if (!formatter.setContent(argv[i]))
-		 //{
-		 //	continue;
-		 //}
-		 //cout << "processing " << argv[i];
-		 //formatter.start();
-		 //formatter.writeBack(argv[i]);
-		 //cout << "\t" << "finished" << endl;
+		//if (!formatter.setContent(argv[i]))
+		//{
+		//	continue;
+		//}
+		//cout << "processing " << argv[i];
+		//formatter.start();
+		//formatter.writeBack(argv[i]);
+		//cout << "\t" << "finished" << endl;
 	}
 
-	cout<<endl;
-	cout<<"WARNING: These changes cannot be cancelled:"<<endl;
-	cout<<"A Safety Pig has been provided below for your benefit"<<endl;
-	cout<<pig<<endl;
+	cout << endl;
+	cout << "WARNING: These changes cannot be cancelled:" << endl;
+	cout << "A Safety Pig has been provided below for your benefit" << endl;
+	cout << pig << endl;
 	return 0;
 }

@@ -24,22 +24,24 @@ public:
 
 	bool setContent(const string& input);
 	void flushContent(const string& output) const;
-	void erasePrelineWhitespace(list<char>::iterator& start,const list<char>::iterator& end);
-	void erasePostlineWhitespace(list<char>::iterator& start,const list<char>::iterator& end);
-	void eraseExtraNewline(list<char>::iterator& start,const list<char>::iterator& end);
-	void addNewline(list<char>::iterator& start,const list<char>::iterator& end);
-	void addSpace(list<char>::iterator& start,const list<char>::iterator& end);
-	void makeBraceIndentation(list<char>::iterator& start,const list<char>::iterator& end);
+	void erasePrelineWhitespace(list<char>::iterator& start, const list<char>::iterator& end);
+	void erasePostlineWhitespace(list<char>::iterator& start, const list<char>::iterator& end);
+	void eraseExtraNewline(list<char>::iterator& start, const list<char>::iterator& end);
+	void addNewline(list<char>::iterator& start, const list<char>::iterator& end);
+	void addSpace(list<char>::iterator& start, const list<char>::iterator& end);
+	void makeBraceIndentation(list<char>::iterator& start, const list<char>::iterator& end);
 	void start();
 
 private:
 	bool isWhitespace(char c) const;
 	bool isNewline(char c) const;
 	string getIndent(int indentnum);
+	bool makeCommentsIndentation(list<char>::iterator& t, const list<char>::iterator& end);
 
 private:
 	list<char> content;
-	map<int,string> tab;
+	map<int, string> tab;
+	int indent;
 };
 
 #endif
