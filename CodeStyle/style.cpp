@@ -57,6 +57,8 @@ void Style::start()
 	eraseExtraNewline(iter, content.end());
 	iter = content.begin();
 	erasePrelineWhitespace(iter, content.end());
+	iter = content.begin();
+	makeBraceIndentation(iter, content.end());
 }
 
 /*
@@ -214,7 +216,7 @@ void Style::makeBraceIndentation(list<char>::iterator& start, const list<char>::
 			{
 				if (*tmp == '}')
 				{
-					string t = getIndent(indent--);
+					string t = getIndent(indent-1);
 					content.insert(tmp, t.begin(), t.end());
 				}
 				else if (*tmp == '#')
@@ -266,22 +268,6 @@ bool Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::i
 	if (t == end)
 	{
 		return false;
-	}
-
-	while (*t == ' ' || *t == '\t' || *t == '\n' || *t == '\r')
-	{
-		t++;
-		if (t == end)
-		{
-			return false;
-		}
-		if (*t == '\n')
-		{
-			t++;
-			string tmp = getIndent(indent);
-			content.insert(t, tmp.begin(), tmp.end());
-			return makeCommentsIndentation(t, end);
-		}
 	}
 
 	if (*t == '/')

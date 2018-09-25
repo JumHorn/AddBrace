@@ -293,7 +293,6 @@ void Ignore<T>::IgnoreWhitespace(T& t, const T& end)
 		{
 			return;
 		}
-
 	}
 }
 
