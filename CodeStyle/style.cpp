@@ -183,7 +183,48 @@ void Style::eraseExtraNewline(list<char>::iterator& start, const list<char>::ite
 }
 
 void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& end)
-{}
+{
+	list<char>::iterator& tmp = start;
+	while (tmp != end)
+	{
+		IgnoreComments(tmp, end);
+		IgnoreApostrophe(tmp, end);
+		IgnoreQuotation(tmp, end);
+		OUTOFBOUNDS(tmp, end);
+		if (*tmp == '{')
+		{
+			tmp++;
+			IgnoreWhitespace(tmp, end);
+			OUTOFBOUNDS(tmp, end);
+			if (*tmp != '\n')
+			{
+				content.insert(tmp, '\n');
+			}
+		}
+		else if (*tmp == '}')
+		{
+			list<char>::iterator t = tmp;
+			t--;
+			while (*t == ' ' || *t == '\t')
+			{
+				t--;
+				if (t == start)
+				{
+					break;
+				}
+			}
+			if (*t != '\n')
+			{
+				content.insert(tmp, '\n');
+			}
+			tmp++;
+		}
+		else
+		{
+			tmp++;
+		}
+	}
+}
 
 void Style::addSpace(list<char>::iterator& start, const list<char>::iterator& end)
 {}
