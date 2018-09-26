@@ -192,6 +192,9 @@ void Style::eraseExtraNewline(list<char>::iterator& start, const list<char>::ite
 	}
 }
 
+/*
+add new line before and after brace
+*/
 void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& end)
 {
 	list<char>::iterator& tmp = start;
@@ -201,7 +204,7 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
 		OUTOFBOUNDS(tmp, end);
-		if (*tmp == '{'|| *tmp == '}')
+		if (*tmp == '{' || *tmp == '}')
 		{
 			list<char>::iterator t = tmp;
 			t--;
@@ -224,7 +227,6 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 			{
 				content.insert(tmp, '\n');
 			}
-
 		}
 		else
 		{
@@ -233,6 +235,9 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 	}
 }
 
+/*
+add space before and after operator
+*/
 void Style::addSpace(list<char>::iterator& start, const list<char>::iterator& end)
 {}
 
@@ -401,11 +406,46 @@ void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator
 		t++;
 		if (*t == '/')
 		{
-			while (t != end && *t != '\n')t++;
-			if (t != end)
+			while (t != end)
 			{
 				t++;
-				return rmNestingComment(t, end);
+				if (*t == '\n')
+				{
+					t++;
+					return rmNestingComment(t, end);
+				}
+				else if (*t == '/')
+				{
+					t++;
+					if (*t == '\n')
+					{
+						t++;
+						return rmNestingComment(t, end);
+					}
+					else if (*t == '*')
+					{
+						list<char>::iterator it = t;
+						it--;
+						t++;
+						content.erase(it, t);
+					}
+				}
+				else if (*t == '*')
+				{
+					t++;
+					if (*t == '\n')
+					{
+						t++;
+						return rmNestingComment(t, end);
+					}
+					else if (*t == '/')
+					{
+						list<char>::iterator it = t;
+						it--;
+						t++;
+						content.erase(it, t);
+					}
+				}
 			}
 		}
 		else if (*t == '*')
@@ -424,6 +464,31 @@ void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator
 					{
 						t++;
 						return rmNestingComment(t, end);
+					}
+				}
+				else if(*t=='/')
+				{
+					t++;
+					if (*t=='/')
+					{
+						list<char>::iterator it = t;
+						it--;
+						t++;
+						content.erase(it, t);
+					}
+					else if (*t == '*')
+					{
+						t++;
+						if (*t == '/')
+						{
+							return rmNestingComment(t, end);
+						}
+						else
+						{
+							list<char>::iterator it = t;
+							advance(it,-2);
+							content.erase(it, t);
+						}
 					}
 				}
 			}
