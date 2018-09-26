@@ -30,13 +30,16 @@ public:
 	void addNewline(list<char>::iterator& start, const list<char>::iterator& end);
 	void addSpace(list<char>::iterator& start, const list<char>::iterator& end);
 	void makeBraceIndentation(list<char>::iterator& start, const list<char>::iterator& end);
+	void removeIndentation(list<char>::iterator& start, const list<char>::iterator& end);
+	void removeNestingComment(list<char>::iterator& start, const list<char>::iterator& end);
 	void start();
 
 private:
 	bool isWhitespace(char c) const;
 	bool isNewline(char c) const;
 	string getIndent(int indentnum);
-	bool makeCommentsIndentation(list<char>::iterator& t, const list<char>::iterator& end);
+	void makeCommentsIndentation(list<char>::iterator& t, const list<char>::iterator& end);
+	void rmNestingComment(list<char>::iterator& start, const list<char>::iterator& end);
 
 private:
 	list<char> content;

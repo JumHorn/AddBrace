@@ -55,7 +55,6 @@ void Ignore<T>::IgnoreComments(T& t, const T& end)
 				t++;
 				return IgnoreComments(t, end);
 			}
-			return;
 		}
 		else if (*t == '*')
 		{
@@ -76,7 +75,6 @@ void Ignore<T>::IgnoreComments(T& t, const T& end)
 					}
 				}
 			}
-			return;
 		}
 	}
 	return;
@@ -109,9 +107,7 @@ void Ignore<T>::IgnoreOneLineComments(T& t, const T& end)
 			if (t != end)
 			{
 				t++;
-				return;
 			}
-			return;
 		}
 		else if (*t == '*')
 		{
@@ -132,7 +128,6 @@ void Ignore<T>::IgnoreOneLineComments(T& t, const T& end)
 					}
 				}
 			}
-			return;
 		}
 	}
 	return;

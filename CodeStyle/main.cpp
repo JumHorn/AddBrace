@@ -59,23 +59,18 @@ int main(int argc, char* argv[])
 	Style checker;
 	for (int i = 1; i < argc; i++)
 	{
-		if (!checker.setContent(argv[i]))
+		if (!formatter.setContent(argv[i]))
 		{
 			continue;
 		}
 		cout << "processing " << argv[i];
+		formatter.start();
+		formatter.writeBack(argv[i]);
+
+		checker.setContent(argv[i]);
 		checker.start();
 		checker.flushContent(argv[i]);
 		cout << "\t" << "finished" << endl;
-
-		//if (!formatter.setContent(argv[i]))
-		//{
-		//	continue;
-		//}
-		//cout << "processing " << argv[i];
-		//formatter.start();
-		//formatter.writeBack(argv[i]);
-		//cout << "\t" << "finished" << endl;
 	}
 
 	cout << endl;

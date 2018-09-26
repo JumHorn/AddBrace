@@ -51,14 +51,24 @@ void Style::start()
 {
 	list<char>::iterator iter = content.begin();
 	addNewline(iter, content.end());//eliminate hidden spaces
+
 	iter = content.begin();
 	erasePostlineWhitespace(iter, content.end());
+
 	iter = content.begin();
 	eraseExtraNewline(iter, content.end());
+
 	iter = content.begin();
 	erasePrelineWhitespace(iter, content.end());
+
 	iter = content.begin();
 	makeBraceIndentation(iter, content.end());
+
+	iter = content.begin();
+	removeIndentation(iter, content.end());
+
+	iter = content.begin();
+	removeNestingComment(iter, content.end());
 }
 
 /*
@@ -304,11 +314,11 @@ bool Style::isWhitespace(char c) const
 	return white_space + temp != find(white_space, white_space + temp, c);
 }
 
-bool Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::iterator& end)
+void Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::iterator& end)
 {
 	if (t == end)
 	{
-		return false;
+		return;
 	}
 
 	if (*t == '/')
@@ -324,7 +334,6 @@ bool Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::i
 				content.insert(t, tmp.begin(), tmp.end());
 				return makeCommentsIndentation(t, end);
 			}
-			return true;
 		}
 		else if (*t == '*')
 		{
@@ -352,8 +361,76 @@ bool Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::i
 					}
 				}
 			}
-			return false;
 		}
 	}
-	return true;
+	return;
+}
+
+void Style::removeIndentation(list<char>::iterator& start, const list<char>::iterator& end)
+{}
+
+void Style::removeNestingComment(list<char>::iterator& start, const list<char>::iterator& end)
+{
+	list<char>::iterator& tmp = start;
+	while (tmp != end)
+	{
+		rmNestingComment(tmp, end);
+		IgnoreApostrophe(tmp, end);
+		IgnoreQuotation(tmp, end);
+		OUTOFBOUNDS(tmp, end);
+		tmp++;
+	}
+}
+
+void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator& end)
+{
+	if (t == end)
+	{
+		return;
+	}
+
+	while (*t == ' ' || *t == '\t' || *t == '\n' || *t == '\r')
+	{
+		t++;
+		if (t == end)
+		{
+			return;
+		}
+
+	}
+
+	if (*t == '/')
+	{
+		t++;
+		if (*t == '/')
+		{
+			while (t != end && *t != '\n')t++;
+			if (t != end)
+			{
+				t++;
+				return rmNestingComment(t, end);
+			}
+		}
+		else if (*t == '*')
+		{
+			while (t != end)
+			{
+				t++;
+				if (*t == '*')
+				{
+					t++;
+					if (*t == '*')
+					{
+						t--;
+					}
+					else if (*t == '/')
+					{
+						t++;
+						return rmNestingComment(t, end);
+					}
+				}
+			}
+		}
+	}
+	return;
 }
