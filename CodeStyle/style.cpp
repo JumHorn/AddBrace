@@ -194,6 +194,7 @@ void Style::eraseExtraNewline(list<char>::iterator& start, const list<char>::ite
 
 /*
 add new line before and after brace
+add new line after ;
 */
 void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& end)
 {
@@ -224,6 +225,16 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 			IgnoreWhitespace(tmp, end);
 			OUTOFBOUNDS(tmp, end);
 			if (*tmp != '\n')
+			{
+				content.insert(tmp, '\n');
+			}
+		}
+		else if (*tmp == ';')
+		{
+			tmp++;
+			IgnoreWhitespace(tmp, end);
+			OUTOFBOUNDS(tmp, end);
+			if (*tmp != '\n'&&*tmp != '/')
 			{
 				content.insert(tmp, '\n');
 			}
