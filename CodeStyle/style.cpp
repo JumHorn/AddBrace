@@ -201,17 +201,7 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
 		OUTOFBOUNDS(tmp, end);
-		if (*tmp == '{')
-		{
-			tmp++;
-			IgnoreWhitespace(tmp, end);
-			OUTOFBOUNDS(tmp, end);
-			if (*tmp != '\n')
-			{
-				content.insert(tmp, '\n');
-			}
-		}
-		else if (*tmp == '}')
+		if (*tmp == '{'|| *tmp == '}')
 		{
 			list<char>::iterator t = tmp;
 			t--;
@@ -228,6 +218,13 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 				content.insert(tmp, '\n');
 			}
 			tmp++;
+			IgnoreWhitespace(tmp, end);
+			OUTOFBOUNDS(tmp, end);
+			if (*tmp != '\n')
+			{
+				content.insert(tmp, '\n');
+			}
+
 		}
 		else
 		{
