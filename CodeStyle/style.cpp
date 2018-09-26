@@ -369,7 +369,27 @@ void Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::i
 }
 
 void Style::removeIndentation(list<char>::iterator& start, const list<char>::iterator& end)
-{}
+{
+	list<char>::iterator& tmp = start;
+	while (tmp != end)
+	{
+		IgnoreComments(tmp, end);
+		IgnoreApostrophe(tmp, end);
+		IgnoreQuotation(tmp, end);
+		OUTOFBOUNDS(tmp, end);
+		if (*tmp == ':')
+		{
+			list<char>::iterator it = tmp;
+			while (*it != '\n')it--;
+			it++;
+			if (*it == '\t')
+			{
+				content.erase(it);
+			}
+		}
+		tmp++;
+	}
+}
 
 void Style::removeNestingComment(list<char>::iterator& start, const list<char>::iterator& end)
 {
@@ -406,9 +426,9 @@ void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator
 		t++;
 		if (*t == '/')
 		{
+			t++;
 			while (t != end)
 			{
-				t++;
 				if (*t == '\n')
 				{
 					t++;
