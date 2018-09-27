@@ -445,7 +445,7 @@ void Formatter::start()
 	addElse(iter, filelist.end());
 }
 
-void Formatter::writeBack(const string& outputfile) const
+void Formatter::flushContent(const string& outputfile) const
 {
 	ofstream fout(outputfile);
 	for (list<char>::const_iterator iter = filelist.begin(); iter != filelist.end(); iter++)

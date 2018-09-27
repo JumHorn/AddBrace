@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 		cout << "A Safety Pig has been provided below for your benefit" << endl;
 		cout << pig << endl;
 
-		cout << "Version 3.0" << endl;
+		cout << "Version 3.1" << endl;
 		cout << "created by JumHorn" << endl;
 		cout << "all rights reserved" << endl;
 		return 0;
@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
 		}
 		cout << "processing " << argv[i];
 		formatter.start();
-		formatter.writeBack(argv[i]);
+		formatter.flushContent(argv[i]);
 
 		checker.setContent(argv[i]);
 		checker.start();

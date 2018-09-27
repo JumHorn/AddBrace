@@ -35,7 +35,7 @@ public:
 	void addElse(list<char>::iterator& start, const list<char>::iterator& end);
 
 	bool setContent(const string& inputfile);
-	void writeBack(const string& outputfile) const;
+	void flushContent(const string& outputfile) const;
 
 private:
 	bool beforCheck(char c) const;
