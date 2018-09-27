@@ -56,6 +56,20 @@ void fun()
 int main()
 {}
 ```
+### bug list
+* bad format
+```C++
+const int[] = {0};
+```
+will change to this (a bit ugly)
+```C++
+const int[] =
+{
+    0
+};
+```
+* uncompiled
+code that can not compiled may cause a lot of unexpected questions
 
 ### conclusion
 my code will make you cry which I don't want to review any more

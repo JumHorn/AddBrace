@@ -41,7 +41,6 @@ void Ignore<T>::IgnoreComments(T& t, const T& end)
 		{
 			return;
 		}
-
 	}
 
 	if (*t == '/')
@@ -95,7 +94,6 @@ void Ignore<T>::IgnoreOneLineComments(T& t, const T& end)
 		{
 			return;
 		}
-
 	}
 
 	if (*t == '/')

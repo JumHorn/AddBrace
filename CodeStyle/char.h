@@ -53,4 +53,10 @@ const char remove_indentation[] = { '}' };
 const char new_line[] = { ';' };
 const char white_space[] = { ' ','\t' };
 
+/*
+operators
+the = operator must be the after == and != to be last matched one
+*/
+const char* const oper[] = { "&&","||","==","!=","=" };
+
 #endif

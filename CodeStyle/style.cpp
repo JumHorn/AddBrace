@@ -224,7 +224,7 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 			tmp++;
 			IgnoreWhitespace(tmp, end);
 			OUTOFBOUNDS(tmp, end);
-			if (*tmp != '\n')
+			if (*tmp != '\n'&&*tmp != ';')
 			{
 				content.insert(tmp, '\n');
 			}
@@ -280,7 +280,7 @@ void Style::makeBraceIndentation(list<char>::iterator& start, const list<char>::
 			{
 				if (*tmp == '}')
 				{
-					string t = getIndent(indent-1);
+					string t = getIndent(indent - 1);
 					content.insert(tmp, t.begin(), t.end());
 				}
 				else if (*tmp == '#')
@@ -495,10 +495,10 @@ void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator
 						return rmNestingComment(t, end);
 					}
 				}
-				else if(*t=='/')
+				else if (*t == '/')
 				{
 					t++;
-					if (*t=='/')
+					if (*t == '/')
 					{
 						list<char>::iterator it = t;
 						it--;
@@ -515,7 +515,7 @@ void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator
 						else
 						{
 							list<char>::iterator it = t;
-							advance(it,-2);
+							advance(it, -2);
 							content.erase(it, t);
 						}
 					}
