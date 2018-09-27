@@ -40,6 +40,7 @@ private:
 	string getIndent(int indentnum);
 	void makeCommentsIndentation(list<char>::iterator& t, const list<char>::iterator& end);
 	void rmNestingComment(list<char>::iterator& start, const list<char>::iterator& end);
+	bool compare(list<char>::iterator& start, const list<char>::iterator& end, const vector<string>& opers) const;
 
 private:
 	list<char> content;

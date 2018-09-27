@@ -79,6 +79,7 @@ my code will make you cry which I don't want to review any more
 1. simplify code logic
 2. add make indentation feature
 3. add statistics framework
+4. add spaces before and after operators
 
 * V3.0
 1. new line macro to support various systems

@@ -8,6 +8,8 @@ of the License, or any later version.
 */
 
 #include <fstream>
+#include <vector>
+#include <string>
 #include "style.h"
 #include "char.h"
 using namespace std;
@@ -69,6 +71,9 @@ void Style::start()
 
 	iter = content.begin();
 	removeNestingComment(iter, content.end());
+
+	iter = content.begin();
+	addSpace(iter, content.end());
 }
 
 /*
@@ -250,7 +255,62 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 add space before and after operator
 */
 void Style::addSpace(list<char>::iterator& start, const list<char>::iterator& end)
-{}
+{
+	list<char>::iterator& tmp = start;
+	list<char>::iterator runner = start;
+	vector<string> op(oper, oper + ARRAY_SIZE(oper));
+	while (tmp != end)
+	{
+		IgnoreComments(tmp, end);
+		IgnoreApostrophe(tmp, end);
+		IgnoreQuotation(tmp, end);
+		OUTOFBOUNDS(tmp, end);
+		runner = tmp;
+		if (compare(runner, end, op))
+		{
+			if (*runner != ' '&&*runner != '\t')
+			{
+				content.insert(runner, ' ');
+			}
+			tmp--;
+			if (*tmp != ' '&&*tmp != '\t')
+			{
+				tmp++;
+				content.insert(tmp, ' ');
+			}
+		}
+		tmp = runner;
+	}
+}
+
+bool Style::compare(list<char>::iterator& start, const list<char>::iterator& end, const vector<string>& opers) const
+{
+	list<char>::iterator runner = start;
+	for (vector<string>::size_type i = 0; i < opers.size(); i++)
+	{
+		string::size_type j = 0;
+		runner = start;
+		for (j = 0; j < opers[i].length(); j++)
+		{
+			if (runner == end)
+			{
+				start = runner;
+				return false;
+			}
+			else if (*runner++ != opers[i][j])
+			{
+				break;
+			}
+		}
+		if (j == opers[i].length())
+		{
+			start = runner;
+			return true;
+		}
+	}
+	start = runner;
+	return false;
+}
 
 void Style::makeBraceIndentation(list<char>::iterator& start, const list<char>::iterator& end)
 {
