@@ -350,28 +350,27 @@ void Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::i
 		}
 		else if (*t == '*')
 		{
+			t++;
 			while (t != end)
 			{
-				t++;
 				if (*t == '\n')
 				{
 					t++;
 					string tmp = getIndent(indent);
 					content.insert(t, tmp.begin(), tmp.end());
-					t--;
 				}
 				else if (*t == '*')
 				{
 					t++;
-					if (*t == '*')
-					{
-						t--;
-					}
-					else if (*t == '/')
+					if (*t == '/')
 					{
 						t++;
 						return makeCommentsIndentation(t, end);
 					}
+				}
+				else
+				{
+					t++;
 				}
 			}
 		}
@@ -429,7 +428,6 @@ void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator
 		{
 			return;
 		}
-
 	}
 
 	if (*t == '/')
@@ -477,21 +475,21 @@ void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator
 						content.erase(it, t);
 					}
 				}
+				else
+				{
+					t++;
+				}
 			}
 		}
 		else if (*t == '*')
 		{
+			t++;
 			while (t != end)
 			{
-				t++;
 				if (*t == '*')
 				{
 					t++;
-					if (*t == '*')
-					{
-						t--;
-					}
-					else if (*t == '/')
+					if (*t == '/')
 					{
 						t++;
 						return rmNestingComment(t, end);
@@ -521,6 +519,10 @@ void Style::rmNestingComment(list<char>::iterator& t, const list<char>::iterator
 							content.erase(it, t);
 						}
 					}
+				}
+				else
+				{
+					t++;
 				}
 			}
 		}

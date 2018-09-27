@@ -58,21 +58,21 @@ void Ignore<T>::IgnoreComments(T& t, const T& end)
 		}
 		else if (*t == '*')
 		{
+			t++;
 			while (t != end)
 			{
-				t++;
 				if (*t == '*')
 				{
 					t++;
-					if (*t == '*')
-					{
-						t--;
-					}
-					else if (*t == '/')
+					if (*t == '/')
 					{
 						t++;
 						return IgnoreComments(t, end);
 					}
+				}
+				else
+				{
+					t++;
 				}
 			}
 		}
@@ -111,21 +111,21 @@ void Ignore<T>::IgnoreOneLineComments(T& t, const T& end)
 		}
 		else if (*t == '*')
 		{
+			t++;
 			while (t != end)
 			{
-				t++;
 				if (*t == '*')
 				{
 					t++;
-					if (*t == '*')
-					{
-						t--;
-					}
-					else if (*t == '/')
+					if (*t == '/')
 					{
 						t++;
 						return;
 					}
+				}
+				else
+				{
+					t++;
 				}
 			}
 		}
