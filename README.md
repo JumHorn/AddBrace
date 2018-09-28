@@ -56,6 +56,7 @@ void fun()
 int main()
 {}
 ```
+
 ### bug list
 * bad format
 ```C++
@@ -75,6 +76,9 @@ code that can not compiled may cause a lot of unexpected questions
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V3.2
+1. add statistics
+
 * V3.1
 1. simplify code logic
 2. add make indentation feature
