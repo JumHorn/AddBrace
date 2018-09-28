@@ -161,6 +161,11 @@ void Style::eraseExtraNewline(list<char>::iterator& start, const list<char>::ite
 		}
 		backward = tmp;
 		backward++;
+		if (backward == end)
+		{
+			tmp = backward;
+			break;
+		}
 		if (*backward == '\r')
 		{
 			backward++;
