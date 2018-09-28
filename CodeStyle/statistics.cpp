@@ -10,15 +10,17 @@ of the License, or any later version.
 #include <fstream>
 #include "statistics.h"
 
-statistics::statistics()
+#define OUTOFBOUNDS(a,b) if(a==b)break;
+
+Statistics::Statistics()
 {
 }
 
-statistics::~statistics()
+Statistics::~Statistics()
 {
 }
 
-bool statistics::setContent(const string& input)
+bool Statistics::setContent(const string& input)
 {
 	fstream fin(input);
 	if (!fin)
@@ -29,7 +31,7 @@ bool statistics::setContent(const string& input)
 	return true;
 }
 
-void statistics::flushContent(const string& output) const
+void Statistics::flushContent(const string& output) const
 {
 	ofstream fout(output);
 	for (list<char>::const_iterator iter = content.begin(); iter != content.end(); iter++)
@@ -38,12 +40,88 @@ void statistics::flushContent(const string& output) const
 	}
 }
 
-int statistics::getTotalComments()
+int Statistics::getTotalComments()
 {
-	return 0;
+	list<char>::iterator tmp = content.begin();
+	const list<char>::iterator& end = content.end();
+	int line = 0;
+	while (tmp != end)
+	{
+		line += countComments(tmp, end);
+		OUTOFBOUNDS(tmp, end);
+		tmp++;
+	}
+	return line;
+}
+/*
+ignore the line only consist with white space
+*/
+int Statistics::getTotalCode()
+{
+	list<char>::iterator tmp = content.begin();
+	const list<char>::iterator& end = content.end();
+	int line = 0;
+	while (tmp != end)
+	{
+		IgnoreWhitespace(tmp, end);
+		if (*tmp == '\n')
+		{
+			tmp++;
+		}
+		else
+		{
+			line++;
+			while (tmp != end&&*tmp != '\n')tmp++;
+			if (tmp != end)
+			{
+				tmp++;
+			}
+		}
+	}
+	return line;
 }
 
-int statistics::getTotalCode()
+int Statistics::countComments(list<char>::iterator& t, const list<char>::iterator& end)
 {
-	return 0;
+	if (t == end)
+	{
+		return 0;
+	}
+
+	int line = 0;
+	if (*t == '/')
+	{
+		t++;
+		if (*t == '/')
+		{
+			while (t != end&&*t != '\n')t++;
+			line = 1;
+		}
+		else if (*t == '*')
+		{
+			t++;
+			while (t != end)
+			{
+				if (*t == '*')
+				{
+					t++;
+					if (*t == '/')
+					{
+						t++;
+						return ++line;
+					}
+				}
+				else if (*t == '\n')
+				{
+					t++;
+					line++;
+				}
+				else
+				{
+					t++;
+				}
+			}
+		}
+	}
+	return line;
 }

@@ -19,11 +19,11 @@ add up comment line and real code line
 #include "ignore.hpp"
 using namespace std;
 
-class statistics : public Ignore<list<char>::iterator>
+class Statistics : public Ignore<list<char>::iterator>
 {
 public:
-	statistics();
-	~statistics();
+	Statistics();
+	~Statistics();
 
 	bool setContent(const string& input);
 	void flushContent(const string& output) const;
@@ -33,6 +33,9 @@ public:
 
 private:
 	list<char> content;
+
+private:
+	int countComments(list<char>::iterator& start, const list<char>::iterator& end);
 };
 
 #endif

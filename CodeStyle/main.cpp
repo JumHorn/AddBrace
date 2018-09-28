@@ -12,6 +12,7 @@ of the License, or any later version.
 #include<string.h> //for strcmp
 #include"formatter.h"
 #include"style.h"
+#include"statistics.h"
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -57,6 +58,7 @@ int main(int argc, char* argv[])
 
 	Formatter formatter;
 	Style checker;
+	Statistics st;
 	for (int i = 1; i < argc; i++)
 	{
 		if (!formatter.setContent(argv[i]))
@@ -71,6 +73,10 @@ int main(int argc, char* argv[])
 		checker.start();
 		checker.flushContent(argv[i]);
 		cout << "\t" << "finished" << endl;
+
+		st.setContent(argv[i]);
+		cout << "code line: " << st.getTotalCode() << endl;
+		cout << "comment line: " << st.getTotalComments() << endl;
 	}
 
 	cout << endl;
