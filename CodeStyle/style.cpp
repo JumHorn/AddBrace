@@ -345,8 +345,8 @@ void Style::makeBraceIndentation(list<char>::iterator& start, const list<char>::
 			{
 				if (*tmp == '}')
 				{
-					string t = getIndent(indent - 1);
-					content.insert(tmp, t.begin(), t.end());
+					string str = getIndent(indent - 1);
+					content.insert(tmp, str.begin(), str.end());
 				}
 				else if (*tmp == '#')
 				{
@@ -354,8 +354,8 @@ void Style::makeBraceIndentation(list<char>::iterator& start, const list<char>::
 				}
 				else
 				{
-					string t = getIndent(indent);
-					content.insert(tmp, t.begin(), t.end());
+					string str = getIndent(indent);
+					content.insert(tmp, str.begin(), str.end());
 				}
 			}
 		}
@@ -408,8 +408,20 @@ void Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::i
 			if (t != end)
 			{
 				t++;
-				string tmp = getIndent(indent);
-				content.insert(t, tmp.begin(), tmp.end());
+				if (*t == '}')
+				{
+					string str = getIndent(indent - 1);
+					content.insert(t, str.begin(), str.end());
+				}
+				else if (*t == '#')
+				{
+					//
+				}
+				else
+				{
+					string str = getIndent(indent);
+					content.insert(t, str.begin(), str.end());
+				}
 				return makeCommentsIndentation(t, end);
 			}
 		}
