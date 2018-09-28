@@ -405,25 +405,6 @@ void Style::makeCommentsIndentation(list<char>::iterator& t, const list<char>::i
 		if (*t == '/')
 		{
 			while (t != end && *t != '\n')t++;
-			if (t != end)
-			{
-				t++;
-				if (*t == '}')
-				{
-					string str = getIndent(indent - 1);
-					content.insert(t, str.begin(), str.end());
-				}
-				else if (*t == '#')
-				{
-					//
-				}
-				else
-				{
-					string str = getIndent(indent);
-					content.insert(t, str.begin(), str.end());
-				}
-				return makeCommentsIndentation(t, end);
-			}
 		}
 		else if (*t == '*')
 		{
