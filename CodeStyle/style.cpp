@@ -14,7 +14,7 @@ of the License, or any later version.
 #include "char.h"
 using namespace std;
 
-#define OUTOFBOUNDS(a,b) if(a==b)break;
+#define OUTOFRANGE(a,b) if(a==b)break;
 
 Style::Style() :indent(0)
 {
@@ -214,7 +214,7 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 		IgnoreComments(tmp, end);
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
-		OUTOFBOUNDS(tmp, end);
+		OUTOFRANGE(tmp, end);
 		if (*tmp == '{' || *tmp == '}')
 		{
 			list<char>::iterator t = tmp;
@@ -233,7 +233,7 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 			}
 			tmp++;
 			IgnoreWhitespace(tmp, end);
-			OUTOFBOUNDS(tmp, end);
+			OUTOFRANGE(tmp, end);
 			if (*tmp != '\n'&&*tmp != ';')
 			{
 				content.insert(tmp, '\n');
@@ -243,7 +243,7 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 		{
 			tmp++;
 			IgnoreWhitespace(tmp, end);
-			OUTOFBOUNDS(tmp, end);
+			OUTOFRANGE(tmp, end);
 			if (*tmp != '\n'&&*tmp != '/')
 			{
 				content.insert(tmp, '\n');
@@ -269,7 +269,7 @@ void Style::addSpace(list<char>::iterator& start, const list<char>::iterator& en
 		IgnoreComments(tmp, end);
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
-		OUTOFBOUNDS(tmp, end);
+		OUTOFRANGE(tmp, end);
 		runner = tmp;
 		if (compare(runner, end, op))
 		{
@@ -326,7 +326,7 @@ void Style::makeBraceIndentation(list<char>::iterator& start, const list<char>::
 		makeCommentsIndentation(tmp, end);
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
-		OUTOFBOUNDS(tmp, end);
+		OUTOFRANGE(tmp, end);
 
 		if (*tmp == '{')
 		{
@@ -444,7 +444,7 @@ void Style::removeIndentation(list<char>::iterator& start, const list<char>::ite
 		IgnoreComments(tmp, end);
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
-		OUTOFBOUNDS(tmp, end);
+		OUTOFRANGE(tmp, end);
 		if (*tmp == ':')
 		{
 			list<char>::iterator it = tmp;
@@ -467,7 +467,7 @@ void Style::removeNestingComment(list<char>::iterator& start, const list<char>::
 		rmNestingComment(tmp, end);
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
-		OUTOFBOUNDS(tmp, end);
+		OUTOFRANGE(tmp, end);
 		tmp++;
 	}
 }

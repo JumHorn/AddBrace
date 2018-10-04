@@ -13,7 +13,7 @@ of the License, or any later version.
 #include "char.h"
 using namespace std;
 
-#define OUTOFBOUNDS(a,b) if(a==b)break;
+#define OUTOFRANGE(a,b) if(a==b)break;
 
 Formatter::Formatter()
 {
@@ -88,7 +88,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 		IgnoreComments(temp, end);
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		OUTOFBOUNDS(temp, end);
+		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;
 		if (!compare(runner, end, "else"))
@@ -104,7 +104,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 			IgnoreComments(runner, end);
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
-			OUTOFBOUNDS(runner, end);
+			OUTOFRANGE(runner, end);
 
 			if (*runner == '{' || *runner == '#')
 			{
@@ -135,7 +135,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 				IgnoreApostrophe(runner, end);
 				IgnoreQuotation(runner, end);
 				IgnoreComments(runner, end);
-				OUTOFBOUNDS(runner, end);
+				OUTOFRANGE(runner, end);
 
 				if (*runner == '{')
 				{
@@ -158,13 +158,13 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 						IgnoreComments(walker, end);
 						IgnoreApostrophe(walker, end);
 						IgnoreQuotation(walker, end);
-						OUTOFBOUNDS(walker, end);
+						OUTOFRANGE(walker, end);
 
 						if (*walker == ';')
 						{
 							walker++;
 							IgnoreOneLineComments(walker, end);
-							OUTOFBOUNDS(walker, end);
+							OUTOFRANGE(walker, end);
 							if (*walker == '\n')
 							{
 								filelist.insert(walker, '}');
@@ -202,7 +202,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 		IgnoreComments(temp, end);
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		OUTOFBOUNDS(temp, end);
+		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;
 		if (!compare(runner, end, "else"))
@@ -220,7 +220,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 			IgnoreApostrophe(runner, end);
 			IgnoreQuotation(runner, end);
 			IgnoreParenthesis(runner, end);
-			OUTOFBOUNDS(runner, end);
+			OUTOFRANGE(runner, end);
 
 			if (*runner == '{' || *runner == '#')
 			{
@@ -245,7 +245,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 						temp = runner;
 
 						IgnoreComments(runner, end);
-						OUTOFBOUNDS(runner, end);
+						OUTOFRANGE(runner, end);
 
 						if (*runner == '#')
 						{
@@ -295,7 +295,7 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 		IgnoreComments(temp, end);//ignore comments
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		OUTOFBOUNDS(temp, end);
+		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;
 		if (!compare(runner, end, token))
@@ -321,7 +321,7 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 				IgnoreApostrophe(runner, end);
 				IgnoreQuotation(runner, end);
 				IgnoreComments(runner, end);
-				OUTOFBOUNDS(runner, end);
+				OUTOFRANGE(runner, end);
 
 				if (*runner == '{' || *runner == '#')
 				{
@@ -355,7 +355,7 @@ void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>
 			IgnoreApostrophe(walker, end);
 			IgnoreQuotation(walker, end);
 			IgnoreParenthesis(walker, end);
-			OUTOFBOUNDS(walker, end);
+			OUTOFRANGE(walker, end);
 
 			if (*walker == ';')
 			{
@@ -402,13 +402,13 @@ void Formatter::findInsertPosition(list<char>::iterator& start, const list<char>
 			IgnoreApostrophe(walker, end);
 			IgnoreQuotation(walker, end);
 			IgnoreParenthesis(walker, end);
-			OUTOFBOUNDS(walker, end);
+			OUTOFRANGE(walker, end);
 
 			if (*walker == ';')
 			{
 				walker++;
 				IgnoreOneLineComments(walker, end);
-				OUTOFBOUNDS(walker, end);
+				OUTOFRANGE(walker, end);
 				if (*walker == '\n')
 				{
 					filelist.insert(walker, '}');
