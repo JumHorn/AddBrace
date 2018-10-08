@@ -214,6 +214,7 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 		IgnoreComments(tmp, end);
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
+		IgnoreParenthesis(tmp, end);
 		OUTOFRANGE(tmp, end);
 		if (*tmp == '{' || *tmp == '}')
 		{
