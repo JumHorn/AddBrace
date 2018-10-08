@@ -449,11 +449,17 @@ void Style::removeIndentation(list<char>::iterator& start, const list<char>::ite
 		if (*tmp == ':')
 		{
 			list<char>::iterator it = tmp;
-			while (*it != '\n')it--;
-			it++;
-			if (*it == '\t')
+			IgnoreWhitespace(++it, end);
+			OUTOFRANGE(it, end);
+			if (*it == '\n' || *it == '/')
 			{
-				content.erase(it);
+				it = tmp;
+				while (*it != '\n')it--;
+				it++;
+				if (*it == '\t')
+				{
+					content.erase(it);
+				}
 			}
 		}
 		tmp++;
