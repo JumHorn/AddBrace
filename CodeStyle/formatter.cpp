@@ -88,6 +88,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 		IgnoreComments(temp, end);
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
+		IgnoreOneLine(temp, end);
 		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;
@@ -202,6 +203,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 		IgnoreComments(temp, end);
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
+		IgnoreOneLine(temp, end);
 		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;
@@ -295,6 +297,7 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 		IgnoreComments(temp, end);//ignore comments
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
+		IgnoreOneLine(temp, end);
 		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;

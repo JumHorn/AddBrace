@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 		cout << "A Safety Pig has been provided below for your benefit" << endl;
 		cout << pig << endl;
 
-		cout << "Version 3.1" << endl;
+		cout << "Version 3.2" << endl;
 		cout << "created by JumHorn" << endl;
 		cout << "all rights reserved" << endl;
 		return 0;
