@@ -101,8 +101,8 @@ typedef struct data
 	int b;
 }DATA;
 ```
-this will cause all the normal statement after } can not get a new line
-4. some compiler need a new line at the end of file
+this will cause all the normal statement after } can not get a new line   
+4. some compiler need a new line at the end of file   
 5. the difference between the // and /=
 
 * V3.2
