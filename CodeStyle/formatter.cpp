@@ -13,7 +13,7 @@ of the License, or any later version.
 #include "char.h"
 using namespace std;
 
-#define OUTOFRANGE(a,b) if(a==b)break;
+#define OUTOFRANGE(a,b) if((a)==(b))break;
 
 Formatter::Formatter()
 {
@@ -88,7 +88,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 		IgnoreComments(temp, end);
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		IgnoreOneLine(temp, end);
+		IgnoreMacro(temp, end);
 		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;
@@ -203,7 +203,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 		IgnoreComments(temp, end);
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		IgnoreOneLine(temp, end);
+		IgnoreMacro(temp, end);
 		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;
@@ -256,7 +256,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 
 						if (!compare(runner, end, "else"))
 						{
-							string streles = "else{}";
+							string streles = "\nelse{}";
 							filelist.insert(temp, streles.begin(), streles.end());
 							temp = walker;
 						}
@@ -264,7 +264,7 @@ void Formatter::addElse(list<char>::iterator& start, const list<char>::iterator&
 						{
 							if (!afterCheck(*runner))
 							{
-								string streles = "else{}";
+								string streles = "\nelse{}";
 								filelist.insert(temp, streles.begin(), streles.end());
 								temp = walker;
 							}
@@ -297,7 +297,7 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 		IgnoreComments(temp, end);//ignore comments
 		IgnoreApostrophe(temp, end);
 		IgnoreQuotation(temp, end);
-		IgnoreOneLine(temp, end);
+		IgnoreMacro(temp, end);
 		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;

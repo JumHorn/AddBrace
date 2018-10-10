@@ -10,7 +10,7 @@ of the License, or any later version.
 #include <fstream>
 #include "statistics.h"
 
-#define OUTOFRANGE(a,b) if(a==b)break;
+#define OUTOFRANGE(a,b) if((a)==(b))break;
 
 Statistics::Statistics()
 {

@@ -17,7 +17,7 @@ class Ignore
 protected:
 	void IgnoreComments(T& t, const T& end);
 	void IgnoreOneLineComments(T& t, const T& end);
-	void IgnoreOneLine(T& t, const T& end);
+	void IgnoreMacro(T& t, const T& end);
 	void IgnoreApostrophe(T& t, const T& end);
 	void IgnoreQuotation(T& t, const T& end);
 	void IgnoreParenthesis(T& t, const T& end);
@@ -76,6 +76,10 @@ void Ignore<T>::IgnoreComments(T& t, const T& end)
 				}
 			}
 		}
+		else
+		{
+			t--;
+		}
 	}
 	return;
 }
@@ -128,12 +132,16 @@ void Ignore<T>::IgnoreOneLineComments(T& t, const T& end)
 				}
 			}
 		}
+		else
+		{
+			t--;
+		}
 	}
 	return;
 }
 
 template<typename T>
-void Ignore<T>::IgnoreOneLine(T& t, const T& end)
+void Ignore<T>::IgnoreMacro(T& t, const T& end)
 {
 	if (t == end)
 	{
@@ -144,13 +152,21 @@ void Ignore<T>::IgnoreOneLine(T& t, const T& end)
 		t++;
 		while (t != end)
 		{
-			if (*t == '\n')
+			if (*t == '\\')
 			{
 				t++;
 				IgnoreComments(t, end);
-				return IgnoreOneLine(t, end);
 			}
-			t++;
+			else if (*t == '\n')
+			{
+				t++;
+				IgnoreComments(t, end);
+				return IgnoreMacro(t, end);
+			}
+			else
+			{
+				t++;
+			}
 		}
 	}
 }

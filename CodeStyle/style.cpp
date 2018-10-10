@@ -14,7 +14,7 @@ of the License, or any later version.
 #include "char.h"
 using namespace std;
 
-#define OUTOFRANGE(a,b) if(a==b)break;
+#define OUTOFRANGE(a,b) if((a)==(b))break;
 
 Style::Style() :indent(0)
 {
@@ -192,6 +192,8 @@ void Style::eraseExtraNewline(list<char>::iterator& start, const list<char>::ite
 		tmp--;
 		content.erase(it);
 	}
+	//for some compiler need a new line at the end of the file
+	content.insert(++tmp, '\n');
 	//delete header '\n'
 	tmp = start;
 	while ((tmp != end) && (*tmp == '\r' || *tmp == '\n'))
@@ -215,6 +217,8 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
 		IgnoreParenthesis(tmp, end);
+		IgnoreMacro(tmp, end);
+		IgnoreComments(tmp, end);
 		OUTOFRANGE(tmp, end);
 		if (*tmp == '{' || *tmp == '}')
 		{
@@ -228,16 +232,29 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 					break;
 				}
 			}
-			if (*t != '\n')
+			if (*t == '=')
+			{
+				IgnoreBrace(tmp, end);
+				continue;
+			}
+			else if (*t != '\n')
 			{
 				content.insert(tmp, '\n');
 			}
-			tmp++;
-			IgnoreWhitespace(tmp, end);
-			OUTOFRANGE(tmp, end);
-			if (*tmp != '\n'&&*tmp != ';')
+
+			if (*tmp == '{')
 			{
-				content.insert(tmp, '\n');
+				tmp++;
+				IgnoreWhitespace(tmp, end);
+				OUTOFRANGE(tmp, end);
+				if (*tmp != '\n')
+				{
+					content.insert(tmp, '\n');
+				}
+			}
+			else
+			{
+				tmp++;
 			}
 		}
 		else if (*tmp == ';')

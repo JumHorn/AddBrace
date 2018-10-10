@@ -76,6 +76,35 @@ code that can not compiled may cause a lot of unexpected questions
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V3.3
+1. add a better way to deal with macro
+```C++
+#define INTREFACE_MAKER(interface,domain,domain_attach) \
+static domain d;					\
+static bool attached = false;		\
+domain * interface()				\
+{									\
+	if(!attached)					\
+	{								\
+		domain_attach(&d);			\
+		attached = true;			\
+	}								\
+	return &d;						\
+}
+```
+2. bad format listed in the bug list above has been solved
+3. \n is inserted before and after { and \n won't be add after } due to typedef format
+```C++
+typedef struct data
+{
+	char a;
+	int b;
+}DATA;
+```
+this will cause all the normal statement after } can not get a new line
+4. some compiler need a new line at the end of file
+5. the difference between the // and /=
+
 * V3.2
 1. add statistics
 
