@@ -100,7 +100,7 @@ void Style::erasePrelineWhitespace(list<char>::iterator& start, const list<char>
 		}
 		backward = tmp;
 		backward++;
-		while (isWhitespace(*backward))
+		while (backward!=end&&isWhitespace(*backward))
 		{
 			list<char>::iterator it = backward;
 			backward++;
@@ -152,6 +152,10 @@ void Style::eraseExtraNewline(list<char>::iterator& start, const list<char>::ite
 {
 	list<char>::iterator tmp = start;
 	list<char>::iterator backward;
+	if(tmp==end)
+	{
+		return;
+	}
 	while (tmp != end)
 	{
 		if (*tmp != '\n')
