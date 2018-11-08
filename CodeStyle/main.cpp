@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 		cout << "A Safety Pig has been provided below for your benefit" << endl;
 		cout << pig << endl;
 
-		cout << "Version 3.3" << endl;
+		cout << "Version 3.4" << endl;
 		cout << "created by JumHorn" << endl;
 		cout << "all rights reserved" << endl;
 		return 0;
@@ -63,25 +63,26 @@ int main(int argc, char* argv[])
 	{
 		if (!formatter.setContent(argv[i]))
 		{
+			cerr<<"can not read file: "<<argv[i]<<endl;
 			continue;
 		}
-		cout << "processing " << argv[i];
+		clog << "processing " << argv[i];
 		formatter.start();
 		formatter.flushContent(argv[i]);
 
 		checker.setContent(argv[i]);
 		checker.start();
 		checker.flushContent(argv[i]);
-		cout << "\t" << "finished" << endl;
+		clog << "\t" << "finished" << endl;
 
 		st.setContent(argv[i]);
-		cout << "code line: " << st.getTotalCode() << endl;
-		cout << "comment line: " << st.getTotalComments() << endl;
+		clog << "code line: " << st.getTotalCode() << endl;
+		clog << "comment line: " << st.getTotalComments() << endl;
 	}
 
-	cout << endl;
-	cout << "WARNING: These changes cannot be cancelled:" << endl;
-	cout << "A Safety Pig has been provided below for your benefit" << endl;
-	cout << pig << endl;
+	clog << endl;
+	clog << "WARNING: These changes cannot be cancelled:" << endl;
+	clog << "A Safety Pig has been provided below for your benefit" << endl;
+	clog << pig << endl;
 	return 0;
 }
