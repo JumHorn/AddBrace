@@ -354,6 +354,7 @@ void Style::makeBraceIndentation(list<char>::iterator& start, const list<char>::
 		makeCommentsIndentation(tmp, end);
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
+		IgnoreMacro(tmp, end);
 		OUTOFRANGE(tmp, end);
 
 		if (*tmp == '{')

@@ -55,7 +55,7 @@ const char white_space[] = { ' ','\t' };
 
 /*
 operators
-the = operator must be the after == and != to be last matched one
+the = operator must be after the == and != to be last matched one
 */
 const char* const oper[] = { "&&","||",">>=","<<=",">=","<=","==","!=","+=","-=","*=","/=","%=","|=","^=","&=","=" };
 
