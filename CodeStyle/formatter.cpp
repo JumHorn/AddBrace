@@ -159,6 +159,7 @@ void Formatter::changeElseStyle(list<char>::iterator& start, const list<char>::i
 						IgnoreComments(walker, end);
 						IgnoreApostrophe(walker, end);
 						IgnoreQuotation(walker, end);
+						IgnoreParenthesis(walker, end);
 						OUTOFRANGE(walker, end);
 
 						if (*walker == ';')
