@@ -86,6 +86,8 @@ void Style::erasePrelineWhitespace(list<char>::iterator& start, const list<char>
 	//delete header line white space
 	while (tmp != end&&isWhitespace(*tmp))
 	{
+		IgnoreMacro(tmp, end);
+		OUTOFRANGE(tmp, end);
 		list<char>::iterator it = tmp;
 		tmp++;
 		content.erase(it);
@@ -93,6 +95,8 @@ void Style::erasePrelineWhitespace(list<char>::iterator& start, const list<char>
 
 	while (tmp != end)
 	{
+		IgnoreMacro(tmp, end);
+		OUTOFRANGE(tmp, end);
 		if (*tmp != '\n')
 		{
 			tmp++;
@@ -100,7 +104,7 @@ void Style::erasePrelineWhitespace(list<char>::iterator& start, const list<char>
 		}
 		backward = tmp;
 		backward++;
-		while (backward!=end&&isWhitespace(*backward))
+		while (backward != end&&isWhitespace(*backward))
 		{
 			list<char>::iterator it = backward;
 			backward++;
@@ -119,7 +123,9 @@ void Style::erasePostlineWhitespace(list<char>::iterator& start, const list<char
 	list<char>::iterator forward;
 	while (tmp != end)
 	{
-		if (*tmp != '\n' || tmp == start)
+		IgnoreMacro(tmp, end);
+		OUTOFRANGE(tmp, end);
+		if (*tmp != '\n')
 		{
 			tmp++;
 			continue;
@@ -135,7 +141,7 @@ void Style::erasePostlineWhitespace(list<char>::iterator& start, const list<char
 			tmp++;
 			continue;
 		}
-		while (isWhitespace(*forward))
+		while (isWhitespace(*forward) && forward != start)
 		{
 			list<char>::iterator it = forward;
 			forward--;
@@ -152,7 +158,7 @@ void Style::eraseExtraNewline(list<char>::iterator& start, const list<char>::ite
 {
 	list<char>::iterator tmp = start;
 	list<char>::iterator backward;
-	if(tmp==end)
+	if (tmp == end)
 	{
 		return;
 	}
