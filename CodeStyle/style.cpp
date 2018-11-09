@@ -131,7 +131,8 @@ void Style::erasePostlineWhitespace(list<char>::iterator& start, const list<char
 			continue;
 		}
 		forward = tmp;
-		forward--;
+		if(forward!=start)
+			forward--;
 		if (*forward == '\r')
 		{
 			forward--;

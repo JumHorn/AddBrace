@@ -219,7 +219,7 @@ void Ignore<T>::IgnoreQuotation(T& t, const T& end)
 			else if (*t == '\"')
 			{
 				t++;
-				//IgnoreComments(t,end);
+				IgnoreComments(t,end);
 				return IgnoreQuotation(t, end);
 			}
 			t++;
