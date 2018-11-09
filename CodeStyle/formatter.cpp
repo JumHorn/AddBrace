@@ -297,8 +297,8 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 	{
 		IgnoreComments(temp, end);//ignore comments
 		IgnoreApostrophe(temp, end);
-		IgnoreQuotation(temp, end);
 		IgnoreMacro(temp, end);
+		IgnoreQuotation(temp, end);
 		OUTOFRANGE(temp, end);
 
 		runner = walker = temp;
