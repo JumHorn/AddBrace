@@ -227,6 +227,7 @@ void Style::addNewline(list<char>::iterator& start, const list<char>::iterator& 
 		IgnoreApostrophe(tmp, end);
 		IgnoreQuotation(tmp, end);
 		IgnoreParenthesis(tmp, end);
+		IgnoreComments(tmp, end);
 		IgnoreMacro(tmp, end);
 		IgnoreComments(tmp, end);
 		OUTOFRANGE(tmp, end);
