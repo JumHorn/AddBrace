@@ -76,6 +76,16 @@ code that can not compiled may cause a lot of unexpected questions
 my code will make you cry which I don't want to review any more
 
 ### version history
+* V3.4
+add space before and after space confused me a lot
+the following example will combine += as a operator whitch makes a mistake
+```C++
+if(ch<=0xFFFFF)
+{
+    *to++=ch;
+}
+```
+
 * V3.3
 1. add a better way to deal with macro
 ```C++
