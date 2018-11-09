@@ -339,8 +339,18 @@ void Formatter::changeStyle(list<char>::iterator& start, const list<char>::itera
 				}
 				else if (!beforCheck(*runner))
 				{
-					filelist.insert(runner, '{');
-					findInsertPosition(runner, end);
+					list<char>::iterator tmp = runner;
+					//skip try catch part
+					if (!compare(tmp, end, "try"))
+					{
+						filelist.insert(runner, '{');
+						findInsertPosition(runner, end);
+					}
+					else if (!afterCheck(*tmp))
+					{
+						filelist.insert(runner, '{');
+						findInsertPosition(runner, end);
+					}
 					break;
 				}
 			}
