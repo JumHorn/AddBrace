@@ -27,7 +27,8 @@ bool check()
 you probably solve this problem by delete white character between # and if
 
 #### second
-code like this have been solved after the version of V2.5
+code like this have been partly solved after the version of V2.5   
+solved
 ```C++
 if(true)
     if(false)
@@ -36,6 +37,47 @@ if(true)
         cout<<2<<endl;
     else
         cout<<3<<endl;
+```
+unsolved
+```C++
+if(true)
+    for(;;)
+        if(false)
+            cout<<1<<endl;
+        else if(false)
+            cout<<2<<endl;
+        else
+            cout<<3<<endl;
+```
+```C++
+if(true)
+    while(true)
+        if(false)
+            cout<<1<<endl;
+        else if(false)
+            cout<<2<<endl;
+        else
+            cout<<3<<endl;
+```
+```C++
+for(true)
+    for(;;)
+        if(false)
+            cout<<1<<endl;
+        else if(false)
+            cout<<2<<endl;
+        else
+            cout<<3<<endl;
+```
+```C++
+while(true)
+    while(true)
+        if(false)
+            cout<<1<<endl;
+        else if(false)
+            cout<<2<<endl;
+        else
+            cout<<3<<endl;
 ```
 
 #### third
